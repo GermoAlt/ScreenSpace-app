@@ -1,9 +1,10 @@
 import {SafeAreaView, Text} from "react-native";
+import Button from "../components/Button";
 
 export default function Splash() {
     return (
         <SafeAreaView>
-            <Text style={{color:"black"}}>s</Text>
+            <Button>boton</Button>
         </SafeAreaView>
     )
 }
