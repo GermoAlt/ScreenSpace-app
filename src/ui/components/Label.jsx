@@ -1,5 +1,5 @@
 import {StyleSheet, Text} from "react-native";
-import {COLORS} from "../utils/Colors";
+import {COLORS} from "../styles/Colors";
 
 export default function Label(props) {
     return (

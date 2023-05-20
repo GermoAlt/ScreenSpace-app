@@ -1,5 +1,5 @@
 import {Pressable, StyleSheet, Text} from "react-native";
-import {COLORS} from "../utils/Colors";
+import {COLORS} from "../styles/Colors";
 import Label from "./Label";
 
 export default function Button(props) {
