@@ -24,5 +24,5 @@ const styles = new StyleSheet.create({
 });
 
 Button.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.string,
 };

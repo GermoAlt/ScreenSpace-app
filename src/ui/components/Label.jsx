@@ -13,5 +13,5 @@ const styles = new StyleSheet.create({
 });
 
 Label.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.string,
 };
