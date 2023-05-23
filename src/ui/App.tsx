@@ -1,11 +1,21 @@
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Landing from './screens/Landing';
 import SplashScreen from 'react-native-splash-screen';
-import {DefaultTheme, PaperProvider} from "react-native-paper";
+import {PaperProvider} from "react-native-paper";
+import {OwnerNavigator} from "./screens/owner/OwnerNavigator";
+import {COLORS} from "./styles/Colors";
 
 const Stack = createNativeStackNavigator();
+const MyTheme = {
+    ...DarkTheme,
+    dark:true,
+    colors: {
+        ...DarkTheme.colors,
+        ...COLORS
+    },
+};
 
 function App(): React.JSX.Element {
     useEffect(() => {
@@ -13,27 +23,25 @@ function App(): React.JSX.Element {
     }, []);
 
     return (
-        <PaperProvider theme={theme}>
-            <NavigationContainer>
+        <PaperProvider theme={MyTheme}>
+            <NavigationContainer theme={MyTheme}>
                 <Stack.Navigator initialRouteName={'Landing'}>
                     <Stack.Screen
                         name={'Landing'}
                         component={Landing}
                         options={{headerShown: false}}
                     />
+                    <Stack.Screen
+                        name={"OwnerNavigate"}
+                        component={OwnerNavigator}
+                        options={{headerShown: false}}
+                    />
+
                 </Stack.Navigator>
             </NavigationContainer>
         </PaperProvider>
     );
 }
 
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: '#282634',
-    secondary: 'yellow',
-  },
-};
 
 export default App;

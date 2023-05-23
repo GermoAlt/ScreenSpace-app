@@ -1,6 +1,7 @@
 import {SafeAreaView} from 'react-native';
 import React from "react";
-import {Button, TextInput} from "react-native-paper";
+import {TextInput} from "../components/TextInput"
+import {Button} from "../components/Button";
 
 export default function Landing() {
 
@@ -11,7 +12,11 @@ export default function Landing() {
             label="Email"
             value={text}
             onChangeText={text => setText(text)}
-            mode={"outlined"}
+        />
+        <TextInput
+            label="Email AAAAAA "
+            value={text}
+            onChangeText={text => setText(text)}
         />
         <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
             Press me

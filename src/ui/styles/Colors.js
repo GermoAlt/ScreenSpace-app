@@ -1,9 +1,10 @@
 export const COLORS = {
-  red: '#FF175D',
-  dark: '#282634',
-  highlight: '#3B3751',
+  primary: '#FF175D',
+  background: '#282634',
+  tertiary: '#3B3751',
   grey: '#3F3F46',
   cta: '#647AEE',
-  white: '#FFFFFF',
+  secondary: '#FFFFFF',
   off_white: '#DCDCDC',
+  onSurfaceVariant:'#FFFFFF',
 };
