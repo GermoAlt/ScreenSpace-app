@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {PaperProvider} from "react-native-paper";
 import {OwnerNavigator} from "./screens/owner/OwnerNavigator";
 import {COLORS} from "./styles/Colors";
+import {UserNavigator} from "./screens/user/UserNavigator";
 
 const Stack = createNativeStackNavigator();
 const MyTheme = {
@@ -32,8 +33,13 @@ function App(): React.JSX.Element {
                         options={{headerShown: false}}
                     />
                     <Stack.Screen
-                        name={"OwnerNavigate"}
+                        name={"OwnerNavigator"}
                         component={OwnerNavigator}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name={"UserNavigator"}
+                        component={UserNavigator}
                         options={{headerShown: false}}
                     />
 
