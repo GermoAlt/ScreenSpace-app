@@ -3,7 +3,7 @@ import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Landing from './screens/Landing';
 import SplashScreen from 'react-native-splash-screen';
-import {PaperProvider} from "react-native-paper";
+import {MD3Colors, PaperProvider} from "react-native-paper";
 import {OwnerNavigator} from "./screens/owner/OwnerNavigator";
 import {COLORS} from "./styles/Colors";
 import {UserNavigator} from "./screens/user/UserNavigator";
@@ -14,7 +14,10 @@ const MyTheme = {
     dark:true,
     colors: {
         ...DarkTheme.colors,
-        ...COLORS
+        ...COLORS,
+        elevation:{
+            level3:COLORS.grey
+        }
     },
 };
 
