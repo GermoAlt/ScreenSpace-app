@@ -5,7 +5,7 @@ import {TextInput} from "./TextInput";
 
 export const SecureTextInput = (props) => {
     const theme = useTheme();
-    const [hidden, setHidden] = useState()
+    const [hidden, setHidden] = useState(true)
     const { children, ...rest } = props;
     return (
         <TextInput {...rest}
