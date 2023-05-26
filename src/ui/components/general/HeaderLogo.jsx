@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     screenText:{
         color:COLORS.primary
     },
-    spaceText:{}
+    spaceText:{
+        color:COLORS.secondary
+    }
 })
 

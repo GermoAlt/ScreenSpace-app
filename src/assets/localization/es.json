@@ -1,3 +1,11 @@
 {
-  "test": "el testo"
+  "translation": {
+    "landing": {
+      "ownerNavigateButton": "Ir a OwnerNavigate",
+      "userNavigateButton": "Ir a UserNavigate"
+    },
+    "testing": {
+      "test": "el testo"
+    }
+  }
 }

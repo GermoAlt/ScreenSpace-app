@@ -69,7 +69,7 @@ const header = (navigation) => {
     return (
         <View style={styles.header}>
             <HeaderLogo />
-            <Avatar.Text size={40} label={"SS"} onTouchStart={()=> navigation.openDrawer()}></Avatar.Text>
+            <Avatar.Icon icon={"account-outline"} size={45} onTouchStart={()=> navigation.openDrawer()} />
         </View>
     )
 }

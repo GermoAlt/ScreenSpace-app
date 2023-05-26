@@ -1,3 +1,11 @@
 {
-  "test": "a test"
+  "translation": {
+    "landing": {
+      "ownerNavigateButton": "Login as owner",
+      "userNavigateButton": "Login as user"
+    },
+    "testing": {
+      "test": "a test"
+    }
+  }
 }
