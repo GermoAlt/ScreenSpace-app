@@ -4,6 +4,31 @@
       "ownerNavigateButton": "Login as owner",
       "userNavigateButton": "Login as user"
     },
+    "login": {
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "ownerLoginButton": "Login",
+      "ownerNoAccountYet": "Don't have an account?",
+      "ownerRegisterAccount": "Create one",
+      "ownerForgotPassword": "Forgot your password?",
+      "ownerRecoverPass": "Recover",
+      "ownerWrongCredentials": "Wrong Credentials"
+    },
+    "register": {
+      "ownerRegisterText":"Create user",
+      "ownerRegisterCurrentPassword": "Contraseña Actual",
+      "ownerRegisterNewPassword": "Contraseña nueva",
+      "ownerRegisterConfirmPassword": "Confirm password",
+      "ownerRegisterButton": "Register",
+      "ownerSecurityCodeText": "Security Code",
+      "ownerForgotPasswordTitle": "Recover your password",
+      "ownerForgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password.",
+      "ownerForgotPasswordTitleButton": "Recover password",
+      "ownerErrorEmailExists": "This email has already been registered",
+      "ownerErrorPasswordMatch": "Passwords do not match",
+      "ownerErrorPasswordInvalid": "Password must have a number",
+      "ownerErrorSecurityCode": "Incorrect code"
+    },
     "testing": {
       "test": "a test"
     }

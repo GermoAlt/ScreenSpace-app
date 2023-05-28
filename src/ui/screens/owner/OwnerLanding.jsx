@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable prettier/prettier */
 import {SafeAreaView, View, StyleSheet} from "react-native";
 import {Avatar, Dialog, Portal, Text} from "react-native-paper";
 import { useState} from "react";

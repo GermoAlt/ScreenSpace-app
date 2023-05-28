@@ -4,6 +4,32 @@
       "ownerNavigateButton": "Ir a OwnerNavigate",
       "userNavigateButton": "Ir a UserNavigate"
     },
+    "login": {
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Contraseña",
+      "ownerLoginButton": "Ingresar",
+      "ownerNoAccountYet": "¿No tenés cuenta aún?",
+      "ownerRegisterAccount": "Regístrate",
+      "ownerForgotPassword": "¿No recordás tu contraseña?",
+      "ownerRecoverPass": "Recupero",
+      "ownerWrongCredentials": "Credenciales Incorrectas"
+    },
+    "register":{
+      "ownerRegisterText":"Registrá tu usuario",
+      "ownerRegisterCurrentPassword": "Contraseña Actual",
+      "ownerRegisterNewPassword": "Contraseña nueva",
+      "ownerRegisterConfirmPassword": "Confirmar contraseña",
+      "ownerRegisterButton": "Registrarme",
+      "ownerSecurityCodeText": "Código de seguridad",
+      "ownserSecurityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
+      "ownerForgotPasswordTitle": "Recuperá tu contraseña",
+      "ownerForgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña.",
+      "ownerForgotPasswordTitleButton": "Recuperar contraseña",
+      "ownerErrorEmailExists": "Este email ya fue registrado",
+      "ownerErrorPasswordMatch": "Las contraseñas no coinciden",
+      "ownerErrorPasswordInvalid": "Contraseña debe tener un número",
+      "ownerErrorSecurityCode": "Código incorrecto"
+    },
     "testing": {
       "test": "el testo"
     }
