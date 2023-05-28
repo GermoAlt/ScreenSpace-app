@@ -7,7 +7,7 @@ export const TextInput = (props) => {
     return (
         <RNTextInput {...rest}
                      mode={"outlined"}
-                     outlineColor={theme.colors.secondary}
+                     outlineColor={theme.colors.off_white}
                      textColor={theme.colors.secondary}
         >
             {children}

@@ -4,7 +4,7 @@ import {useState} from "react";
 import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {Button} from "../../components/general/Button";
 
-export const OwnerChangePwd = () => {
+export const ChangePwd = () => {
     const[data, setData] = useState(
         {"email":"", "currPwd":"", "newPwd":"", "newPwdConfirm":""})
 

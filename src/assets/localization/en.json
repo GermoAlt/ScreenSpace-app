@@ -4,6 +4,29 @@
       "ownerNavigateButton": "Login as owner",
       "userNavigateButton": "Login as user"
     },
+    "owner": {
+      "labels": {
+        "newCinema": {
+          "companyName": "Company name",
+          "country": "Country",
+          "latitude": "Latitude",
+          "locality": "Locality",
+          "longitude": "Longitude",
+          "name": "Name of the cinema",
+          "neighborhood": "Neighborhood",
+          "number": "Number",
+          "price": "Price per ticket",
+          "province": "Province",
+          "street": "Street"
+        }
+      },
+      "landing": {
+        "addCinemaButton": "Add new cinema"
+      },
+      "titles": {
+        "newCinema": "New Cinema"
+      }
+    },
     "testing": {
       "test": "a test"
     }
