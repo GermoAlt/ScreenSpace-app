@@ -30,6 +30,29 @@
       "ownerErrorPasswordInvalid": "Contraseña debe tener un número",
       "ownerErrorSecurityCode": "Código incorrecto"
     },
+    "owner": {
+      "labels": {
+        "newCinema": {
+          "companyName": "Nombre de empresa",
+          "country": "País",
+          "latitude": "Latitud",
+          "locality": "Localidad",
+          "longitude": "Longitud",
+          "name": "Nombre del cine",
+          "neighborhood": "Barrio",
+          "number": "Number",
+          "price": "Precio por entrada",
+          "province": "Provincia",
+          "street": "Calle"
+        }
+      },
+      "landing": {
+        "addCinemaButton": "Cargar nuevo cine"
+      },
+      "titles": {
+        "newCinema": "Nuevo Cine"
+      }
+    },
     "testing": {
       "test": "el testo"
     }

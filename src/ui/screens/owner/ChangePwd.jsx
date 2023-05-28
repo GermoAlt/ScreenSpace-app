@@ -5,7 +5,7 @@ import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {Button} from "../../components/general/Button";
 import {useTranslation} from 'react-i18next';
 
-export const OwnerChangePwd = () => {
+export const ChangePwd = () => {
     const {t} = useTranslation();
     const[data, setData] = useState(
         {"email":"", "currPwd":"", "newPwd":"", "newPwdConfirm":""})

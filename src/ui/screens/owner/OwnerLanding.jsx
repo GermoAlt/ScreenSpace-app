@@ -6,8 +6,9 @@ import { useState} from "react";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {OptionPanel} from "../../components/owner/OptionPanel";
-import {OwnerChangePwd} from "./OwnerChangePwd";
+import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
+import {CinemaList} from "../../components/owner/CinemaList";
 
 
 const Drawer = createDrawerNavigator();
@@ -37,7 +38,9 @@ export const OwnerLanding = ({navigation}) => {
                 {isLoading ?
                     <Text>cargando</Text>
                     :
-                    <Text>cargo</Text>}
+                    <CinemaList navigateTo={(screen)=>navigation.navigate(screen)}
+                                data={[]}/>
+                }
             </SafeAreaView>
         )
     }
@@ -60,7 +63,7 @@ export const OwnerLanding = ({navigation}) => {
             />
             <Drawer.Screen
                 name={'changePwd'}
-                component={OwnerChangePwd}
+                component={ChangePwd}
                 options={{header:({navigation})=>header(navigation)}}
             />
         </Drawer.Navigator>
