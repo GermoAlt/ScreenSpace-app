@@ -5,30 +5,48 @@
       "userNavigateButton": "Login as user"
     },
     "login": {
-      "emailPlaceholder": "Email",
-      "passwordPlaceholder": "Password",
-      "ownerLoginButton": "Login",
-      "ownerNoAccountYet": "Don't have an account?",
-      "ownerRegisterAccount": "Create one",
-      "ownerForgotPassword": "Forgot your password?",
-      "ownerRecoverPass": "Recover",
-      "ownerWrongCredentials": "Wrong Credentials"
+      "labels":{
+        "login": {
+          "emailPlaceholder": "Email",
+          "passwordPlaceholder": "Password",
+          "noAccountYet": "Don't have an account?",
+          "registerAccount": "Create one",
+          "forgotPassword": "Forgot your password?",
+          "recoverPass": "Recover"
+        },
+        "register": {
+          "titleText":"Create user",
+          "currentPassword": "Contraseña Actual",
+          "newPassword": "Contraseña nueva",
+          "confirmPassword": "Confirm password",
+          "securityCodeText": "Security Code",
+          "securityCodeDescription": "We send you a security code to your mailbox. Enter that code in the boxes above to verify your identity.",
+          "forgotPasswordTitle": "Recover your password",
+          "forgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password."
+        }
+      },
+      "captions": {
+        "login": {
+          "loginButton": "Login"
+        },
+        "register": {
+          "registerButton": "Register",
+          "forgotPasswordButton": "Recover password"
+        }
+      },
+      "errors": {
+        "login":{
+          "wrongCredentials": "Wrong Credentials"
+        },
+        "register": {
+          "emailExists": "This email has already been registered",
+          "passwordMatch": "Passwords do not match",
+          "passwordInvalid": "Password must have a number",
+          "securityCode": "Incorrect code"
+        }
+      }          
     },
-    "register": {
-      "ownerRegisterText":"Create user",
-      "ownerRegisterCurrentPassword": "Contraseña Actual",
-      "ownerRegisterNewPassword": "Contraseña nueva",
-      "ownerRegisterConfirmPassword": "Confirm password",
-      "ownerRegisterButton": "Register",
-      "ownerSecurityCodeText": "Security Code",
-      "ownerForgotPasswordTitle": "Recover your password",
-      "ownerForgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password.",
-      "ownerForgotPasswordTitleButton": "Recover password",
-      "ownerErrorEmailExists": "This email has already been registered",
-      "ownerErrorPasswordMatch": "Passwords do not match",
-      "ownerErrorPasswordInvalid": "Password must have a number",
-      "ownerErrorSecurityCode": "Incorrect code"
-    },
+
     "owner": {
       "labels": {
         "newCinema": {

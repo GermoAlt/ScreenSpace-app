@@ -5,10 +5,13 @@ export const Text = (props) => {
     const { children, size, textColorMode, ...rest } = props;
 
     const mappedVariant = {
-        small: "titleLarge", 
-        medium: "headlineLarge", 
-        large: "displayMedium",
-        xlarge: "displayLarge"
+        xxsmall: "titleMedium",
+        xsmall: "titleLarge",
+        small: "headlineSmall",
+        medium: "headlineMedium", 
+        large: "headlineLarge", 
+        xlarge: "displayMedium",
+        xxlarge: "displayLarge"
     }
 
     const styledText = () => {

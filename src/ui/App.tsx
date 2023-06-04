@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useEffect} from 'react';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -8,6 +9,7 @@ import {OwnerNavigator} from "./screens/owner/OwnerNavigator";
 import {COLORS} from "./styles/Colors";
 import {UserNavigator} from "./screens/user/UserNavigator";
 import {enableLatestRenderer} from "react-native-maps";
+import { LoginNavigator } from './screens/login/LoginNavigator';
 enableLatestRenderer()
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +37,11 @@ function App(): React.JSX.Element {
                     <Stack.Screen
                         name={'Landing'}
                         component={Landing}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                        name={'LoginNavigator'}
+                        component={LoginNavigator}
                         options={{headerShown: false}}
                     />
                     <Stack.Screen

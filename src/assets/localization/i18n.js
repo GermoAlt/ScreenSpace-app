@@ -11,8 +11,8 @@ const resources = { // list of languages
 i18n.use(initReactI18next).init({
     compatibilityJSON: 'v3',
     resources,
-    lng: 'en',
-    fallbackLng: 'en',
+    lng: 'es',
+    fallbackLng: 'es',
     interpolation: {
         escapeValue: false,
     },

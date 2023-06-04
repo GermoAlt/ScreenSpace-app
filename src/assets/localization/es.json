@@ -5,31 +5,48 @@
       "userNavigateButton": "Ir a UserNavigate"
     },
     "login": {
-      "emailPlaceholder": "Email",
-      "passwordPlaceholder": "Contraseña",
-      "ownerLoginButton": "Ingresar",
-      "ownerNoAccountYet": "¿No tenés cuenta aún?",
-      "ownerRegisterAccount": "Regístrate",
-      "ownerForgotPassword": "¿No recordás tu contraseña?",
-      "ownerRecoverPass": "Recupero",
-      "ownerWrongCredentials": "Credenciales Incorrectas"
+      "labels":{
+        "login": {
+          "emailPlaceholder": "Email",
+          "passwordPlaceholder": "Contraseña",
+          "noAccountYet": "¿No tenés cuenta aún?",
+          "registerAccount": "Regístrate",
+          "forgotPassword": "¿No recordás tu contraseña?",
+          "recoverPass": "Recupero"
+        },
+        "register":{
+          "titleText":"Registrá tu usuario",
+          "currentPassword": "Contraseña Actual",
+          "newPassword": "Contraseña nueva",
+          "confirmPassword": "Confirmar contraseña",
+          "securityCodeText": "Código de seguridad",
+          "securityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
+          "forgotPasswordTitle": "Recuperá tu contraseña",
+          "forgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña."
+        }
+      },
+      "captions": {
+        "login": {
+          "loginButton": "Ingresar"
+        },
+        "register": {
+          "registerButton": "Registrarme",
+          "forgotPasswordButton": "Recuperar contraseña"
+        }
+      },
+      "errors": {
+        "login":{
+          "wrongCredentials": "Credenciales Incorrectas"
+        },
+        "register":{
+          "emailExists": "Este email ya fue registrado",
+          "passwordMatch": "Las contraseñas no coinciden",
+          "passwordInvalid": "Contraseña debe tener un número",
+          "securityCode": "Código incorrecto"
+        }
+      }
     },
-    "register":{
-      "ownerRegisterText":"Registrá tu usuario",
-      "ownerRegisterCurrentPassword": "Contraseña Actual",
-      "ownerRegisterNewPassword": "Contraseña nueva",
-      "ownerRegisterConfirmPassword": "Confirmar contraseña",
-      "ownerRegisterButton": "Registrarme",
-      "ownerSecurityCodeText": "Código de seguridad",
-      "ownserSecurityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
-      "ownerForgotPasswordTitle": "Recuperá tu contraseña",
-      "ownerForgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña.",
-      "ownerForgotPasswordTitleButton": "Recuperar contraseña",
-      "ownerErrorEmailExists": "Este email ya fue registrado",
-      "ownerErrorPasswordMatch": "Las contraseñas no coinciden",
-      "ownerErrorPasswordInvalid": "Contraseña debe tener un número",
-      "ownerErrorSecurityCode": "Código incorrecto"
-    },
+   
     "owner": {
       "labels": {
         "newCinema": {
