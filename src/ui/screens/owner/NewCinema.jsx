@@ -13,6 +13,8 @@ export const NewCinema = () => {
                     dotColor={COLORS.off_white}
                     activeDotColor={COLORS.primary}
                     paginationStyle={styles.swiperDots}
+                    showsPagination={false}
+                    showsButtons={true}
             >
 
                 <ScrollView contentContainerStyle={styles.container}>

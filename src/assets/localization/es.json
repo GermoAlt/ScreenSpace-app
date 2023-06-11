@@ -46,7 +46,7 @@
         }
       }
     },
-   
+
     "owner": {
       "labels": {
         "newCinema": {
@@ -67,6 +67,7 @@
         "addCinemaButton": "Cargar nuevo cine"
       },
       "titles": {
+        "cinemaDetails": "Mi Cine",
         "newCinema": "Nuevo Cine"
       }
     },

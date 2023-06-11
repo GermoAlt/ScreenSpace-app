@@ -10,7 +10,7 @@ export const CinemaList = (props) => {
             {props.data && props.data.length === 0 ?
                 <View>
                     <Text></Text>
-                    <Button type={"cta"} onPress={()=>props.navigateTo("newCinema")}>
+                    <Button type={"cta"} onPress={()=>props.navigateTo("NewCinema")}>
                         {t("translation\:owner\.landing\.addCinemaButton")}
                     </Button>
                 </View>

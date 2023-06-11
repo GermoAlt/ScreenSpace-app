@@ -44,7 +44,7 @@
           "passwordInvalid": "Password must have a number",
           "securityCode": "Incorrect code"
         }
-      }          
+      }
     },
 
     "owner": {
@@ -67,6 +67,7 @@
         "addCinemaButton": "Add new cinema"
       },
       "titles": {
+        "cinemaDetails": "My Cinema",
         "newCinema": "New Cinema"
       }
     },

@@ -2,19 +2,34 @@
 /* eslint-disable prettier/prettier */
 import {SafeAreaView, View, StyleSheet} from "react-native";
 import {Avatar, Dialog, Portal, Text} from "react-native-paper";
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {OptionPanel} from "../../components/owner/OptionPanel";
 import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
+import * as CinemaController from "../../../api/CinemaController";
 
 
 const Drawer = createDrawerNavigator();
 export const OwnerLanding = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [visible, setVisible] = useState(false);
+    const [cinemaList, setCinemaList] = useState([])
+
+    useEffect(() => {
+        setCinemaList(getCinemas())
+
+    }, [])
+
+    const getCinemas = () => {
+        CinemaController.getCinemas("token").then(
+            (res) => {},
+            (err) => {console.log(err)}
+        )
+        return ["a"]
+    }
 
     const showDialog = () => {
         setVisible(true)
@@ -39,7 +54,7 @@ export const OwnerLanding = ({navigation}) => {
                     <Text>cargando</Text>
                     :
                     <CinemaList navigateTo={(screen)=>navigation.navigate(screen)}
-                                data={[]}/>
+                                data={cinemaList}/>
                 }
             </SafeAreaView>
         )
