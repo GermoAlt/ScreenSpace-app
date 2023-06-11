@@ -5,50 +5,52 @@
       "userNavigateButton": "Ir a UserNavigate"
     },
     "login": {
-      "labels":{
-        "login": {
-          "emailPlaceholder": "Email",
-          "passwordPlaceholder": "Contraseña",
-          "noAccountYet": "¿No tenés cuenta aún?",
-          "registerAccount": "Regístrate",
-          "forgotPassword": "¿No recordás tu contraseña?",
-          "recoverPass": "Recupero"
-        },
-        "register":{
-          "titleText":"Registrá tu usuario",
-          "currentPassword": "Contraseña Actual",
-          "newPassword": "Contraseña nueva",
-          "confirmPassword": "Confirmar contraseña",
-          "securityCodeText": "Código de seguridad",
-          "securityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
-          "forgotPasswordTitle": "Recuperá tu contraseña",
-          "forgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña."
-        }
-      },
       "captions": {
         "login": {
           "loginButton": "Ingresar"
         },
         "register": {
-          "registerButton": "Registrarme",
-          "forgotPasswordButton": "Recuperar contraseña"
+          "forgotPasswordButton": "Recuperar contraseña",
+          "registerButton": "Registrarme"
         }
       },
       "errors": {
-        "login":{
+        "login": {
           "wrongCredentials": "Credenciales Incorrectas"
         },
-        "register":{
+        "register": {
           "emailExists": "Este email ya fue registrado",
-          "passwordMatch": "Las contraseñas no coinciden",
           "passwordInvalid": "Contraseña debe tener un número",
+          "passwordMatch": "Las contraseñas no coinciden",
           "securityCode": "Código incorrecto"
+        }
+      },
+      "labels": {
+        "login": {
+          "emailPlaceholder": "Email",
+          "forgotPassword": "¿No recordás tu contraseña?",
+          "noAccountYet": "¿No tenés cuenta aún?",
+          "passwordPlaceholder": "Contraseña",
+          "recoverPass": "Recupero",
+          "registerAccount": "Regístrate"
+        },
+        "register": {
+          "confirmPassword": "Confirmar contraseña",
+          "currentPassword": "Contraseña Actual",
+          "forgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña.",
+          "forgotPasswordTitle": "Recuperá tu contraseña",
+          "newPassword": "Contraseña nueva",
+          "securityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
+          "securityCodeText": "Código de seguridad",
+          "titleText": "Registrá tu usuario"
         }
       }
     },
-
     "owner": {
       "labels": {
+        "CinemaList": {
+          "addCinema": "Agregá un cine"
+        },
         "newCinema": {
           "companyName": "Nombre de empresa",
           "country": "País",
@@ -70,9 +72,6 @@
         "cinemaDetails": "Mi Cine",
         "newCinema": "Nuevo Cine"
       }
-    },
-    "testing": {
-      "test": "el testo"
     }
   }
 }

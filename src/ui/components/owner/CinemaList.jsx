@@ -1,12 +1,14 @@
-import {SafeAreaView, View} from "react-native";
+import {Pressable, SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
 import {Text} from "react-native-paper";
 import {Button} from "../general/Button";
 import {useTranslation} from "react-i18next";
+import {CinemaListItem} from "./CinemaListItem";
+import {NewCinemaPanelButton} from "./NewCinemaPanelButton";
 
 export const CinemaList = (props) => {
     const {t} = useTranslation()
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             {props.data && props.data.length === 0 ?
                 <View>
                     <Text></Text>
@@ -15,7 +17,26 @@ export const CinemaList = (props) => {
                     </Button>
                 </View>
             :
-            <Text>hay data</Text>}
+                <ScrollView contentContainerStyle={styles.cinemaList}>
+                    {drawCinemaListItems(props.data)}
+                    <NewCinemaPanelButton />
+                </ScrollView>}
         </SafeAreaView>
     );
 };
+
+const drawCinemaListItems = (list) => {
+    return list.map((item) => <CinemaListItem data={item} key={item.id}/>)
+}
+
+const styles = StyleSheet.create({
+    container:{
+        display:"flex",
+        marginTop:10
+    },
+    cinemaList: {
+        display:"flex",
+        flexDirection:"column",
+        gap:20
+    }
+})

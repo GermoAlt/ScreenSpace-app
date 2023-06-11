@@ -5,50 +5,52 @@
       "userNavigateButton": "Login as user"
     },
     "login": {
-      "labels":{
-        "login": {
-          "emailPlaceholder": "Email",
-          "passwordPlaceholder": "Password",
-          "noAccountYet": "Don't have an account?",
-          "registerAccount": "Create one",
-          "forgotPassword": "Forgot your password?",
-          "recoverPass": "Recover"
-        },
-        "register": {
-          "titleText":"Create user",
-          "currentPassword": "Contraseña Actual",
-          "newPassword": "Contraseña nueva",
-          "confirmPassword": "Confirm password",
-          "securityCodeText": "Security Code",
-          "securityCodeDescription": "We send you a security code to your mailbox. Enter that code in the boxes above to verify your identity.",
-          "forgotPasswordTitle": "Recover your password",
-          "forgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password."
-        }
-      },
       "captions": {
         "login": {
           "loginButton": "Login"
         },
         "register": {
-          "registerButton": "Register",
-          "forgotPasswordButton": "Recover password"
+          "forgotPasswordButton": "Recover password",
+          "registerButton": "Register"
         }
       },
       "errors": {
-        "login":{
+        "login": {
           "wrongCredentials": "Wrong Credentials"
         },
         "register": {
           "emailExists": "This email has already been registered",
-          "passwordMatch": "Passwords do not match",
           "passwordInvalid": "Password must have a number",
+          "passwordMatch": "Passwords do not match",
           "securityCode": "Incorrect code"
+        }
+      },
+      "labels": {
+        "login": {
+          "emailPlaceholder": "Email",
+          "forgotPassword": "Forgot your password?",
+          "noAccountYet": "Don't have an account?",
+          "passwordPlaceholder": "Password",
+          "recoverPass": "Recover",
+          "registerAccount": "Create one"
+        },
+        "register": {
+          "confirmPassword": "Confirm password",
+          "currentPassword": "Contraseña Actual",
+          "forgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password.",
+          "forgotPasswordTitle": "Recover your password",
+          "newPassword": "Contraseña nueva",
+          "securityCodeDescription": "We send you a security code to your mailbox. Enter that code in the boxes above to verify your identity.",
+          "securityCodeText": "Security Code",
+          "titleText": "Create user"
         }
       }
     },
-
     "owner": {
       "labels": {
+        "CinemaList": {
+          "addCinema": "Add a cinema"
+        },
         "newCinema": {
           "companyName": "Company name",
           "country": "Country",
@@ -70,9 +72,6 @@
         "cinemaDetails": "My Cinema",
         "newCinema": "New Cinema"
       }
-    },
-    "testing": {
-      "test": "a test"
     }
   }
 }

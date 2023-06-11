@@ -25,10 +25,38 @@ export const OwnerLanding = ({navigation}) => {
 
     const getCinemas = () => {
         CinemaController.getCinemas("token").then(
-            (res) => {},
+            (res) => {setCinemaList([res.data])},
             (err) => {console.log(err)}
         )
-        return ["a"]
+        return [
+            {
+                "id":"123",
+                "name":"test",
+                "address":{},
+                "geoLocation": {},
+                "owner": {},
+                "pricePerFunction":1234.99,
+                "screeningsByDay":{}
+            },
+            {
+                "id":"124",
+                "name":"test",
+                "address":{},
+                "geoLocation": {},
+                "owner": {},
+                "pricePerFunction":1234.99,
+                "screeningsByDay":{}
+            },
+            {
+                "id":"13",
+                "name":"test",
+                "address":{},
+                "geoLocation": {},
+                "owner": {},
+                "pricePerFunction":1234.99,
+                "screeningsByDay":{}
+            },
+        ]
     }
 
     const showDialog = () => {
