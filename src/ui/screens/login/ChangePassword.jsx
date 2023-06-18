@@ -7,7 +7,7 @@ import {TextInput} from "../../components/general/TextInput";
 import {Button} from "../../components/general/Button";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
 
-export default function Register({navigation}) {
+export default function ChangePassword({navigation}) {
   const {t} = useTranslation();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -24,7 +24,7 @@ export default function Register({navigation}) {
           marginBottom={10}
           textColorMode
           size="medium">
-          {t("translation:login.labels.register.titleText")}
+          {t("translation:login.labels.register.changePasswordTitleText")}
         </Text>
 
         <TextInput
@@ -47,7 +47,7 @@ export default function Register({navigation}) {
           marginTop={20}
           marginLeft={100}
           marginRight={100}
-          onPress={() => navigation.navigate("RegisterCode")}>
+          onPress={() => navigation.navigate("Login")}>
           {t("translation:login.captions.register.registerButton")}
         </Button>
       </View>

@@ -4,6 +4,7 @@ import Login from "./Login"
 import Register from "./Register";
 import RecoverPassword from "./RecoverPassword"
 import RegisterCode from "./RegisterCode"
+import ChangePassword from "./ChangePassword"
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 
@@ -32,7 +33,11 @@ export const LoginNavigator = () => {
                 component={RegisterCode}
                 options={{headerShown:false}}
             />
-
+            <Stack.Screen
+                name={"ChangePassword"}
+                component={ChangePassword}
+                options={{headerShown:false}}
+            />
         </Stack.Navigator>
     );
 };

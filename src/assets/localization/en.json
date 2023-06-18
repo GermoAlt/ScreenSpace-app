@@ -36,13 +36,14 @@
         },
         "register": {
           "confirmPassword": "Confirm password",
-          "currentPassword": "Contraseña Actual",
+          "currentPassword": "Current password",
           "forgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password.",
           "forgotPasswordTitle": "Recover your password",
-          "newPassword": "Contraseña nueva",
+          "newPassword": "New password",
           "securityCodeDescription": "We send you a security code to your mailbox. Enter that code in the boxes above to verify your identity.",
           "securityCodeText": "Security Code",
-          "titleText": "Create user"
+          "titleText": "Create user",
+          "changePasswordTitleText": "Change your password"
         }
       }
     },

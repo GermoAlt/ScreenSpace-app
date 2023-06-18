@@ -42,7 +42,8 @@
           "newPassword": "Contraseña nueva",
           "securityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
           "securityCodeText": "Código de seguridad",
-          "titleText": "Registrá tu usuario"
+          "titleText": "Registrá tu usuario",
+          "changePasswordTitleText": "Cambiá tu contraseña"
         }
       }
     },
