@@ -3,21 +3,16 @@ import {Text} from "react-native-paper";
 import {COLORS} from "../../styles/Colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {CardPanel} from "../general/CardPanel";
+import {IconText} from "../general/IconText";
 
 export const CinemaListItem = (props) => {
     const data = props.data
     return (
-        <Pressable>
+        <Pressable onPress={props.onPress}>
             <CardPanel>
                 <Text style={styles.title}>{data.name}</Text>
-                <View style={styles.contentContainer}>
-                    <Icon name={"map-marker"} style={styles.icon}/>
-                    <Text style={styles.text}>{data.pricePerFunction}</Text>
-                </View>
-                <View style={styles.contentContainer}>
-                    <Icon name={"currency-usd"} style={styles.icon}/>
-                    <Text style={styles.text}>{data.pricePerFunction}</Text>
-                </View>
+                <IconText icon={"map-marker"}>{data.pricePerFunction}</IconText>
+                <IconText icon={"currency-usd"}>{data.pricePerFunction}</IconText>
             </CardPanel>
         </Pressable>
     )
