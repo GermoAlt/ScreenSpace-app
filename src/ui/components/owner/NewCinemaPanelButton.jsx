@@ -1,21 +1,22 @@
 import {Pressable, StyleSheet} from "react-native";
 import {CardPanel} from "../general/CardPanel";
-import {Text} from "react-native-paper";
+import {Text, TouchableRipple} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {COLORS} from "../../styles/Colors";
+import {useNavigation} from "@react-navigation/native";
 
-export const NewCinemaPanelButton = () => {
+export const NewCinemaPanelButton = (props) => {
     const {t} = useTranslation()
     return (
-        <Pressable>
-            <CardPanel style={styles.content}>
-                <Icon name={"theater"} style={styles.icon}/>
-                <Text style={styles.text}>
-                    {t("translation\:owner\.labels\.CinemaList\.addCinema")}
-                </Text>
-            </CardPanel>
-        </Pressable>
+            <Pressable onPress={props.onPress}>
+                <CardPanel style={styles.content}>
+                    <Icon name={"theater"} style={styles.icon}/>
+                    <Text style={styles.text}>
+                        {t("translation\:owner\.labels\.CinemaList\.addCinema")}
+                    </Text>
+                </CardPanel>
+            </Pressable>
     )
 }
 

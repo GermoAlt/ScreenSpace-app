@@ -10,17 +10,46 @@ import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
 import * as CinemaController from "../../../api/CinemaController";
+import {CinemaDetails} from "./CinemaDetails";
 
 
 const Drawer = createDrawerNavigator();
 export const OwnerLanding = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [visible, setVisible] = useState(false);
-    const [cinemaList, setCinemaList] = useState([])
+    const [cinemaList, setCinemaList] = useState([
+        {
+            "id":"123",
+            "name":"test",
+            "address":{},
+            "geoLocation": {},
+            "owner": {},
+            "pricePerFunction":1234.99,
+            "screeningsByDay":{}
+        },
+        {
+            "id":"124",
+            "name":"test",
+            "address":{},
+            "geoLocation": {},
+            "owner": {},
+            "pricePerFunction":1234.99,
+            "screeningsByDay":{}
+        },
+        {
+            "id":"13",
+            "name":"test",
+            "address":{},
+            "geoLocation": {},
+            "owner": {},
+            "pricePerFunction":1234.99,
+            "screeningsByDay":{}
+        },
+    ])
 
+    /*
     useEffect(() => {
         setCinemaList(getCinemas())
-
     }, [])
 
     const getCinemas = () => {
@@ -28,36 +57,9 @@ export const OwnerLanding = ({navigation}) => {
             (res) => {setCinemaList([res.data])},
             (err) => {console.log(err)}
         )
-        return [
-            {
-                "id":"123",
-                "name":"test",
-                "address":{},
-                "geoLocation": {},
-                "owner": {},
-                "pricePerFunction":1234.99,
-                "screeningsByDay":{}
-            },
-            {
-                "id":"124",
-                "name":"test",
-                "address":{},
-                "geoLocation": {},
-                "owner": {},
-                "pricePerFunction":1234.99,
-                "screeningsByDay":{}
-            },
-            {
-                "id":"13",
-                "name":"test",
-                "address":{},
-                "geoLocation": {},
-                "owner": {},
-                "pricePerFunction":1234.99,
-                "screeningsByDay":{}
-            },
-        ]
     }
+
+     */
 
     const showDialog = () => {
         setVisible(true)
@@ -81,7 +83,7 @@ export const OwnerLanding = ({navigation}) => {
                 {isLoading ?
                     <Text>cargando</Text>
                     :
-                    <CinemaList navigateTo={(screen)=>navigation.navigate(screen)}
+                    <CinemaList navigateTo={(screen, options)=>navigation.navigate(screen, options)}
                                 data={cinemaList}/>
                 }
             </SafeAreaView>
@@ -108,6 +110,10 @@ export const OwnerLanding = ({navigation}) => {
                 name={'changePwd'}
                 component={ChangePwd}
                 options={{header:({navigation})=>header(navigation)}}
+            />
+            <Drawer.Screen
+                name={'CinemaDetails'}
+                component={CinemaDetails}
             />
         </Drawer.Navigator>
     );

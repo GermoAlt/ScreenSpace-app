@@ -18,15 +18,22 @@ export const CinemaList = (props) => {
                 </View>
             :
                 <ScrollView contentContainerStyle={styles.cinemaList}>
-                    {drawCinemaListItems(props.data)}
-                    <NewCinemaPanelButton />
+                    {drawCinemaListItems(props)}
+                    <NewCinemaPanelButton onPress={()=>props.navigateTo("NewCinema")}/>
                 </ScrollView>}
         </SafeAreaView>
     );
 };
 
-const drawCinemaListItems = (list) => {
-    return list.map((item) => <CinemaListItem data={item} key={item.id}/>)
+const drawCinemaListItems = (props) => {
+    return props.data.map((item) =>
+        <CinemaListItem
+            key={item.id}
+            data={item}
+            onPress={()=>props.navigateTo("CinemaDetails", {
+                data:item
+            })}
+        />)
 }
 
 const styles = StyleSheet.create({
