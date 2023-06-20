@@ -73,6 +73,13 @@
           "price": "Precio por entrada",
           "province": "Provincia",
           "street": "Calle"
+        },
+        "newTheater": {
+          "column": "Columna",
+          "enabled": "Sala habilitada",
+          "row": "Fila",
+          "screen": "PANTALLA",
+          "theaterName": "Nombre de la sala"
         }
       },
       "landing": {

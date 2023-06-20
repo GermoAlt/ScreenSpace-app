@@ -73,6 +73,13 @@
           "price": "Price per ticket",
           "province": "Province",
           "street": "Street"
+        },
+        "newTheater": {
+          "column": "Column",
+          "enabled": "Enabled",
+          "row": "Row",
+          "screen": "SCREEN",
+          "theaterName": "Theater name"
         }
       },
       "landing": {
