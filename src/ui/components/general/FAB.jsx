@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { FAB as RNPFAB} from 'react-native-paper';
-import {COLORS} from "../../../styles/Colors";
+import {COLORS} from "../../styles/Colors";
 
 const FAB = (props) => (
     <RNPFAB

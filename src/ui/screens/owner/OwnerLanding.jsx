@@ -49,7 +49,7 @@ export const OwnerLanding = ({navigation}) => {
 
     /*
     useEffect(() => {
-        setCinemaList(getCinemas())
+        getCinemas()
     }, [])
 
     const getCinemas = () => {
@@ -83,7 +83,7 @@ export const OwnerLanding = ({navigation}) => {
                 {isLoading ?
                     <Text>cargando</Text>
                     :
-                    <CinemaList navigateTo={(screen, options)=>navigation.navigate(screen, options)}
+                    <CinemaList navigateTo={(screen, options)=>navigation.getParent().navigate(screen, options)}
                                 data={cinemaList}/>
                 }
             </SafeAreaView>

@@ -8,7 +8,7 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList";
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
 import {TabBar} from "react-native-tab-view";
-import FAB from "../../components/owner/CinemaDetails/FAB";
+import FAB from "../../components/general/FAB";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -30,9 +30,7 @@ export const CinemaDetails = ({route, navigation}) => {
         <SafeAreaView style={styles.container}>
             <CinemaInformationPanel cinemaData={data}/>
             <Tab.Navigator
-                initialLayout={{
-                    width: Dimensions.get('window').width
-                }}
+
                 initialRouteName={"CinemaDetailsScreenings"}
                 screenOptions={{
                     tabBarLabelStyle: { fontSize: 12 },
@@ -41,6 +39,7 @@ export const CinemaDetails = ({route, navigation}) => {
                     tabBarInactiveTintColor: COLORS.off_white,
                     tabBarStyle: { backgroundColor: COLORS.background, borderBottomColor:COLORS.primary, borderBottomWidth:1 },
                 }}
+                backBehavior={"none"}
             >
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
