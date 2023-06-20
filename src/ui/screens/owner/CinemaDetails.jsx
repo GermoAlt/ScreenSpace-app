@@ -33,13 +33,13 @@ export const CinemaDetails = ({route, navigation}) => {
 
                 initialRouteName={"CinemaDetailsScreenings"}
                 screenOptions={{
-                    tabBarLabelStyle: { fontSize: 12 },
                     tabBarActiveTintColor: COLORS.primary,
-                    tabBarActiveBackgroundColor:COLORS.primary,
                     tabBarInactiveTintColor: COLORS.off_white,
-                    tabBarStyle: { backgroundColor: COLORS.background, borderBottomColor:COLORS.primary, borderBottomWidth:1 },
+                    tabBarStyle: { backgroundColor: COLORS.background, borderBottomColor:COLORS.off_white, borderBottomWidth:1},
+                    tabBarIndicatorContainerStyle:{marginBottom:-1.5},
                 }}
                 backBehavior={"none"}
+
             >
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
