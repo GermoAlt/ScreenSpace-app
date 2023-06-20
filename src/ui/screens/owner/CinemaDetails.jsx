@@ -8,20 +8,24 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList";
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
 import {TabBar} from "react-native-tab-view";
+import FAB from "../../components/owner/CinemaDetails/FAB";
 
 const Tab = createMaterialTopTabNavigator()
 
 export const CinemaDetails = ({route, navigation}) => {
     const {data} = route.params
     const {t} = useTranslation()
+    const [screen, setScreen] = useState()
 
     useEffect(()=>{
         navigation.setOptions({
             headerTitle:()=><ScreenHeader text={t('translation\:owner\.titles\.cinemaDetails')}/>,
             headerStyle: {backgroundColor: COLORS.background}
         })
-        console.log(data)
     }, [])
+
+    useEffect(()=>{}, [screen])
+
     return (
         <SafeAreaView style={styles.container}>
             <CinemaInformationPanel cinemaData={data}/>
@@ -33,19 +37,21 @@ export const CinemaDetails = ({route, navigation}) => {
                 screenOptions={{
                     tabBarLabelStyle: { fontSize: 12 },
                     tabBarActiveTintColor: COLORS.primary,
+                    tabBarActiveBackgroundColor:COLORS.primary,
                     tabBarInactiveTintColor: COLORS.off_white,
-                    tabBarStyle: { backgroundColor: COLORS.background },
+                    tabBarStyle: { backgroundColor: COLORS.background, borderBottomColor:COLORS.primary, borderBottomWidth:1 },
                 }}
             >
                 <Tab.Screen
-                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}
-                    component={ScreeningList}
-                />
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
+                    {(props) => <ScreeningList {...props}/>}
+                </Tab.Screen>
                 <Tab.Screen
-                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}
-                    component={TheaterList}
-                />
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}>
+                    {(props) => <TheaterList {...props}/>}
+                </Tab.Screen>
             </Tab.Navigator>
+            <FAB action={()=>navigation.navigate()}/>
         </SafeAreaView>
     )
 }
@@ -54,5 +60,7 @@ const styles = StyleSheet.create({
     container:{
         display:"flex",
         flex:1
-    }
+    },
+    tabBar:{},
+    tabBarLabel:{}
 })
