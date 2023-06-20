@@ -12,13 +12,13 @@ export const ScreeningListItem = (props) => {
                 <View>
                     <Text>s</Text>
                     <View>
-                        <IconText name={'sofa-single'} >s</IconText>
+                        <IconText icon={'sofa-single'} >s</IconText>
                     </View>
                 </View>
                 <Text>s</Text>
                 <View>
-                    <IconText name={"clock-outline"}>s</IconText>
-                    <IconText name={"calendar-month"}>s</IconText>
+                    <IconText icon={"clock-outline"}>s</IconText>
+                    <IconText icon={"calendar-month"}>s</IconText>
                 </View>
 
             </View>

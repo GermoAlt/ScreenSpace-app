@@ -58,6 +58,9 @@
             "theaters": "Salas"
           }
         },
+        "movieSearch": {
+          "searchField": "Búsqueda"
+        },
         "newCinema": {
           "companyName": "Nombre de empresa",
           "country": "País",

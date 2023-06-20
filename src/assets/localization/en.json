@@ -58,6 +58,9 @@
             "theaters": "Theaters"
           }
         },
+        "movieSearch": {
+          "searchField": "Search"
+        },
         "newCinema": {
           "companyName": "Company name",
           "country": "Country",

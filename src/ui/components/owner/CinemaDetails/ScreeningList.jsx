@@ -4,14 +4,14 @@ import {ScreeningListItem} from "./ScreeningListItem";
 
 export const ScreeningList = (props) => {
 
-    const [screenings, setScreenings] = useState([{}])
+    const [screenings, setScreenings] = useState([{},{},{},{},{},{},{},{},{},])
 
     useEffect(()=>{
 
     })
 
     return(
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             {screenings.map((item) => <ScreeningListItem data={item}/>)}
         </ScrollView>
     )
@@ -19,7 +19,8 @@ export const ScreeningList = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop:30,
-        display:'flex'
+        paddingVertical:30,
+        display:'flex',
+        gap:20
     }
 })
