@@ -1,8 +1,5 @@
-import {SafeAreaView, StyleSheet} from "react-native";
-import {TextInput} from "../../components/general/TextInput";
+import {Dimensions, SafeAreaView, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
-import {Text} from "../../components/general/Text";
-import {Title} from "react-native-paper";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import {COLORS} from "../../styles/Colors";
 import {useTranslation} from "react-i18next";
@@ -10,6 +7,7 @@ import {CinemaInformationPanel} from "../../components/owner/CinemaDetails/Cinem
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList";
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
+import {TabBar} from "react-native-tab-view";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -25,15 +23,26 @@ export const CinemaDetails = ({route, navigation}) => {
         console.log(data)
     }, [])
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <CinemaInformationPanel cinemaData={data}/>
-            <Tab.Navigator>
+            <Tab.Navigator
+                initialLayout={{
+                    width: Dimensions.get('window').width
+                }}
+                initialRouteName={"CinemaDetailsScreenings"}
+                screenOptions={{
+                    tabBarLabelStyle: { fontSize: 12 },
+                    tabBarActiveTintColor: COLORS.primary,
+                    tabBarInactiveTintColor: COLORS.off_white,
+                    tabBarStyle: { backgroundColor: COLORS.background },
+                }}
+            >
                 <Tab.Screen
-                    name={"CinemaDetailsScreenings"}
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}
                     component={ScreeningList}
                 />
                 <Tab.Screen
-                    name={"CinemaDetailsTheaters"}
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}
                     component={TheaterList}
                 />
             </Tab.Navigator>
@@ -42,7 +51,8 @@ export const CinemaDetails = ({route, navigation}) => {
 }
 
 const styles = StyleSheet.create({
-    header:{
-
+    container:{
+        display:"flex",
+        flex:1
     }
 })

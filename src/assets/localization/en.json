@@ -35,6 +35,7 @@
           "registerAccount": "Create one"
         },
         "register": {
+          "changePasswordTitleText": "Change your password",
           "confirmPassword": "Confirm password",
           "currentPassword": "Current password",
           "forgotPasswordDescription": "Enter your email address and we'll send you a security code to reset your password.",
@@ -42,8 +43,7 @@
           "newPassword": "New password",
           "securityCodeDescription": "We send you a security code to your mailbox. Enter that code in the boxes above to verify your identity.",
           "securityCodeText": "Security Code",
-          "titleText": "Create user",
-          "changePasswordTitleText": "Change your password"
+          "titleText": "Create user"
         }
       }
     },
@@ -51,6 +51,12 @@
       "labels": {
         "CinemaList": {
           "addCinema": "Add a cinema"
+        },
+        "cinemaDetails": {
+          "tabs": {
+            "screenings": "Screenings",
+            "theaters": "Theaters"
+          }
         },
         "newCinema": {
           "companyName": "Company name",

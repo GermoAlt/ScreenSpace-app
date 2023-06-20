@@ -23,5 +23,5 @@ function deleteScreening(id) {
 }
 
 function getAvailability(criteria) {
-    return api().get(prefix + '/availability' + api())
+    return api().get(prefix + '/availability' + buildQueryParams(criteria))
 }

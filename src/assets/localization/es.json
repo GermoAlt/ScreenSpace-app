@@ -35,6 +35,7 @@
           "registerAccount": "Regístrate"
         },
         "register": {
+          "changePasswordTitleText": "Cambiá tu contraseña",
           "confirmPassword": "Confirmar contraseña",
           "currentPassword": "Contraseña Actual",
           "forgotPasswordDescription": "Ingresá tu dirección de email y te enviaremos un código de seguridad para resetear tu contraseña.",
@@ -42,8 +43,7 @@
           "newPassword": "Contraseña nueva",
           "securityCodeDescription": "Te enviamos un código de seguridad a tu casilla de correo. Ingresa ese código en las casillas de arriba para verificar tu identidad.",
           "securityCodeText": "Código de seguridad",
-          "titleText": "Registrá tu usuario",
-          "changePasswordTitleText": "Cambiá tu contraseña"
+          "titleText": "Registrá tu usuario"
         }
       }
     },
@@ -51,6 +51,12 @@
       "labels": {
         "CinemaList": {
           "addCinema": "Agregá un cine"
+        },
+        "cinemaDetails": {
+          "tabs": {
+            "screenings": "Funciones",
+            "theaters": "Salas"
+          }
         },
         "newCinema": {
           "companyName": "Nombre de empresa",
