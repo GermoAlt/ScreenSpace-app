@@ -3,6 +3,7 @@ import * as React from 'react';
 import {SafeAreaView, View, StyleSheet} from 'react-native';
 import { TextInput } from '../../components/general/TextInput';
 import {Text} from '../../components/general/Text';
+import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {Button} from '../../components/general/Button';
 import {useTranslation} from 'react-i18next';
 import { HeaderLogo } from '../../components/general/HeaderLogo';
@@ -71,7 +72,7 @@ export default function Login({navigation}) {
                 value={userName}
                 onChangeText={text => setUserName(text)}
             />
-            <TextInput
+            <SecureTextInput
                 label={t('translation:login.labels.login.passwordPlaceholder')}
                 value={userPassword}
                 onChangeText={text => setUserPassword(text)}
