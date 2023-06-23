@@ -15,7 +15,7 @@ export const OptionPanel = (props) => {
     const handleLogout = () => {
         logoutOwnerUser()
         removeUserSession()
-        props.navigateTo('Login')
+        props.navigateTo('LoginNavigator', {name: 'Login'})
         //props.openLogOutDialog()        
     }
 
