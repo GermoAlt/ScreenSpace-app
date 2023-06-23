@@ -9,7 +9,7 @@ import {OptionPanel} from "../../components/owner/OptionPanel";
 import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
-import * as CinemaController from "../../../api/CinemaController";
+//import * as CinemaController from '../../../networking/api/CinemaController';
 import {CinemaDetails} from "./CinemaDetails";
 
 

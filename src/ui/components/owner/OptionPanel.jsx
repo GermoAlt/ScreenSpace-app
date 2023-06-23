@@ -1,12 +1,22 @@
 import {Drawer, Text} from "react-native-paper";
 import {useState} from "react";
+import { logoutOwnerUser } from '../../../networking/api/AuthController'
+import useEncryptedStorage from "../../../hooks/useEncryptedStorage";
 
 export const OptionPanel = (props) => {
     const [active, setActive] = useState('');
+    const { removeUserSession } = useEncryptedStorage()
 
     const handleScreenChange = (screen) => {
         setActive(screen)
         props.navigateTo(screen)
+    }
+
+    const handleLogout = () => {
+        logoutOwnerUser()
+        removeUserSession()
+        props.navigateTo('Login')
+        //props.openLogOutDialog()        
     }
 
     return (
@@ -24,7 +34,7 @@ export const OptionPanel = (props) => {
             />
             <Drawer.Item
                 label="Cerrar sesión"
-                onPress={() => props.openLogOutDialog()}
+                onPress={() => handleLogout()}
             />
         </Drawer.Section>
     );

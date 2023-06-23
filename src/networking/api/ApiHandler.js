@@ -1,14 +1,16 @@
 import axios from "axios";
-
+const BASE_URL = 'https://screenspace-back.herokuapp.com/v1';
 
 export function getInstance (token) {
+    const authToken = token ? 'Bearer ' + token : ''
     return axios.create({
-        baseURL: 'https://screenspace-back.herokuapp.com/v1',
-        headers:{
+        baseURL: BASE_URL,
+        headers: {
             //'Access-Control-Allow-Origin': '',
             'Content-Type':'application/json',
-            'bearer': token || ""
-        }})
+            'Authorization': authToken 
+        },
+    })
 }
 
 export function buildQueryParams(criteria) {

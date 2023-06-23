@@ -6,12 +6,46 @@ import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {TextInput} from "../../components/general/TextInput";
 import {Button} from "../../components/general/Button";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
+import {createOwnerUser} from "../../../networking/api/UserController"
 
 export default function Register({navigation}) {
   const {t} = useTranslation();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [errMsg, setErrMsg] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
+  const registerUser = async () => {
+    setLoading(true)
+    body = {
+        "email": email,
+        "password": password,
+        "isOwner": true
+    }
+    try {
+        const response = await createOwnerUser(body)
+        //console.log('response', JSON.stringify(response.status))
+        if (response.status === 200) navigation.navigate('RegisterCode', { nextScreen: 'OwnerNavigator', email, password:'' })
+        
+    } catch (error) {
+        switch (error.response.data.status){
+            case 400:
+                setErrMsg('Missing Username or Password');
+            break;
+            case 401:
+                setErrMsg('Unauthorized');
+            break;
+            case 500: 
+                setErrMsg('Internal Server Error');
+            break;
+            default:
+                setErrMsg('Login Failed');
+            break;
+        }
+    }
+    setLoading(false)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -47,7 +81,7 @@ export default function Register({navigation}) {
           marginTop={20}
           marginLeft={100}
           marginRight={100}
-          onPress={() => navigation.navigate("RegisterCode")}>
+          onPress={() => registerUser()}>
           {t("translation:login.captions.register.registerButton")}
         </Button>
       </View>
