@@ -19,10 +19,8 @@ export default function Landing({navigation}) {
       //clearStorage()
       const getUserData = async () => {
         const user = await retrieveUserSession()
-        if (user) {
-          navigation.navigate('OwnerNavigator')
-        }else{
-          navigation.navigate('LoginNavigator')
+        if (user) { //TODO: Chequear ROL del usuario para mandar a OwnerNavigator o a UserNavigator 
+          navigation.navigate('OwnerNavigator')  
         }
       }
       getUserData()
