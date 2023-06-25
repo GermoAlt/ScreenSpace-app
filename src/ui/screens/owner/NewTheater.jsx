@@ -15,7 +15,7 @@ export const NewTheater = () => {
         <SafeAreaView style={styles.container}>
             <Dropdown/>
             <TextInput label={t('translation\:owner\.labels\.newTheater\.theaterName')} />
-            <View>
+            <View style={styles.row}>
                 <Checkbox status={enabled ? 'checked' : 'unchecked'} onPress={()=>setEnabled(!enabled)}/>
                 <Text>{t("translation\:owner\.labels\.newTheater\.enabled")}</Text>
             </View>
@@ -43,5 +43,10 @@ export const NewTheater = () => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 30
+    },
+    row:{
+        display:'flex',
+        flexDirection:"row",
+        alignItems:"center"
     }
 })
