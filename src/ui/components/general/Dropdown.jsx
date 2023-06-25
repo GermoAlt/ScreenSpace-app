@@ -3,6 +3,7 @@ import {AutocompleteDropdown} from "react-native-autocomplete-dropdown";
 import {COLORS} from "../../styles/Colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {IconButton} from "react-native-paper";
+import {TextInput} from "./TextInput";
 
 export const Dropdown = (props) => {
 
@@ -18,6 +19,7 @@ export const Dropdown = (props) => {
             <AutocompleteDropdown inputContainerStyle={styles.inputContainer}
                                   containerStyle={styles.container}
                                   ChevronIconComponent={<IconButton icon={"chevron-down"}></IconButton>}
+                                  textInputProps={{style:{color:COLORS.secondary}}}
                                   dataSet={data}
             />
         </View>
@@ -29,10 +31,10 @@ const styles = StyleSheet.create({
     container:{
         borderColor:COLORS.secondary,
         borderWidth:1,
-        borderRadius:5
+        borderRadius:5,
     },
     inputContainer: {
-        backgroundColor: COLORS.background
+        backgroundColor: COLORS.background,
     },
     rightButtonsContainer:{
         color:"white",

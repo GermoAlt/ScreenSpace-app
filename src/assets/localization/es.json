@@ -91,7 +91,8 @@
         }
       },
       "landing": {
-        "addCinemaButton": "Cargar nuevo cine"
+        "addCinemaButton": "Cargar nuevo cine",
+        "noCinemasFound": "No tenés cines cargados"
       },
       "titles": {
         "cinemaDetails": "Mi Cine",

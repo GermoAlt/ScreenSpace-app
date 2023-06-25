@@ -91,7 +91,8 @@
         }
       },
       "landing": {
-        "addCinemaButton": "Add new cinema"
+        "addCinemaButton": "Add new cinema",
+        "noCinemasFound": "You don't have any cinemas listed"
       },
       "titles": {
         "cinemaDetails": "My Cinema",

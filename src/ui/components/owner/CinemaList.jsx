@@ -1,17 +1,20 @@
-import {Pressable, SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
+import {Dimensions, Pressable, SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
 import {Text} from "react-native-paper";
 import {Button} from "../general/Button";
 import {useTranslation} from "react-i18next";
 import {CinemaListItem} from "./CinemaListItem";
 import {NewCinemaPanelButton} from "./NewCinemaPanelButton";
+import {COLORS} from "../../styles/Colors";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const CinemaList = (props) => {
     const {t} = useTranslation()
     return (
         <SafeAreaView style={styles.container}>
             {props.data && props.data.length === 0 ?
-                <View>
-                    <Text></Text>
+                <View style={styles.emptyListContainer}>
+                    <Icon name={"popcorn"} style={styles.icon}></Icon>
+                    <Text style={styles.text}>{t("translation\:owner\.landing\.noCinemasFound")}</Text>
                     <Button type={"cta"} onPress={()=>props.navigateTo("NewCinema")}>
                         {t("translation\:owner\.landing\.addCinemaButton")}
                     </Button>
@@ -45,5 +48,23 @@ const styles = StyleSheet.create({
         display:"flex",
         flexDirection:"column",
         gap:20
+    },
+    emptyListContainer:{
+        display:"flex",
+        minHeight:Dimensions.get("screen").height - 100,
+        justifyContent:"center",
+        alignItems:"center",
+        gap:30,
+        marginTop:-50
+    },
+    text:{
+        color:COLORS.secondary,
+        fontSize:25
+    },
+    icon:{
+        fontSize:200,
+        color:COLORS.lightgrey,
+        margin:0,
+        padding:0
     }
 })
