@@ -5,14 +5,13 @@ import {ScreeningListItem} from "./ScreeningListItem";
 export const ScreeningList = (props) => {
 
     const [screenings, setScreenings] = useState([{},{},{},{},{},{},{},{},{},])
-
     useEffect(()=>{
 
     })
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
-            {screenings.map((item) => <ScreeningListItem data={item}/>)}
+            {screenings.map((item) => <ScreeningListItem key={item.id} data={item}/>)}
         </ScrollView>
     )
 }

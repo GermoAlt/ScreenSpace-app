@@ -74,6 +74,9 @@
           "province": "Provincia",
           "street": "Calle"
         },
+        "newScreening": {
+          "selectMovie": "Seleccioná la película a mostrar"
+        },
         "newTheater": {
           "column": "Columna",
           "enabled": "Sala habilitada",
@@ -87,7 +90,9 @@
       },
       "titles": {
         "cinemaDetails": "Mi Cine",
-        "newCinema": "Nuevo Cine"
+        "newCinema": "Nuevo Cine",
+        "newScreening": "Nueva Funcion",
+        "newTheater": "Nueva Sala"
       }
     }
   }

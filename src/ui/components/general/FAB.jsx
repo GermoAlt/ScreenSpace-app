@@ -7,7 +7,7 @@ const FAB = (props) => (
     <RNPFAB
         icon="plus"
         style={styles.fab}
-        onPress={() => props.action}
+        onPress={props.action}
         color={COLORS.secondary}
     />
 );

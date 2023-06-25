@@ -74,6 +74,9 @@
           "province": "Province",
           "street": "Street"
         },
+        "newScreening": {
+          "selectMovie": "Select the movie to show"
+        },
         "newTheater": {
           "column": "Column",
           "enabled": "Enabled",
@@ -87,7 +90,9 @@
       },
       "titles": {
         "cinemaDetails": "My Cinema",
-        "newCinema": "New Cinema"
+        "newCinema": "New Cinema",
+        "newScreening": "New Screening",
+        "newTheater": "New Theater"
       }
     }
   }

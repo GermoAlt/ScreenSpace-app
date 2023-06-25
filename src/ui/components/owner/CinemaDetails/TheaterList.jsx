@@ -11,7 +11,7 @@ export const TheaterList = (props) => {
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
-            {theaters.map((item) => <TheaterListItem data={item}/>)}
+            {theaters.map((item) => <TheaterListItem key={item.id} data={item}/>)}
         </ScrollView>
     )
 }
