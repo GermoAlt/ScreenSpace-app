@@ -1,5 +1,10 @@
 {
   "translation": {
+    "general": {
+      "labels": {
+        "confirm": "Confirm"
+      }
+    },
     "landing": {
       "ownerNavigateButton": "Login as owner",
       "userNavigateButton": "Login as user"
