@@ -1,4 +1,4 @@
-import {SafeAreaView, View} from "react-native";
+import {SafeAreaView, StyleSheet, View} from "react-native";
 import {Dropdown} from "../../components/general/Dropdown";
 import {TextInput} from "../../components/general/TextInput";
 import {useTranslation} from "react-i18next";
@@ -12,7 +12,7 @@ export const NewTheater = () => {
     const {t} = useTranslation()
     const [enabled, setEnabled] = useState(true)
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <Dropdown/>
             <TextInput label={t('translation\:owner\.labels\.newTheater\.theaterName')} />
             <View>
@@ -31,7 +31,6 @@ export const NewTheater = () => {
                 </View>
             </View>
             <View>
-                <Title>{t("translation\:owner\.labels\.newTheater\.screen")}</Title>
                 <SeatLayout />
             </View>
             <View>
@@ -40,3 +39,9 @@ export const NewTheater = () => {
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 30
+    }
+})

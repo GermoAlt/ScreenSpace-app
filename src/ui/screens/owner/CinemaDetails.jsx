@@ -50,7 +50,7 @@ export const CinemaDetails = ({route, navigation}) => {
                     {(props) => <TheaterList {...props}/>}
                 </Tab.Screen>
             </Tab.Navigator>
-            <FAB action={()=>navigation.navigate("NewScreening")}/>
+            <FAB action={()=>navigation.navigate("NewTheater")}/>
         </SafeAreaView>
     )
 }
