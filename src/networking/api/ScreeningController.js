@@ -6,8 +6,8 @@ function postScreening(screening){
     return api().post(prefix, screening)
 }
 
-function getScreenings(criteria) {
-    return api().get(prefix + buildQueryParams(criteria))
+export async function getScreenings(criteria) {
+    return await api().get(prefix + buildQueryParams(criteria))
 }
 
 function getScreening(id) {

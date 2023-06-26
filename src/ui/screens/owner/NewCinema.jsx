@@ -2,6 +2,7 @@ import * as React from 'react';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, View} from "react-native";
 import Swiper from 'react-native-swiper'
 import {TextInput} from "../../components/general/TextInput";
+import {Text} from "../../components/general/Text";
 import {COLORS} from "../../styles/Colors";
 import {useTranslation} from "react-i18next";
 import {Button} from "../../components/general/Button";
@@ -24,6 +25,7 @@ const saveNewCinema = async (values) => {
 
     const body = {
         name: values.name, 
+        companyName: values.companyName, 
         address: {
             street: values.street,
             number: values.number,
@@ -36,13 +38,10 @@ const saveNewCinema = async (values) => {
             latitude: values.latitude,
             longitude: values.longitude
         },
-        pricePerFunction: values.price
+        pricePerFunction: 0
     }
 
     try {
-
-        console.log('body', body)
-        
         const response = await postCinemas(body)
         console.log('response', JSON.stringify(response))
         if (response.status === 201){
@@ -103,7 +102,12 @@ const saveNewCinema = async (values) => {
     return (
         <KeyboardAvoidingView style={{flex:1}}>
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ 
+                    name: '', companyName: '', companyName: '', 
+                    street: '', number: '', neighborhood: '',
+                    city: '', province: '', country: '',
+                    latitude: '', longitude: '',  
+                }}
                 onSubmit={values => saveNewCinema(values)}
                 validationSchema={cinemaValidationSchema}
             >

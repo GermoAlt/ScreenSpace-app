@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
+import * as React from 'react';
 import {SafeAreaView, View, StyleSheet} from "react-native";
+import {useTranslation} from "react-i18next";
 import {Avatar, Dialog, Portal, Text} from "react-native-paper";
 import {useEffect, useState} from "react";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
@@ -9,14 +11,19 @@ import {OptionPanel} from "../../components/owner/OptionPanel";
 import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
-//import * as CinemaController from '../../../networking/api/CinemaController';
 import {CinemaDetails} from "./CinemaDetails";
+import { getCinemas } from "../../../networking/api/CinemaController";
 
 
 const Drawer = createDrawerNavigator();
 export const OwnerLanding = ({navigation}) => {
+    const {t} = useTranslation();
+
+    const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = useState(false)
     const [visible, setVisible] = useState(false);
+    const [cinemaList, setCinemaList] = useState([])
+    /*
     const [cinemaList, setCinemaList] = useState([
         {
             "id":"123",
@@ -46,20 +53,39 @@ export const OwnerLanding = ({navigation}) => {
             "screeningsByDay":{}
         },
     ])
-
-    /*
-    useEffect(() => {
-        getCinemas()
-    }, [])
-
-    const getCinemas = () => {
-        CinemaController.getCinemas("token").then(
-            (res) => {setCinemaList([res.data])},
-            (err) => {console.log(err)}
-        )
+*/
+    const getCinemasList = async () => {
+        setIsLoading(true)
+        try {
+            const response = await getCinemas()
+            console.log('response', JSON.stringify(response.data))
+            if (response.status === 200){
+                setCinemaList(response.data)
+            }else{
+                setErrMsg(t('translation:general.errors.default'));
+            }        
+            
+        } catch (error) {
+            console.log('error', JSON.stringify(error))
+            switch (error.response.data.status){
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                break;
+                case 500: 
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                break;
+            }
+        }    
+        setIsLoading(false)
     }
-
-     */
+    
+    useEffect(() => {
+        getCinemasList()
+    }, [])
 
     const showDialog = () => {
         setVisible(true)

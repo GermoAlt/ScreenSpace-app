@@ -3,11 +3,13 @@ import { getKey } from "../helper";
 
 const prefix = "/cinemas"
 
-export async function getCinemasByUser(idUser, token){
-    return await  api(token).get(prefix)
+export async function getCinemasByID(idCinema){
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '/' + idCinema)
 }
 
-export async function getCinemas(token) {
+export async function getCinemas() {
+    const token = await getKey('accessToken')
     return await api(token).get(prefix)
 }
 
