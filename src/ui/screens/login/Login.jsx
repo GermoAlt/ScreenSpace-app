@@ -40,21 +40,17 @@ export default function Login({navigation}) {
         const response = await loginOwnerUser(values)
         console.log('response', response)
         const accessToken = response?.data.token
-        const data = { userName, userPassword, accessToken }
+        const data = { userName: values.email, userPassword: values.password, accessToken }
         setAuth(data)
         storeUserSession(data)
-        setUserName('')
-        setUserPassword('')
         navigation.navigate('OwnerNavigator')
         
     } catch (error) {
-        console.log('error', error.response)
+        console.log('error', error)
         switch (error.response.data.status){
             case 400:
-                setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-            break;
             case 401:
-                setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Unauthirized
+                setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
             break;
             case 500: 
                 setErrMsg(t('translation:general.errors.default')); // Internal Server Error

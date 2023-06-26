@@ -30,7 +30,7 @@ export default function RecoverPassword({navigation}) {
     try {
         const response = await forgotPassword(values)
         console.log('response', JSON.stringify(response.status))
-        if (response.status === 200) navigation.navigate('RegisterCode', { nextScreen: 'ChangePassword', email: values.email,  emailParam: values.email, password:'' })
+        if (response.status === 200) navigation.navigate('RegisterCode', { nextScreen: 'ChangePassword', email: values.email, password:'' })
         
     } catch (error) {
       console.log('error', error.response)

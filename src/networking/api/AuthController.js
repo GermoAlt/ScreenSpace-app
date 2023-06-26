@@ -3,13 +3,8 @@ import { getKey } from "../helper";
 
 const prefix = '/auths';
 
-export function loginOwnerUser(body) {
-    try {
-        return {status, data } = api().post(prefix, body);
-    } catch (error) {
-        return { status, data, error } = error.response
-    }
-    
+export async function loginOwnerUser(body) {
+  return await api().post(prefix, body);
 }
 
 export function refreshAccessToken(body, token) {
@@ -30,5 +25,6 @@ export async function resetPassword(body) {
 }
 
 export function confirmResetPassword(body) {
+  console.log('body change', body)
   return api().post('/reset-password/confirm', body);
 }

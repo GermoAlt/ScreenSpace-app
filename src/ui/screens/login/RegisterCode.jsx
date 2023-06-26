@@ -77,8 +77,8 @@ export default function RegisterCode({route,navigation}) {
             setAuth(data)
             storeUserSession(data)
           }
-          navigation.navigate(nextScreen)
-        } 
+          navigation.navigate(nextScreen, { emailParam: email, securityCode })
+        }
         
     } catch (error) {
 

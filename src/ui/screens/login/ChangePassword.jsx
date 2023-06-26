@@ -15,7 +15,7 @@ import {COLORS} from "../../styles/Colors";
 export default function ChangePassword({route, navigation}) {
   const {t} = useTranslation();
 
-  const { emailParam } = route.params
+  const { emailParam, securityCode } = route.params
 
   const [errMsg, setErrMsg] = React.useState('');
   const [loading, setLoading] = React.useState(false);
@@ -37,8 +37,9 @@ export default function ChangePassword({route, navigation}) {
   const changePassword = async (values) => {
     setLoading(true)
     setErrMsg('')
+    const body = {...values, code: securityCode}
     try {
-        const response = await confirmResetPassword(values)
+        const response = await confirmResetPassword(body)
         if (response.status === 200){
           navigation.navigate("Login")
         }else{
