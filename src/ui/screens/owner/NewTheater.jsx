@@ -25,7 +25,7 @@ export const NewTheater = () => {
                 })
             )
         })
-    })
+    },[])
 
     return (
         <SafeAreaView style={styles.container}>
