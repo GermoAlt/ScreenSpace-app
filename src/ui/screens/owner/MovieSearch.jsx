@@ -17,7 +17,6 @@ export const MovieSearch = ({navigation, route}) => {
         getMovies().then(res =>
             setResults(res.data)
         )
-        // setResults()
     }, [query])
 
     return (

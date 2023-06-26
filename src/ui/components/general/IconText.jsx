@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     },
     icon:{
         color:COLORS.primary,
-        fontSize:40
+        fontSize:30
     },
     text:{
         color:COLORS.secondary,
-        fontSize:24
+        fontSize:20
     }
 })
