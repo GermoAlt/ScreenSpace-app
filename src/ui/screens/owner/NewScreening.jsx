@@ -9,6 +9,7 @@ import {useState} from "react";
 import {Dropdown} from "../../components/general/Dropdown";
 import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
+import {COLORS} from "../../styles/Colors";
 
 export const NewScreening = ({navigation}) => {
     const {t} = useTranslation()
@@ -19,15 +20,19 @@ export const NewScreening = ({navigation}) => {
     //const {cinema} = props
 
     return (
-        <SafeAreaView style={styles.container}>
-            <Text>cinema.name</Text>
+        <SafeAreaView style={styles.screen}>
+            <View style={styles.container}>
+
+            <Text style={styles.title}>cinema.name</Text>
             <Dropdown/>
-            <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)}/>
+            <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)} navigateTo={(url)=>navigation.navigate(url)}/>
             <View style={styles.dateTimeContainer}>
                 <CalendarPickerField date={date} setDate={(date)=>setDate(date)}/>
                 <DatePickerField time={time} setTime={(time)=>setTime(time)}/>
             </View>
             <AvailabilityPanel date={date} time={time}/>
+
+            </View>
             <View style={styles.buttonContainer}>
                 <Button icon={"check-circle-outline"}>{t("translation\:general\.labels\.confirm")}</Button>
             </View>
@@ -36,12 +41,18 @@ export const NewScreening = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+    screen:{
+        display:"flex",
+        justifyContent:"space-between",
+        flex:1
+    },
     container:{
         display:"flex",
         flexDirection:"column",
         justifyContent:"space-evenly",
-        flex:1,
+        minHeight:"80%",
         paddingHorizontal:30,
+        gap:25
     },
     dateTimeContainer:{
         display:"flex",
@@ -52,6 +63,13 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         display:"flex",
-        marginTop:20
+        alignItems:"center",
+        justifyContent:"center",
+        marginBottom:50
+    },
+    title:{
+        color:COLORS.secondary,
+        fontSize:30,
+
     }
 })

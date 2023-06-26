@@ -7,6 +7,7 @@ import {COLORS} from "../../styles/Colors";
 import {CinemaDetails} from "./CinemaDetails";
 import {NewScreening} from "./NewScreening";
 import {NewTheater} from "./NewTheater";
+import {MovieSearch} from "./MovieSearch";
 
 const Stack = createNativeStackNavigator();
 export const OwnerNavigator = () => {
@@ -38,6 +39,14 @@ export const OwnerNavigator = () => {
                           options={{
                               headerShown: true,
                               headerTitle: () => <ScreenHeader text={t("translation\:owner\.titles\.newScreening")}/>,
+                              headerStyle: {backgroundColor: COLORS.background}
+                          }}
+            />
+            <Stack.Screen name={"MovieSearch"}
+                          component={MovieSearch}
+                          options={{
+                              headerShown: true,
+                              headerTitle: () => <ScreenHeader text={t("translation\:owner\.titles\.movieSearch")}/>,
                               headerStyle: {backgroundColor: COLORS.background}
                           }}
             />

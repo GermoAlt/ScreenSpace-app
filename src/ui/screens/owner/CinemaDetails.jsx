@@ -1,4 +1,4 @@
-import {Dimensions, SafeAreaView, StyleSheet} from "react-native";
+import {SafeAreaView, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import {COLORS} from "../../styles/Colors";
@@ -7,7 +7,6 @@ import {CinemaInformationPanel} from "../../components/owner/CinemaDetails/Cinem
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList";
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
-import {TabBar} from "react-native-tab-view";
 import FAB from "../../components/general/FAB";
 
 const Tab = createMaterialTopTabNavigator()
