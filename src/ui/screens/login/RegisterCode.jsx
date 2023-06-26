@@ -6,62 +6,100 @@ import {TextInput} from "../../components/general/TextInput";
 import {Button} from "../../components/general/Button";
 import {HeaderLogo} from '../../components/general/HeaderLogo';
 import {confirmRegistration} from '../../../networking/api/UserController'
-import { resetPassword, confirmResetPassword } from '../../../networking/api/AuthController'
+import { resetPassword, confirmResetPassword, loginOwnerUser } from '../../../networking/api/AuthController'
+import useAuth from '../../../hooks/useAuth';
+import useEncryptedStorage from '../../../hooks/useEncryptedStorage';
+import { ErrorMessage } from '../../components/general/ErrorMessage';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import {COLORS} from "../../styles/Colors";
 
 export default function RegisterCode({route,navigation}) {
   const {t} = useTranslation();
 
   const { nextScreen, email, password } = route.params
 
-  const [code1, setCode1] = React.useState('');
-  const [code2, setCode2] = React.useState('');
-  const [code3, setCode3] = React.useState('');
-  const [code4, setCode4] = React.useState('');
-  const [code5, setCode5] = React.useState('');
-  const [code6, setCode6] = React.useState('');
+  const { setAuth } = useAuth();
+  const { storeUserSession } = useEncryptedStorage()
 
   const [errMsg, setErrMsg] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
-  const sendCode = async () => {
+  const code2Ref = React.useRef();
+  const code3Ref = React.useRef();
+  const code4Ref = React.useRef();
+  const code5Ref = React.useRef();
+  const code6Ref = React.useRef();
+
+  const codeValidationSchema = yup.object().shape({
+    code1: yup
+      .number()
+      .required(t('translation:general.forms.errors.required')),
+    code2: yup
+    .number()
+    .required(t('translation:general.forms.errors.required')),
+    code3: yup
+    .number()
+    .required(t('translation:general.forms.errors.required')),
+    code4: yup
+    .number()
+    .required(t('translation:general.forms.errors.required')),
+    code5: yup
+    .number()
+    .required(t('translation:general.forms.errors.required')),
+    code6: yup
+    .number()
+    .required(t('translation:general.forms.errors.required')),
+  })
+
+  const sendCode = async (values) => {
     setLoading(true)
-    const securityCode = code1 + code2 + code3 + code4 + code5 + code6
-    body = {
+    setErrMsg('')
+    const securityCode = values.code1 + values.code2 + values.code3 + values.code4 + values.code5 + values.code6
+    const body = {
         "email": email,
         "password": password,
         "token": securityCode,
     }
     try {
         let response = null
-        console.log('nextScreen', nextScreen)
         if (nextScreen === 'OwnerNavigator'){
-          console.log('Bod', body)
           response = await confirmRegistration(body)
         }else{
-          response = await confirmResetPassword(body)
+          response = await resetPassword(body)
         }
         console.log('response', JSON.stringify(response.status))
-        if (response.status === 200) navigation.navigate(nextScreen)
+        if (response.status === 200){
+          if (nextScreen === 'OwnerNavigator'){
+            const loginResponse = await loginOwnerUser(body) //TODO: Esto lo podriamos evitar si el endpoint confirmRegistration nos devuelve un token
+            const accessToken = loginResponse?.data.token
+            const data = { email, password, accessToken }
+            setAuth(data)
+            storeUserSession(data)
+          }
+          navigation.navigate(nextScreen)
+        } 
         
     } catch (error) {
-      console.log('error', error)
-        switch (error.response.data.status){
+
+        console.log('error', JSON.stringify(error))
+        switch (error.response.status){
             case 400:
-                setErrMsg('Missing Username or Password');
-            break;
             case 401:
-                setErrMsg('Unauthorized');
+            case 404:
+              setErrMsg(t('translation:login.errors.register.securityCode')); // "message": "No pending registration for user xxxxx and code 737871"
             break;
-            case 500: 
-                setErrMsg('Internal Server Error');
+            case 500:
+              setErrMsg(t('translation:general.errors.default'));
             break;
             default:
-                setErrMsg('Login Failed');
+              setErrMsg(t('translation:general.errors.default'));
             break;
         }
     }
     setLoading(false)
   }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,66 +109,141 @@ export default function RegisterCode({route,navigation}) {
       <Text alignment="center" marginBottom={20} textColorMode size="large">
         {t("translation:login.labels.register.securityCodeText")}
       </Text>
-      <View style={styles.form}>
-        <View style={styles.row}>
-          <TextInput
-            autoFocus={true}
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code1}
-            onChangeText={text => setCode1(text)}
-          />
-          <TextInput
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code2}
-            onChangeText={text => setCode2(text)}
-          />
-          <TextInput
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code3}
-            onChangeText={text => setCode3(text)}
-          />
-          <TextInput
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code4}
-            onChangeText={text => setCode4(text)}
-          />
-          <TextInput
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code5}
-            onChangeText={text => setCode5(text)}
-          />
-          <TextInput
-            maxLength={1}
-            textAlign="center"
-            keyboardType="numeric"
-            value={code6}
-            onChangeText={text => setCode6(text)}
-          />
-        </View>
+      <Formik
+            initialValues={{ code1: '', code2: '', code3: '', code4: '', code5: '', code6: '' }}
+            onSubmit={values => sendCode(values)}
+            validationSchema={codeValidationSchema}
+        >
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+          <View style={styles.form}>
+            {errMsg && (
+              <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+            )}
+            <View style={styles.row}>
+              <TextInput
+                placeholder="-"
+                autoFocus={true}
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code1')}
+                onBlur={handleBlur('code1')}
+                value={values.code1}
+                onChange={(e) => {
+                  if (e.nativeEvent.text !== '' && (!isNaN(parseInt(e.nativeEvent.text)))){
+                    code2Ref.current?.focus();
+                  }}
+                }
+                blurOnSubmit={false}
+                returnKeyType="next"
+              />
+              <TextInput
+                placeholder="-"
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code2')}
+                onBlur={handleBlur('code2')}
+                value={values.code2}
+                onChange={(e) => {
+                  if (e.nativeEvent.text !== '' && (!isNaN(parseInt(e.nativeEvent.text)))){
+                    code3Ref.current?.focus();
+                  }}
+                }
+                blurOnSubmit={false}
+                refInput={code2Ref}
+                returnKeyType="next"
+              />
+              <TextInput
+                placeholder="-"
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code3')}
+                onBlur={handleBlur('code3')}
+                value={values.code3}
+                onChange={(e) => {
+                  if (e.nativeEvent.text !== '' && (!isNaN(parseInt(e.nativeEvent.text)))){
+                    code4Ref.current?.focus();
+                  }}
+                }
+                blurOnSubmit={false}
+                refInput={code3Ref}
+                returnKeyType="next"
+              />
+              <TextInput
+                placeholder="-"
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code4')}
+                onBlur={handleBlur('code4')}
+                value={values.code4}
+                onChange={(e) => {
+                  if (e.nativeEvent.text !== '' && (!isNaN(parseInt(e.nativeEvent.text)))){
+                    code5Ref.current?.focus();
+                  }}
+                }
+                blurOnSubmit={false}
+                refInput={code4Ref}
+                returnKeyType="next"
+              />
+              <TextInput
+                placeholder="-"
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code5')}
+                onBlur={handleBlur('code5')}
+                value={values.code5}
+                onChange={(e) => {
+                  if (e.nativeEvent.text !== '' && (!isNaN(parseInt(e.nativeEvent.text)))){
+                    code6Ref.current?.focus();
+                  }}
+                }
+                blurOnSubmit={false}
+                refInput={code5Ref}
+                returnKeyType="next"
+              />
+              <TextInput
+                placeholder="-"
+                maxLength={1}
+                textAlign="center"
+                style={styles.inputText}
+                keyboardType="numeric"
+                onChangeText={handleChange('code6')}
+                onBlur={handleBlur('code6')}
+                value={values.code6}
+                blurOnSubmit={false}
+                refInput={code6Ref}
+              />
+              {((errors.code1 || errors.code2 || errors.code3 || errors.code4 || errors.code5 || errors.code6 )
+              && (touched.code1 || touched.code2 || touched.code3 || touched.code4 || touched.code5 || touched.code6)) &&
+              <Text style={styles.errorText}>{t('translation:general.forms.errors.all_required')}</Text>
+            }
+            </View>
+            
 
-        <Text alignment="center" size="xxxsmall">
-          {t("translation:login.labels.register.securityCodeDescription")}
-        </Text>
+            <Text alignment="center" size="xxxsmall">
+              {t("translation:login.labels.register.securityCodeDescription")}
+            </Text>
 
-        <Button
-          mode="contained"
-          disabled
-          marginLeft={100}
-          marginRight={100}
-          onPress={() => sendCode()}>
-          {t("translation:login.captions.register.registerButton")}
-        </Button>
-      </View>
+            <Button
+              mode="contained"
+              disabled
+              marginLeft={100}
+              marginRight={100}
+              onPress={handleSubmit}>
+              {t("translation:login.captions.register.registerButton")}
+            </Button>           
+          </View>
+        )}
+      </Formik>
     </SafeAreaView>
   );
 }
@@ -160,4 +273,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 7,
   },
+  errorText: {
+    fontSize: 10,
+    color: COLORS.primary,
+  },
+  inputText: {
+    fontSize: 20,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  }
 });

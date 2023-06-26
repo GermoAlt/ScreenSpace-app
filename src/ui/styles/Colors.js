@@ -8,4 +8,5 @@ export const COLORS = {
   secondary: '#FFFFFF',
   off_white: '#DCDCDC',
   onSurfaceVariant: '#FFFFFF',
+  dark: '#282634',
 };

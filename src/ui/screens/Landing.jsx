@@ -2,7 +2,7 @@
 import {SafeAreaView} from 'react-native';
 import {Button} from '../components/general/Button';
 import {useTranslation} from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import useEncryptedStorage from '../../hooks/useEncryptedStorage';
 
@@ -14,7 +14,6 @@ export default function Landing({navigation}) {
   const usarAutenticacion = true  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
 
   useEffect(() => {
-
     if (usarAutenticacion){
       //clearStorage()
       const getUserData = async () => {
@@ -25,13 +24,11 @@ export default function Landing({navigation}) {
       }
       getUserData()
     }
-    
   }, [])
   
 
   return (
     <SafeAreaView>
-      
       <Button
         icon="movie-roll"
         mode="contained"

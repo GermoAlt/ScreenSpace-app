@@ -3,6 +3,18 @@
     "general": {
       "labels": {
         "confirm": "Confirmar"
+      },
+      "errors": {
+        "default": "Ocurrió un error"
+      },
+      "forms": {
+        "errors": {
+          "required": "Este campo es requerido",
+          "all_required": "Todos los campos son requeridos"
+        },
+        "validations": {
+          "email": "Ingresá un email válido"
+        }
       }
     },
     "landing": {
@@ -28,6 +40,9 @@
           "passwordInvalid": "Contraseña debe tener un número",
           "passwordMatch": "Las contraseñas no coinciden",
           "securityCode": "Código incorrecto"
+        },
+        "recover":{
+          "emailNotFound": "Email Inexistente"
         }
       },
       "labels": {

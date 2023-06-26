@@ -21,22 +21,38 @@ export const LoginNavigator = () => {
             <Stack.Screen
                 name={"Register"}
                 component={Register}
-                options={{headerShown:false}}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerStyle: {backgroundColor: COLORS.background}
+                }}
             />
             <Stack.Screen
                 name={"RecoverPassword"}
                 component={RecoverPassword}
-                options={{headerShown:false}}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerStyle: {backgroundColor: COLORS.background}
+                }}
             />
             <Stack.Screen
                 name={"RegisterCode"}
                 component={RegisterCode}
-                options={{headerShown:false}}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerStyle: {backgroundColor: COLORS.background}
+                }}
             />
             <Stack.Screen
                 name={"ChangePassword"}
                 component={ChangePassword}
-                options={{headerShown:false}}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerStyle: {backgroundColor: COLORS.background}
+                }}
             />
         </Stack.Navigator>
     );

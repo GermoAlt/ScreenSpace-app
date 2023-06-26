@@ -6,51 +6,124 @@ import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {TextInput} from "../../components/general/TextInput";
 import {Button} from "../../components/general/Button";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
+import {confirmResetPassword} from "../../../networking/api/AuthController";
+import { ErrorMessage } from '../../components/general/ErrorMessage';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import {COLORS} from "../../styles/Colors";
 
-export default function ChangePassword({navigation}) {
+export default function ChangePassword({route, navigation}) {
   const {t} = useTranslation();
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+
+  const { emailParam } = route.params
+
+  const [errMsg, setErrMsg] = React.useState('');
+  const [loading, setLoading] = React.useState(false);
+
+  const changeValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email(t('translation:general.forms.validations.email'))
+      .required(t('translation:general.forms.errors.required')),
+    password: yup
+      .string()
+      .required(t('translation:general.forms.errors.required')),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], t('translation:login.errors.register.passwordMatch'))
+      .required(t('translation:general.forms.errors.required')),
+  })
+
+  const changePassword = async (values) => {
+    setLoading(true)
+    setErrMsg('')
+    try {
+        const response = await confirmResetPassword(values)
+        if (response.status === 200){
+          navigation.navigate("Login")
+        }else{
+         setErrMsg(t('translation:general.errors.default'));
+        }        
+    } catch (error) {
+        console.log('error', error)
+        console.log('Error ', JSON.stringify(error))
+        switch (error.response.status){
+            case 400:
+                setErrMsg(t('translation:login.errors.register.emailExists')); // Bad Request - "message":User with email xxxxxx already exists
+            break;
+            case 401:
+            case 500: 
+              setErrMsg(t('translation:general.errors.default'));
+            break;
+            default:
+              setErrMsg(t('translation:general.errors.default'));
+            break;
+        }
+    }
+    setLoading(false)
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <HeaderLogo />
       </View>
-      <View style={styles.form}>
-        <Text
-          alignment="center"
-          marginBottom={10}
-          textColorMode
-          size="medium">
-          {t("translation:login.labels.register.changePasswordTitleText")}
-        </Text>
+      <Formik
+            initialValues={{ email: emailParam, password: '', confirmPassword: '' }}
+            onSubmit={values => changePassword(values)}
+            validationSchema={changeValidationSchema}
+        >
+          {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+            <View style={styles.form}>
+              {errMsg && (
+                <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+              )}
+              <Text
+                alignment="center"
+                marginBottom={10}
+                textColorMode
+                size="medium">
+                {t("translation:login.labels.register.changePasswordTitleText")}
+              </Text>
 
-        <TextInput
-          label={t("translation:login.labels.login.emailPlaceholder")}
-          value={email}
-          onChangeText={text => setEmail(text)}
-        />
-        <SecureTextInput
-          label={t("translation:login.labels.login.passwordPlaceholder")}
-          value={password}
-          onChangeText={text => setPassword(text)}
-        />
-        <SecureTextInput
-          label={t("translation:login.labels.register.confirmPassword")}
-          value={confirmPassword}
-          onChangeText={text => setConfirmPassword(text)}
-        />
-        <Button
-          mode="contained"
-          marginTop={20}
-          marginLeft={100}
-          marginRight={100}
-          onPress={() => navigation.navigate("Login")}>
-          {t("translation:login.captions.register.registerButton")}
-        </Button>
-      </View>
+              <TextInput
+                label={t("translation:login.labels.login.emailPlaceholder")}
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+              />
+              {(errors.email && touched.email) &&
+                <Text style={styles.errorText}>{errors.email}</Text>
+              }
+              <SecureTextInput
+                label={t("translation:login.labels.login.passwordPlaceholder")}
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+              />
+               {(errors.password && touched.password) &&
+                <Text style={styles.errorText}>{errors.password}</Text>
+              }
+              <SecureTextInput
+                label={t("translation:login.labels.register.confirmPassword")}
+                onChangeText={handleChange('confirmPassword')}
+                onBlur={handleBlur('confirmPassword')}
+                value={values.confirmPassword}
+              />
+              {(errors.confirmPassword && touched.confirmPassword) &&
+                <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+              }
+              <Button
+                mode="contained"
+                marginTop={20}
+                marginLeft={100}
+                marginRight={100}
+                onPress={handleSubmit}>
+                {t("translation:login.captions.register.registerButton")}
+              </Button>
+            </View>
+          )}
+      </Formik>
     </SafeAreaView>
   );
 }
@@ -71,5 +144,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "80%",
     rowGap: 20,
+  },
+  errorText: {
+    fontSize: 10,
+    color: COLORS.primary,
   },
 });

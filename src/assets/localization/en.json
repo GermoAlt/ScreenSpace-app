@@ -3,6 +3,9 @@
     "general": {
       "labels": {
         "confirm": "Confirm"
+      },
+      "errors": {
+        "default": "An error occurred"
       }
     },
     "landing": {

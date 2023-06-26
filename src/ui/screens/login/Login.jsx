@@ -10,25 +10,34 @@ import { HeaderLogo } from '../../components/general/HeaderLogo';
 import { loginOwnerUser } from '../../../networking/api/AuthController';
 import useAuth from '../../../hooks/useAuth';
 import useEncryptedStorage from '../../../hooks/useEncryptedStorage';
+import { ErrorMessage } from '../../components/general/ErrorMessage';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import {COLORS} from "../../styles/Colors";
 
 export default function Login({navigation}) {
   const {t} = useTranslation();
   const { setAuth } = useAuth();
   const { storeUserSession } = useEncryptedStorage()
 
-  const [userName, setUserName] = React.useState('');
-  const [userPassword, setUserPassword] = React.useState('');
   const [errMsg, setErrMsg] = React.useState('');
   const [loading, setLoading] = React.useState(false);
 
-  const loginUser = async () => {
+  const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email(t('translation:general.forms.validations.email'))
+      .required(t('translation:general.forms.errors.required')),
+    password: yup
+      .string()
+      .required(t('translation:general.forms.errors.required')),
+  })
+
+  const loginUser = async (values) => {
     setLoading(true)
-    body = {
-        "email": userName,
-        "password": userPassword
-    }
+    setErrMsg('')
     try {
-        const response = await loginOwnerUser(body)
+        const response = await loginOwnerUser(values)
         console.log('response', response)
         const accessToken = response?.data.token
         const data = { userName, userPassword, accessToken }
@@ -42,16 +51,16 @@ export default function Login({navigation}) {
         console.log('error', error.response)
         switch (error.response.data.status){
             case 400:
-                setErrMsg('Missing Username or Password');
+                setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
             break;
             case 401:
-                setErrMsg('Unauthorized');
+                setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Unauthirized
             break;
             case 500: 
-                setErrMsg('Internal Server Error');
+                setErrMsg(t('translation:general.errors.default')); // Internal Server Error
             break;
             default:
-                setErrMsg('Login Failed');
+                setErrMsg(t('translation:general.errors.default'));
             break;
         }
     }
@@ -63,30 +72,47 @@ export default function Login({navigation}) {
         <View style={styles.header}>
             <HeaderLogo />
         </View>
-        <View style={styles.form}>
-            <Text alignment="center" size="xxsmall">
-                {errMsg}
-            </Text>
-            <TextInput
-                label={t('translation:login.labels.login.emailPlaceholder')}
-                value={userName}
-                onChangeText={text => setUserName(text)}
-            />
-            <SecureTextInput
-                label={t('translation:login.labels.login.passwordPlaceholder')}
-                value={userPassword}
-                onChangeText={text => setUserPassword(text)}
-            />
-            <Button
-                type={loading ? 'disabled' : 'cta'}
-                mode="contained"
-                marginTop={30}
-                marginLeft={100}
-                marginRight={100}
-                onPress={loginUser}>
-                {t('translation:login.captions.login.loginButton')}
-            </Button>
-        </View>
+        <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={values => loginUser(values)}
+            validationSchema={loginValidationSchema}
+        >
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+                <View style={styles.form}>
+                    {errMsg && (
+                        <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+                    )}
+                    <TextInput
+                        keyboardType="email-address"
+                        label={t('translation:login.labels.login.emailPlaceholder')}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
+                    />
+                    {(errors.email && touched.email) &&
+                        <Text style={styles.errorText}>{errors.email}</Text>
+                    }
+                    <SecureTextInput
+                        label={t('translation:login.labels.login.passwordPlaceholder')}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                    />
+                    {(errors.password && touched.password) &&
+                        <Text style={styles.errorText}>{errors.password}</Text>
+                    }
+                    <Button
+                        type={isValid && !loading ? 'cta' : 'disab'}
+                        mode="contained"
+                        marginTop={30}
+                        marginLeft={100}
+                        marginRight={100}
+                        onPress={handleSubmit}>
+                        {t('translation:login.captions.login.loginButton')}
+                    </Button>
+                </View>
+            )}
+        </Formik>
         <View style={styles.footer}>
             <Text 
                 alignment="center"
@@ -129,6 +155,9 @@ const styles = StyleSheet.create({
         rowGap: 10,
         justifyContent: 'center',
         alignContent: 'flex-end',
-        
+    },
+    errorText: {
+        fontSize: 10,
+        color: COLORS.primary,
     },
 });

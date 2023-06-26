@@ -26,7 +26,7 @@ export async function forgotPassword(body) {
 }
 
 export async function resetPassword(body) {
-  return await api().post('reset-password', body);
+  return await api().post('/reset-password', body);
 }
 
 export function confirmResetPassword(body) {

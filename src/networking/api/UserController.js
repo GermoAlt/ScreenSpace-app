@@ -4,7 +4,6 @@ import { getKey } from "../helper";
 const prefix = "/users"
 
 export async function createOwnerUser(body){
-    console.log('body', body)
     return await api().post(prefix,body)
 }
 
@@ -29,7 +28,6 @@ export async function updateUser(body) {
 }
 
 export async function confirmRegistration(body) {
-    console.log('BOOODY', body)
     return await api().post(prefix + '/confirm-registration', body)
 }
 
