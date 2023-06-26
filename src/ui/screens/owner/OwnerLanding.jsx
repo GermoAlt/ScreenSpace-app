@@ -27,7 +27,7 @@ export const OwnerLanding = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [visible, setVisible] = useState(false);
     const [cinemaList, setCinemaList] = useState([])
-    const { removeUserSession } = useEncryptedStorage()
+    const { clearStorage } = useEncryptedStorage()
     const getCinemasList = async () => {
         setIsLoading(true)
         try {
@@ -72,7 +72,7 @@ export const OwnerLanding = ({navigation}) => {
         
         try {
             const res = await logoutOwnerUser()
-            await removeUserSession()
+            await clearStorage()
             console.log('response', JSON.stringify(res.data))
             if (res.status === 200){
                 navigation.push("Landing")
