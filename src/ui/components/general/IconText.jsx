@@ -16,7 +16,8 @@ export const IconText = (props) => {
 const styles = StyleSheet.create({
     container:{
         display:'flex',
-        flexDirection:'row'
+        flexDirection:'row',
+        alignItems:"center"
     },
     icon:{
         color:COLORS.primary,
