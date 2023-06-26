@@ -29,6 +29,7 @@ export const NewCinema = ({navigation}) => {
 
     const saveNewCinema = async (values) => {
 
+        console.log('values', values)
         setLoading(true)
         setErrMsg('')
 
@@ -54,7 +55,7 @@ export const NewCinema = ({navigation}) => {
             const response = await postCinemas(body)
             console.log('response', JSON.stringify(response))
             if (response.status === 201) {
-                navigation.navigate('OwnerNavigator')
+                navigation.navigate('OwnerLanding')
             } else {
                 setErrMsg(t('translation:general.errors.default'));
             }
@@ -244,7 +245,7 @@ export const NewCinema = ({navigation}) => {
                                         </View>
                                         <View style={styles.buttonRow}>
                                             <Button type={"default"} onPress={() => navigation.navigate("NewCinemaForm")}>{t("translation\:general\.labels\.back")}</Button>
-                                            <Button onPress={()=>handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
+                                            <Button onPress={handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
                                         </View>
                                     </View>
                                 }}

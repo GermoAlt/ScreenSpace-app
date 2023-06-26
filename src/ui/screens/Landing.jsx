@@ -55,6 +55,7 @@ export const Landing = ({navigation}) => {
 
     return (
         <SafeAreaView>
+            {/*
             <Button
                 icon="movie-roll"
                 mode="contained"
@@ -79,6 +80,7 @@ export const Landing = ({navigation}) => {
                 onPress={() => navigation.navigate('UserNavigator')}>
                 {t('translation:landing.userNavigateButton')}
             </Button>
+            */}
         </SafeAreaView>
     );
 }

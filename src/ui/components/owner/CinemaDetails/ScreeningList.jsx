@@ -5,7 +5,7 @@ import {ScreeningListItem} from "./ScreeningListItem";
 export const ScreeningList = (props) => {
     const {navigation, setScreen} = props
 
-    const [screenings, setScreenings] = useState([{},{},{},{},{},{},{},{},{},])
+    const [screenings, setScreenings] = useState([])
     useEffect(()=>{
         setScreen(navigation.getState().routes[navigation.getState().index].name)
     })
