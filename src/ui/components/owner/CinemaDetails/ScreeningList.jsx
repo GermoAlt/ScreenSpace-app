@@ -3,11 +3,13 @@ import {useEffect, useState} from "react";
 import {ScreeningListItem} from "./ScreeningListItem";
 
 export const ScreeningList = (props) => {
+    const {navigation, setScreen} = props
 
     const [screenings, setScreenings] = useState([{},{},{},{},{},{},{},{},{},])
     useEffect(()=>{
-
+        setScreen(navigation.getState().routes[navigation.getState().index].name)
     })
+
 
     return(
         <ScrollView contentContainerStyle={styles.container}>

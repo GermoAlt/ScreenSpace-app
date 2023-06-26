@@ -2,12 +2,8 @@ import {ScrollView, StyleSheet, View} from "react-native";
 import {useEffect, useState} from "react";
 import {TheaterListItem} from "./TheaterListItem";
 
-export const TheaterList = (props) => {
+export const TheaterList = ({navigation}) => {
     const [theaters, setTheaters] = useState([{},{},{},{},{},{},{},{},{},{},{},])
-
-    useEffect(()=>{
-
-    })
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
