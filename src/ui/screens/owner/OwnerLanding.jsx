@@ -35,6 +35,7 @@ export const OwnerLanding = ({navigation}) => {
             console.log('response', JSON.stringify(response.data))
             if (response.status === 200) {
                 setCinemaList(response.data)
+                setIsLoading(false)
             } else {
                 setErrMsg(t('translation:general.errors.default'));
             }
@@ -75,7 +76,7 @@ export const OwnerLanding = ({navigation}) => {
             await clearStorage()
             console.log('response', JSON.stringify(res.data))
             if (res.status === 200){
-                navigation.push("Landing")
+                navigation.push("LoginNavigator")
             }else{
                 setErrMsg(t('translation:general.errors.default'));
             }

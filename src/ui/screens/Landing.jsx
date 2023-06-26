@@ -34,11 +34,12 @@ export const Landing = ({navigation}) => {
             //clearStorage()
             retrieveUserSession().then(
                 (res) => {
+                    console.log('res', res)
                     if(res) {
                         navigation.navigate('OwnerNavigator')
                         setAuth(JSON.parse(res))
                     } else {
-                        navigation.navigate('Landing')
+                        navigation.navigate('LoginNavigator')
                     }
                 }
             )
