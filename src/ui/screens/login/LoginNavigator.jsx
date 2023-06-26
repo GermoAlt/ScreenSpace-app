@@ -12,7 +12,8 @@ const Stack = createNativeStackNavigator();
 export const LoginNavigator = () => {
     const {t} = useTranslation()
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            initialRouteName="Login">
             <Stack.Screen
                 name={"Login"}
                 component={Login}

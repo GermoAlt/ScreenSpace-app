@@ -1,12 +1,23 @@
-import {SafeAreaView, View} from "react-native";
+import React from "react";
+import {SafeAreaView, View, StyleSheet} from "react-native";
 import {TextInput} from "../../components/general/TextInput";
+import {Text} from "../../components/general/Text";
 import {useState} from "react";
 import {SecureTextInput} from "../../components/general/SecureTextInput";
 import {Button} from "../../components/general/Button";
 import {useTranslation} from 'react-i18next';
+import { ErrorMessage } from '../../components/general/ErrorMessage';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import {COLORS} from "../../styles/Colors";
 
 export const ChangePwd = () => {
     const {t} = useTranslation();
+
+    const emailParam = ''
+    const securityCode = ''
+    const [errMsg, setErrMsg] = React.useState('');
+
     const[data, setData] = useState(
         {"email":"", "currPwd":"", "newPwd":"", "newPwdConfirm":""})
 
@@ -17,26 +28,140 @@ export const ChangePwd = () => {
         }));
     }
 
+    const changeValidationSchema = yup.object().shape({
+        email: yup
+          .string()
+          .email(t('translation:general.forms.validations.email'))
+          .required(t('translation:general.forms.errors.required')),
+        password: yup
+          .string()
+          .required(t('translation:general.forms.errors.required')),
+        confirmPassword: yup
+          .string()
+          .oneOf([yup.ref('password')], t('translation:login.errors.register.passwordMatch'))
+          .required(t('translation:general.forms.errors.required')),
+      })
+
+    const changePassword = async (values) => {
+        setLoading(true)
+        setErrMsg('')
+        const body = {...values, code: securityCode}
+        try {
+            const response = await confirmResetPassword(body)
+            if (response.status === 200){
+              navigation.navigate("Login")
+            }else{
+             setErrMsg(t('translation:general.errors.default'));
+            }        
+        } catch (error) {
+            console.log('error', error)
+            console.log('Error ', JSON.stringify(error))
+            switch (error.response.status){
+                case 400:
+                    setErrMsg(t('translation:login.errors.register.emailExists')); // Bad Request - "message":User with email xxxxxx already exists
+                break;
+                case 401:
+                case 500: 
+                  setErrMsg(t('translation:general.errors.default'));
+                break;
+                default:
+                  setErrMsg(t('translation:general.errors.default'));
+                break;
+            }
+        }
+        setLoading(false)
+      }
+
     return (
-        <SafeAreaView>
-            <View>
-            <TextInput value={data.email} editable={false} label={"Email"}></TextInput>
-            <SecureTextInput value={data.currPwd}
-                             label={t('translation:register.ownerRegisterActualPassword')}
-                             onChangeText={value => handleChange('currPwd', value)}
-            />
-            <SecureTextInput value={data.newPwd}
-                             label={t('translation:register.ownerRegisterNewPassword')}
-                             onChangeText={value => handleChange('newPwd', value)}
-            />
-            <SecureTextInput value={data.newPwdConfirm}
-                             label={t('translation:register.ownerRegisterConfirmPassword')}
-                             onChangeText={value => handleChange('newPwdConfirm', value)}
-            />
-            </View>
-            <View>
-                <Button>Cambiar contraseña</Button>
-            </View>
+        <SafeAreaView style={styles.container}>
+          <Formik
+                initialValues={{ email: emailParam, password: '', confirmPassword: '' }}
+                onSubmit={values => changePassword(values)}
+                validationSchema={changeValidationSchema}
+            >
+              {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
+                <View style={styles.form}>
+                  {errMsg && (
+                    <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+                  )}
+                  <Text
+                    alignment="center"
+                    marginBottom={10}
+                    textColorMode
+                    size="medium">
+                    {t("translation:login.labels.register.changePasswordTitleText")}
+                  </Text>
+    
+                  <TextInput
+                    label={t("translation:login.labels.login.emailPlaceholder")}
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                  />
+                  {(errors.email && touched.email) &&
+                    <Text style={styles.errorText}>{errors.email}</Text>
+                  }
+                  <SecureTextInput
+                    label={t("translation:login.labels.register.currentPassword")}
+                    onChangeText={handleChange('current_password')}
+                    onBlur={handleBlur('current_password')}
+                    value={values.current_password}
+                  />
+                  {(errors.current_password && touched.current_password) &&
+                    <Text style={styles.errorText}>{errors.current_password}</Text>
+                  }
+                  <SecureTextInput
+                    label={t("translation:login.labels.register.newPassword")}
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                  />
+                   {(errors.password && touched.password) &&
+                    <Text style={styles.errorText}>{errors.password}</Text>
+                  }
+                  <SecureTextInput
+                    label={t("translation:login.labels.register.confirmPassword")}
+                    onChangeText={handleChange('confirmPassword')}
+                    onBlur={handleBlur('confirmPassword')}
+                    value={values.confirmPassword}
+                  />
+                  {(errors.confirmPassword && touched.confirmPassword) &&
+                    <Text style={styles.errorText}>{errors.confirmPassword}</Text>
+                  }
+                  <Button
+                    mode="contained"
+                    marginTop={20}
+                    marginLeft={100}
+                    marginRight={100}
+                    onPress={handleSubmit}>
+                    {t("translation:login.captions.register.registerButton")}
+                  </Button>
+                </View>
+              )}
+          </Formik>
         </SafeAreaView>
-    );
-};
+      );
+    }
+    
+    const styles = StyleSheet.create({
+      container: {
+        display: "flex",
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      },
+      header: {
+        alignItems: "flex-end",
+        justifyContent: "center",
+        marginBottom: 35,
+      },
+      form: {
+        justifyContent: "center",
+        width: "80%",
+        rowGap: 20,
+      },
+      errorText: {
+        fontSize: 10,
+        color: COLORS.primary,
+      },
+    });

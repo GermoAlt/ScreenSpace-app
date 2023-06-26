@@ -30,7 +30,7 @@ export const OptionPanel = (props) => {
             <Drawer.Item
                 label="Cambiar contraseña"
                 active={active === 'second'}
-                onPress={() => handleScreenChange('changePwd')}
+                onPress={() =>  handleScreenChange('changePwd')}
             />
             <Drawer.Item
                 label="Cerrar sesión"
