@@ -1,11 +1,11 @@
 {
   "translation": {
     "general": {
-      "labels": {
-        "confirm": "Confirm"
-      },
       "errors": {
         "default": "An error occurred"
+      },
+      "labels": {
+        "confirm": "Confirm"
       }
     },
     "landing": {

@@ -19,7 +19,6 @@ export const NewCinema = () => {
 
                 <ScrollView contentContainerStyle={styles.container}>
                     <TextInput label={t("translation\:owner\.labels\.newCinema\.name")}/>
-                    <TextInput label={t("translation\:owner\.labels\.newCinema\.price")}/>
                     <TextInput label={t("translation\:owner\.labels\.newCinema\.companyName")}/>
                     <View style={styles.dualRow}>
                         <TextInput label={t("translation\:owner\.labels\.newCinema\.street")}

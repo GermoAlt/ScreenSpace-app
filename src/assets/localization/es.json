@@ -1,20 +1,20 @@
 {
   "translation": {
     "general": {
-      "labels": {
-        "confirm": "Confirmar"
-      },
       "errors": {
         "default": "Ocurrió un error"
       },
       "forms": {
         "errors": {
-          "required": "Este campo es requerido",
-          "all_required": "Todos los campos son requeridos"
+          "all_required": "Todos los campos son requeridos",
+          "required": "Este campo es requerido"
         },
         "validations": {
           "email": "Ingresá un email válido"
         }
+      },
+      "labels": {
+        "confirm": "Confirmar"
       }
     },
     "landing": {
@@ -35,14 +35,14 @@
         "login": {
           "wrongCredentials": "Credenciales Incorrectas"
         },
+        "recover": {
+          "emailNotFound": "Email Inexistente"
+        },
         "register": {
           "emailExists": "Este email ya fue registrado",
           "passwordInvalid": "Contraseña debe tener un número",
           "passwordMatch": "Las contraseñas no coinciden",
           "securityCode": "Código incorrecto"
-        },
-        "recover":{
-          "emailNotFound": "Email Inexistente"
         }
       },
       "labels": {

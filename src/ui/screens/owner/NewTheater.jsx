@@ -53,7 +53,7 @@ export const NewTheater = () => {
 
             </View>
             <View>
-                <Button />
+                <Button >{t("translation\:general\.labels\.confirm")}</Button>
             </View>
         </SafeAreaView>
     )
