@@ -18,6 +18,7 @@ export const NewTheater = () => {
             <View>
                 <Dropdown/>
                 <TextInput label={t('translation\:owner\.labels\.newTheater\.theaterName')} />
+                <TextInput label={t('translation\:owner\.labels\.newTheater\.price')} />
                 <View style={styles.row}>
                     <Checkbox status={enabled ? 'checked' : 'unchecked'} onPress={()=>setEnabled(!enabled)}/>
                     <Text size={"xxsmall"} style={styles.label}>{t("translation\:owner\.labels\.newTheater\.enabled")}</Text>

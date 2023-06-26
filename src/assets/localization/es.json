@@ -90,7 +90,6 @@
           "name": "Nombre del cine",
           "neighborhood": "Barrio",
           "number": "Number",
-          "price": "Precio por entrada",
           "province": "Provincia",
           "street": "Calle"
         },
@@ -100,6 +99,7 @@
         "newTheater": {
           "column": "Columnas",
           "enabled": "Sala habilitada",
+          "price": "Precio por entrada",
           "row": "Filas",
           "screen": "PANTALLA",
           "theaterName": "Nombre de la sala"

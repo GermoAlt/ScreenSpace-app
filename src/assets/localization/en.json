@@ -78,7 +78,6 @@
           "name": "Name of the cinema",
           "neighborhood": "Neighborhood",
           "number": "Number",
-          "price": "Price per ticket",
           "province": "Province",
           "street": "Street"
         },
@@ -88,6 +87,7 @@
         "newTheater": {
           "column": "Columns",
           "enabled": "Enabled",
+          "price": "Price per ticket",
           "row": "Rows",
           "screen": "SCREEN",
           "theaterName": "Theater name"
