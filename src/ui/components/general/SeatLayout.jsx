@@ -6,22 +6,21 @@ import {COLORS} from "../../styles/Colors";
 
 export const SeatLayout = (props) => {
     const {t} = useTranslation()
-    const rows = 7
-    const columns = 7
+    const {rows, columns} = props
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return (
         <View style={styles.container}>
             <Title style={styles.title}>{t("translation\:owner\.labels\.newTheater\.screen")}</Title>
             <View style={styles.seatContainer}>
             {
-                [...Array(rows)].map(
+                [...Array(Number(rows))].map(
                     (e, i) =>
                         <View style={styles.row}>
                             <Text key={i} style={styles.text}>{letters[i]}</Text>
                             {
-                                [...Array(columns)].map(
+                                [...Array(Number(columns))].map(
                                     (e, i) =>
-                                        <IconButton icon={"sofa-single"} size={35} style={styles.icon}></IconButton>
+                                        <IconButton icon={"sofa-single"} size={35} style={styles.icon} key={"icon-"+i+e}/>
                                 )
                             }
                         </View>
