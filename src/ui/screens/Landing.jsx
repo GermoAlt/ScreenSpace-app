@@ -40,7 +40,6 @@ export const Landing = ({navigation}) => {
                     } else {
                         navigation.navigate('Landing')
                     }
-                    console.log("auth",auth)
                 }
             )
         }

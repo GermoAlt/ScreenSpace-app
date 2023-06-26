@@ -9,16 +9,17 @@ import {useNavigation} from "@react-navigation/native";
 
 
 export const MovieSelectionPanel = (props) => {
-    const v = useNavigation()
     const {t} = useTranslation()
 
     const [disabled, setDisabled] = useState(false)
     const {movie, setMovie} = props
 
 
+
     return (
-        <Pressable onPress={() => props.navigateTo("MovieSearch")} >
+        <Pressable onPress={() => props.navigateTo("MovieSearch", {cinema: props.cinema})} >
             {
+
                 Object.keys(movie).length === 0 ?
                     <CardPanel style={[styles.container, disabled ? styles.disabled : null]}>
                         <Icon name={"movie-open-plus"} size={100} color={COLORS.secondary}></Icon>
@@ -26,7 +27,7 @@ export const MovieSelectionPanel = (props) => {
                     </CardPanel>
                     :
                     <CardPanel>
-
+                        <Text>{movie.title}</Text>
                     </CardPanel>
             }
         </Pressable>

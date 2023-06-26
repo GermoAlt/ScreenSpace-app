@@ -35,7 +35,6 @@ export const CinemaDetails = ({route, navigation}) => {
         setIsLoading(true)
         try {
             const response = await getTheatersByCinema(idCinema)
-            console.log('response', JSON.stringify(response.data))
             if (response.status === 200){
                 setTheaters(response.data)
             }else{
@@ -125,7 +124,7 @@ export const CinemaDetails = ({route, navigation}) => {
                     {() => <TheaterList theaters={theaters} navigation={navigation} />}
                 </Tab.Screen>
             </Tab.Navigator>
-            <FAB action={()=>navigation.navigate(getRouteName(), {data:data})}/>
+            <FAB action={()=>navigation.navigate(getRouteName(), {cinema:data})}/>
         </SafeAreaView>
     )
 }

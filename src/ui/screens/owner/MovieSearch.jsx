@@ -1,4 +1,4 @@
-import {SafeAreaView, ScrollView, StyleSheet} from "react-native";
+import {Pressable, SafeAreaView, ScrollView, StyleSheet} from "react-native";
 import {Text} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {Searchbar} from "react-native-paper";
@@ -7,10 +7,11 @@ import {COLORS} from "../../styles/Colors";
 import {Base64Image} from "../../components/general/Base64Image";
 import {getMovies} from "../../../networking/api/MovieController";
 
-export const MovieSearch = ({navigation}) => {
+export const MovieSearch = ({navigation, route}) => {
     const {t} = useTranslation()
     const [query, setQuery] = useState("")
     const [results, setResults] = useState()
+    const {cinema} = route.params
 
     useEffect(()=>{
         getMovies().then(res =>
@@ -29,7 +30,9 @@ export const MovieSearch = ({navigation}) => {
             <ScrollView contentContainerStyle={styles.movieListContainer}>
                 {results && results.length && results.length> 0 ? (
                     results.map((item, i) => (
-                        <Base64Image key={"image-" + i} data={item} />
+                        <Pressable onPress={()=>navigation.navigate("NewScreening", {cinema: cinema, movie:item})} key={"pressable-image-"+i}>
+                            <Base64Image key={"image-" + i} data={item} />
+                        </Pressable>
                     ))
                 ) : (
                     <Text>No results found.</Text>

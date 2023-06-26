@@ -14,20 +14,20 @@ import {COLORS} from "../../styles/Colors";
 export const NewScreening = ({navigation, route}) => {
     const {t} = useTranslation()
 
-    const {data} = route.params
+    const {cinema, movie} = route.params
 
-    const [movie, setMovie] = useState({})
+    const [selectedMovie, setSelectedMovie] = useState(movie || {})
     const [date, setDate] = useState(new Date())
     const [time, setTime] = useState(new Date())
-    //const {cinema} = props
+    if(movie && movie !== selectedMovie)setSelectedMovie(movie)
 
     return (
         <SafeAreaView style={styles.screen}>
             <View style={styles.container}>
 
-            <Text style={styles.title}>{data.name}</Text>
+            <Text style={styles.title}>{cinema.name}</Text>
             <Dropdown/>
-            <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)} navigateTo={(url)=>navigation.navigate(url)}/>
+            <MovieSelectionPanel cinema={cinema} movie={selectedMovie} setMovie={(e)=>setSelectedMovie(e)} navigateTo={(url, options)=>navigation.navigate(url, options)}/>
             <View style={styles.dateTimeContainer}>
                 <CalendarPickerField date={date} setDate={(date)=>setDate(date)}/>
                 <DatePickerField time={time} setTime={(time)=>setTime(time)}/>
