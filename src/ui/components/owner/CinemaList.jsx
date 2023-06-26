@@ -6,9 +6,18 @@ import {CinemaListItem} from "./CinemaListItem";
 import {NewCinemaPanelButton} from "./NewCinemaPanelButton";
 import {COLORS} from "../../styles/Colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {useEffect} from "react";
+import {useNavigation} from "@react-navigation/native";
 
 export const CinemaList = (props) => {
     const {t} = useTranslation()
+    const navigation = useNavigation()
+
+    useEffect(()=>{
+        navigation.addListener('beforeRemove', (e)=>{
+            e.preventDefault()
+        })
+    }, [navigation])
     return (
         <SafeAreaView style={styles.container}>
             {props.data && props.data.length === 0 ?

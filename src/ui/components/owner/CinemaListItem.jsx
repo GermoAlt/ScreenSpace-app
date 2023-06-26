@@ -9,10 +9,9 @@ export const CinemaListItem = (props) => {
     const data = props.data
     return (
         <Pressable onPress={props.onPress}>
-            <CardPanel>
+            <CardPanel style={styles.contentContainer}>
                 <Text style={styles.title}>{data.name}</Text>
-                <IconText icon={"map-marker"}>{data.pricePerFunction}</IconText>
-                <IconText icon={"currency-usd"}>{data.pricePerFunction}</IconText>
+                <IconText icon={"map-marker"}>{data.address.street + " " + data.address.number}</IconText>
             </CardPanel>
         </Pressable>
     )
@@ -22,11 +21,12 @@ const styles = StyleSheet.create({
     title:{
         color:COLORS.primary,
         fontSize:30,
-        lineHeight:30
+        lineHeight:30,
     },
     contentContainer:{
         display:"flex",
-        flexDirection:"row",
+        padding:10,
+        gap:15
     },
     text:{
         fontSize:20,

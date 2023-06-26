@@ -12,12 +12,9 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {postCinemas} from '../../../networking/api/CinemaController';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import {useEffect} from "react";
 
 const Tab = createMaterialTopTabNavigator()
-
-LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-]);
 
 export const NewCinema = () => {
     const {t} = useTranslation()
