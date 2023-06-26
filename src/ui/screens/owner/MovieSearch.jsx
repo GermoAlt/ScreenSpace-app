@@ -1,5 +1,5 @@
 import {SafeAreaView, ScrollView, StyleSheet} from "react-native";
-import {TextInput} from "../../components/general/TextInput";
+import {Text} from "react-native-paper";
 import {useTranslation} from "react-i18next";
 import {Searchbar} from "react-native-paper";
 import {useEffect, useState} from "react";
@@ -10,7 +10,7 @@ import {getMovies} from "../../../networking/api/MovieController";
 export const MovieSearch = ({navigation}) => {
     const {t} = useTranslation()
     const [query, setQuery] = useState("")
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState()
 
     useEffect(()=>{
         getMovies().then(res =>
@@ -26,12 +26,14 @@ export const MovieSearch = ({navigation}) => {
                        value={query} style={styles.searchbar}
                        inputStyle={styles.searchbarInput}
             />
-            <ScrollView>
-                {
-                    results.map((item, i) => {
-                        <Base64Image key={"image-" + i} data={item}/>
-                    })
-                }
+            <ScrollView contentContainerStyle={styles.movieListContainer}>
+                {results && results.length && results.length> 0 ? (
+                    results.map((item, i) => (
+                        <Base64Image key={"image-" + i} data={item} />
+                    ))
+                ) : (
+                    <Text>No results found.</Text>
+                )}
             </ScrollView>
         </SafeAreaView>
     )
@@ -49,5 +51,13 @@ const styles = StyleSheet.create({
     },
     searchbarInput:{
         color:COLORS.secondary
+    },
+    movieListContainer:{
+        display:"flex",
+        flexDirection:"row",
+        flexWrap:"wrap",
+        gap:15,
+        justifyContent:"center",
+        padding:10
     }
 })

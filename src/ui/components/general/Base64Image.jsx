@@ -3,15 +3,18 @@ import {Image, StyleSheet, View} from "react-native";
 
 export const Base64Image = (props) => {
     // const [loading, setLoading] = useState()
-    console.log(props.item)
+    console.log(props.data)
     return (
-        <Image style={{width: 100, height: 50, resizeMode: Base64Image.resizeMode.contain, borderWidth: 1, borderColor: 'red'}} source={{uri: props.item.image}}/>
+        <Image style={styles.image} source={{uri: props.data.image}}/>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        borderRadius:15
+    image: {
+        borderRadius:8,
+        width: 140,
+        height: 210,
+        resizeMode: "contain",
 
     }
 })
