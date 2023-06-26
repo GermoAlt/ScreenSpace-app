@@ -11,7 +11,7 @@ export const ScreeningList = (props) => {
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
-            {screenings.map((item) => <ScreeningListItem key={item.id} data={item}/>)}
+            {screenings.map((item, i) => <ScreeningListItem key={"screening" + i} data={item}/>)}
         </ScrollView>
     )
 }

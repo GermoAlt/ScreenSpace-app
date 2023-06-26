@@ -25,7 +25,7 @@ export const NewScreening = ({navigation}) => {
 
             <Text style={styles.title}>cinema.name</Text>
             <Dropdown/>
-            <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)}/>
+            <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)} navigateTo={(url)=>navigation.navigate(url)}/>
             <View style={styles.dateTimeContainer}>
                 <CalendarPickerField date={date} setDate={(date)=>setDate(date)}/>
                 <DatePickerField time={time} setTime={(time)=>setTime(time)}/>

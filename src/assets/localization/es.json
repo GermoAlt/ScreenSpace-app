@@ -96,6 +96,7 @@
       },
       "titles": {
         "cinemaDetails": "Mi Cine",
+        "movieSearch": "Buscar Películas",
         "newCinema": "Nuevo Cine",
         "newScreening": "Nueva Funcion",
         "newTheater": "Nueva Sala"

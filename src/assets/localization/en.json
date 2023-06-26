@@ -96,6 +96,7 @@
       },
       "titles": {
         "cinemaDetails": "My Cinema",
+        "movieSearch": "Search movies",
         "newCinema": "New Cinema",
         "newScreening": "New Screening",
         "newTheater": "New Theater"
