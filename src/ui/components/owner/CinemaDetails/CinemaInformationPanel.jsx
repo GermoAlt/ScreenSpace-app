@@ -8,7 +8,6 @@ export const CinemaInformationPanel = (props) => {
         <View style={styles.container}>
             <Title style={styles.title}>{props.cinemaData.name}</Title>
             <IconText icon={'map-marker'}>{props.cinemaData.pricePerFunction}</IconText>
-            <IconText icon={'currency-usd'}>{props.cinemaData.pricePerFunction}</IconText>
         </View>
     )
 }
