@@ -40,8 +40,8 @@ export const CinemaDetails = ({route, navigation}) => {
                 setTheaters(response.data)
             }else{
                 setErrMsg(t('translation:general.errors.default'));
-            }        
-            
+            }
+
         } catch (error) {
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status){
@@ -49,16 +49,16 @@ export const CinemaDetails = ({route, navigation}) => {
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
                 break;
-                case 500: 
+                case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
                 break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
                 break;
             }
-        }    
+        }
         setIsLoading(false)
-    }    
+    }
 
     const getScreenings = async () => {
         setIsLoading(true)
@@ -69,8 +69,8 @@ export const CinemaDetails = ({route, navigation}) => {
                 setScreenings(response.data)
             }else{
                 setErrMsg(t('translation:general.errors.default'));
-            }        
-            
+            }
+
         } catch (error) {
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status){
@@ -78,14 +78,14 @@ export const CinemaDetails = ({route, navigation}) => {
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
                 break;
-                case 500: 
+                case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
                 break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
                 break;
             }
-        }    
+        }
         setIsLoading(false)
     }
 
@@ -125,7 +125,7 @@ export const CinemaDetails = ({route, navigation}) => {
                     {() => <TheaterList theaters={theaters} navigation={navigation} />}
                 </Tab.Screen>
             </Tab.Navigator>
-            <FAB action={()=>navigation.navigate(getRouteName())}/>
+            <FAB action={()=>navigation.navigate(getRouteName(), {data:data})}/>
         </SafeAreaView>
     )
 }

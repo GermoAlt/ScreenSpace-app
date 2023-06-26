@@ -2,7 +2,7 @@
 import React, {useEffect} from 'react';
 import {DarkTheme, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Landing from './screens/Landing';
+import {Landing} from './screens/Landing';
 import SplashScreen from 'react-native-splash-screen';
 import {PaperProvider} from "react-native-paper";
 import {OwnerNavigator} from "./screens/owner/OwnerNavigator";
@@ -64,7 +64,7 @@ function App(): React.JSX.Element {
                     </NavigationContainer>
                 </PaperProvider>
             </AutocompleteDropdownContextProvider>
-        </AuthProvider>    
+        </AuthProvider>
     );
 }
 

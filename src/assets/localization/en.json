@@ -4,8 +4,22 @@
       "errors": {
         "default": "An error occurred"
       },
+      "forms": {
+        "errors": {
+          "all_required": "Every field is required",
+          "required": "This field is required"
+        },
+        "validations": {
+          "email": "Enter a valid email"
+        }
+      },
       "labels": {
-        "confirm": "Confirm"
+        "back": "Back",
+        "confirm": "Confirm",
+        "loading": "Loading",
+        "next": "Next",
+        "no": "No",
+        "yes": "Yes"
       }
     },
     "landing": {
@@ -26,6 +40,9 @@
         "login": {
           "wrongCredentials": "Wrong Credentials"
         },
+        "recover": {
+          "emailNotFound": "Email not found"
+        },
         "register": {
           "emailExists": "This email has already been registered",
           "passwordInvalid": "Password must have a number",
@@ -41,6 +58,10 @@
           "passwordPlaceholder": "Password",
           "recoverPass": "Recover",
           "registerAccount": "Create one"
+        },
+        "logout": {
+          "dialogText": "Are you sure you want to log out?",
+          "titleText": "Log out"
         },
         "register": {
           "changePasswordTitleText": "Change your password",

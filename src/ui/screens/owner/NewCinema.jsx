@@ -12,11 +12,16 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {postCinemas} from '../../../networking/api/CinemaController';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {useIsFocused} from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator()
 
-export const NewCinema = () => {
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
+
+export const NewCinema = ({navigation}) => {
     const {t} = useTranslation()
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
@@ -115,121 +120,137 @@ export const NewCinema = () => {
                 onSubmit={values => saveNewCinema(values)}
                 validationSchema={cinemaValidationSchema}
             >
-                {({handleChange, handleBlur,
+                {({
+                      handleChange, handleBlur,
                       handleSubmit, values, errors,
-                      touched, isValid}) => (
+                      touched, isValid
+                  }) => (
                     <>
-                        <Tab.Navigator tabBar={()=>{}}>
+                        <Tab.Navigator tabBar={() => {
+                        }}>
                             <Tab.Screen name={"NewCinemaForm"} initialParams={{
                                 handleChange, handleBlur,
                                 handleSubmit, values, errors,
                                 touched, isValid
                             }}>
-                                {()=>{return <ScrollView contentContainerStyle={styles.container} automaticallyAdjustKeyboardInsets={true}>
-                                    {errMsg && (
-                                        <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
-                                    )}
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.name")}
-                                               onChangeText={handleChange('name')}
-                                               onBlur={handleBlur('name')}
-                                               value={values.name}/>
-                                    {(errors.name && touched.name) &&
-                                        <Text style={styles.errorText}>{errors.name}</Text>
-                                    }
+                                {() => {
+                                    return <View>
+                                        <ScrollView contentContainerStyle={styles.container}
+                                                    automaticallyAdjustKeyboardInsets={true}>
+                                            {errMsg && (
+                                                <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
+                                            )}
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.name")}
+                                                       onChangeText={handleChange('name')}
+                                                       onBlur={handleBlur('name')}
+                                                       value={values.name}/>
+                                            {(errors.name && touched.name) &&
+                                                <Text style={styles.errorText}>{errors.name}</Text>
+                                            }
 
 
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.companyName")}
-                                               onChangeText={handleChange('companyName')}
-                                               onBlur={handleBlur('companyName')}
-                                               value={values.companyName}/>
-                                    {(errors.companyName && touched.companyName) &&
-                                        <Text style={styles.errorText}>{errors.companyName}</Text>
-                                    }
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.companyName")}
+                                                       onChangeText={handleChange('companyName')}
+                                                       onBlur={handleBlur('companyName')}
+                                                       value={values.companyName}/>
+                                            {(errors.companyName && touched.companyName) &&
+                                                <Text style={styles.errorText}>{errors.companyName}</Text>
+                                            }
 
-                                    <View style={styles.dualRow}>
-                                        <TextInput label={t("translation\:owner\.labels\.newCinema\.street")}
-                                                   style={[styles.dualRowElement, styles.big]}
-                                                   onChangeText={handleChange('street')}
-                                                   onBlur={handleBlur('street')}
-                                                   value={values.street}/>
-                                        {(errors.street && touched.street) &&
-                                            <Text style={styles.errorText}>{errors.street}</Text>
-                                        }
-                                        <TextInput label={t("translation\:owner\.labels\.newCinema\.number")}
-                                                   style={[styles.dualRowElement]}
-                                                   onChangeText={handleChange('number')}
-                                                   onBlur={handleBlur('number')}
-                                                   value={values.number}/>
-                                        {(errors.number && touched.number) &&
-                                            <Text style={styles.errorText}>{errors.number}</Text>
-                                        }
+                                            <View style={styles.dualRow}>
+                                                <TextInput label={t("translation\:owner\.labels\.newCinema\.street")}
+                                                           style={[styles.dualRowElement, styles.big]}
+                                                           onChangeText={handleChange('street')}
+                                                           onBlur={handleBlur('street')}
+                                                           value={values.street}/>
+                                                {(errors.street && touched.street) &&
+                                                    <Text style={styles.errorText}>{errors.street}</Text>
+                                                }
+                                                <TextInput label={t("translation\:owner\.labels\.newCinema\.number")}
+                                                           style={[styles.dualRowElement]}
+                                                           onChangeText={handleChange('number')}
+                                                           onBlur={handleBlur('number')}
+                                                           value={values.number}/>
+                                                {(errors.number && touched.number) &&
+                                                    <Text style={styles.errorText}>{errors.number}</Text>
+                                                }
+                                            </View>
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.neighborhood")}
+                                                       onChangeText={handleChange('neighborhood')}
+                                                       onBlur={handleBlur('neighborhood')}
+                                                       value={values.neighborhood}/>
+                                            {(errors.neighborhood && touched.neighborhood) &&
+                                                <Text style={styles.errorText}>{errors.neighborhood}</Text>
+                                            }
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.locality")}
+                                                       onChangeText={handleChange('city')}
+                                                       onBlur={handleBlur('city')}
+                                                       value={values.city}/>
+                                            {(errors.city && touched.city) &&
+                                                <Text style={styles.errorText}>{errors.city}</Text>
+                                            }
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.province")}
+                                                       onChangeText={handleChange('province')}
+                                                       onBlur={handleBlur('province')}
+                                                       value={values.province}/>
+                                            {(errors.province && touched.province) &&
+                                                <Text style={styles.errorText}>{errors.province}</Text>
+                                            }
+                                            <TextInput label={t("translation\:owner\.labels\.newCinema\.country")}
+                                                       onChangeText={handleChange('country')}
+                                                       onBlur={handleBlur('country')}
+                                                       value={values.country}/>
+                                            {(errors.country && touched.country) &&
+                                                <Text style={styles.errorText}>{errors.country}</Text>
+                                            }
+                                        </ScrollView>
+                                        <View style={styles.buttonRow}>
+                                            <Button onPress={() => navigation.navigate("NewCinemaMap")}>{t("translation\:general\.labels\.next")}</Button>
+                                        </View>
                                     </View>
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.neighborhood")}
-                                               onChangeText={handleChange('neighborhood')}
-                                               onBlur={handleBlur('neighborhood')}
-                                               value={values.neighborhood}/>
-                                    {(errors.neighborhood && touched.neighborhood) &&
-                                        <Text style={styles.errorText}>{errors.neighborhood}</Text>
-                                    }
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.locality")}
-                                               onChangeText={handleChange('city')}
-                                               onBlur={handleBlur('city')}
-                                               value={values.city}/>
-                                    {(errors.city && touched.city) &&
-                                        <Text style={styles.errorText}>{errors.city}</Text>
-                                    }
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.province")}
-                                               onChangeText={handleChange('province')}
-                                               onBlur={handleBlur('province')}
-                                               value={values.province}/>
-                                    {(errors.province && touched.province) &&
-                                        <Text style={styles.errorText}>{errors.province}</Text>
-                                    }
-                                    <TextInput label={t("translation\:owner\.labels\.newCinema\.country")}
-                                               onChangeText={handleChange('country')}
-                                               onBlur={handleBlur('country')}
-                                               value={values.country}/>
-                                    {(errors.country && touched.country) &&
-                                        <Text style={styles.errorText}>{errors.country}</Text>
-                                    }
-                                </ScrollView>}}
+                                }}
+
                             </Tab.Screen>
                             <Tab.Screen name={"NewCinemaMap"} initialParams={{
                                 handleChange, handleBlur,
                                 handleSubmit, values, errors,
                                 touched, isValid
-                            }}>{()=> {return <View style={styles.container}>
-                                <MapView initialRegion={{
-                                    latitude: 37.78825,
-                                    longitude: -122.4324,
-                                    latitudeDelta: 0.0922,
-                                    longitudeDelta: 0.0421,
-                                }} style={styles.map}/>
-                                <View style={styles.dualRow}>
-                                    <TextInput style={styles.bottomInputs} label={t("translation\:owner\.labels\.newCinema\.latitude")}
-                                               onChangeText={handleChange('latitude')}
-                                               onBlur={handleBlur('latitude')}
-                                               value={values.latitude}/>
-                                    {(errors.latitude && touched.latitude) &&
-                                        <Text style={styles.errorText}>{errors.latitude}</Text>
-                                    }
-                                    <TextInput style={styles.bottomInputs} label={t("translation\:owner\.labels\.newCinema\.longitude")}
-                                               onChangeText={handleChange('longitude')}
-                                               onBlur={handleBlur('longitude')}
-                                               value={values.longitude}/>
-                                    {(errors.longitude && touched.longitude) &&
-                                        <Text style={styles.errorText}>{errors.longitude}</Text>
-                                    }
-                                </View>
-                            </View>}}</Tab.Screen>
+                            }}>
+                                {() => {
+                                    return <View style={styles.container}>
+                                        <MapView initialRegion={{
+                                            latitude: 37.78825,
+                                            longitude: -122.4324,
+                                            latitudeDelta: 0.0922,
+                                            longitudeDelta: 0.0421,
+                                        }} style={styles.map}/>
+                                        <View style={styles.dualRow}>
+                                            <TextInput style={styles.bottomInputs}
+                                                       label={t("translation\:owner\.labels\.newCinema\.latitude")}
+                                                       onChangeText={handleChange('latitude')}
+                                                       onBlur={handleBlur('latitude')}
+                                                       value={values.latitude}/>
+                                            {(errors.latitude && touched.latitude) &&
+                                                <Text style={styles.errorText}>{errors.latitude}</Text>
+                                            }
+                                            <TextInput style={styles.bottomInputs}
+                                                       label={t("translation\:owner\.labels\.newCinema\.longitude")}
+                                                       onChangeText={handleChange('longitude')}
+                                                       onBlur={handleBlur('longitude')}
+                                                       value={values.longitude}/>
+                                            {(errors.longitude && touched.longitude) &&
+                                                <Text style={styles.errorText}>{errors.longitude}</Text>
+                                            }
+                                        </View>
+                                        <View style={styles.buttonRow}>
+                                            <Button type={"default"} onPress={() => navigation.navigate("NewCinemaForm")}>{t("translation\:general\.labels\.back")}</Button>
+                                            <Button onPress={()=>handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
+                                        </View>
+                                    </View>
+                                }}
+                            </Tab.Screen>
                         </Tab.Navigator>
-                        {<View style={styles.buttonRow}>
-                            <Button onPress={navigator.navigate}>asaaas</Button>
-                        </View>}
-                        {<View style={styles.buttonRow}>
-                            <Button onPress={handleSubmit}>asaaas</Button>
-                            <Button>asaaas</Button>
-                        </View>}
+
                     </>
                 )}
             </Formik>
@@ -249,9 +270,9 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "column",
         paddingHorizontal: 10,
-        flex: 1,
         gap: 15,
-        marginBottom: 10
+        marginBottom: 10,
+        minHeight: "80%"
     },
     dualRow: {
         display: "flex",

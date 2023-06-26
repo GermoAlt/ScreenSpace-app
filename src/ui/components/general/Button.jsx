@@ -35,7 +35,7 @@ export const Button = (props) => {
     useEffect(() => {
         switch (type) {
             case 'default':
-                setButtonStyle(styles.base);
+                setButtonStyle(styles.red);
                 setDisabled(false);
                 break;
             case 'cta':

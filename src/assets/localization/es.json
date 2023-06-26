@@ -14,7 +14,12 @@
         }
       },
       "labels": {
-        "confirm": "Confirmar"
+        "back": "Atrás",
+        "confirm": "Confirmar",
+        "loading": "Cargando",
+        "next": "Siguiente",
+        "no": "No",
+        "yes": "Sí"
       }
     },
     "landing": {
@@ -53,6 +58,10 @@
           "passwordPlaceholder": "Contraseña",
           "recoverPass": "Recupero",
           "registerAccount": "Regístrate"
+        },
+        "logout": {
+          "dialogText": "¿Estás seguro de querer cerrar sesión?",
+          "titleText": "Cerrar sesión"
         },
         "register": {
           "changePasswordTitleText": "Cambiá tu contraseña",

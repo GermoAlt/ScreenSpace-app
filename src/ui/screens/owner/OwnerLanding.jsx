@@ -13,7 +13,10 @@ import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
 import {CinemaDetails} from "./CinemaDetails";
 import {getCinemas} from "../../../networking/api/CinemaController";
-import {useFocusEffect} from "@react-navigation/native";
+import {CommonActions, StackActions, useFocusEffect} from "@react-navigation/native";
+import useEncryptedStorage from "../../../hooks/useEncryptedStorage";
+import {logoutOwnerUser} from "../../../networking/api/AuthController";
+import {COLORS} from "../../styles/Colors";
 
 
 const Drawer = createDrawerNavigator();
@@ -24,68 +27,38 @@ export const OwnerLanding = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [visible, setVisible] = useState(false);
     const [cinemaList, setCinemaList] = useState([])
-    /*
-    const [cinemaList, setCinemaList] = useState([
-        {
-            "id":"123",
-            "name":"test",
-            "address":{},
-            "geoLocation": {},
-            "owner": {},
-            "pricePerFunction":1234.99,
-            "screeningsByDay":{}
-        },
-        {
-            "id":"124",
-            "name":"test",
-            "address":{},
-            "geoLocation": {},
-            "owner": {},
-            "pricePerFunction":1234.99,
-            "screeningsByDay":{}
-        },
-        {
-            "id":"13",
-            "name":"test",
-            "address":{},
-            "geoLocation": {},
-            "owner": {},
-            "pricePerFunction":1234.99,
-            "screeningsByDay":{}
-        },
-    ])
-*/
+    const { removeUserSession } = useEncryptedStorage()
     const getCinemasList = async () => {
         setIsLoading(true)
         try {
             const response = await getCinemas()
             console.log('response', JSON.stringify(response.data))
-            if (response.status === 200){
+            if (response.status === 200) {
                 setCinemaList(response.data)
-            }else{
+            } else {
                 setErrMsg(t('translation:general.errors.default'));
             }
 
         } catch (error) {
             console.log('error', JSON.stringify(error))
-            switch (error.response.data.status){
+            switch (error.response.data.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                break;
+                    break;
                 case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                break;
+                    break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
-                break;
+                    break;
             }
         }
         setIsLoading(false)
     }
 
     useFocusEffect(
-        React.useCallback( ()=>{
+        React.useCallback(() => {
             getCinemasList()
         }, [navigation.getParent().getParent()])
     );
@@ -95,24 +68,45 @@ export const OwnerLanding = ({navigation}) => {
     };
     const hideDialog = () => setVisible(false);
 
+    const handleLogout = () => {
+        hideDialog()
+        // logoutOwnerUser().then(
+        //     (res)=>{},
+        //     (err)=>{
+        //         console.log("logout owner user error", err)
+        //     }
+        // )
+        // removeUserSession().then(
+        //     (res)=>{},
+        //     (err)=>{
+        //         console.log("remove user session error", err)
+        //     }
+        // )
+        navigation.push("Landing")
+    }
+
     const Content = ({navigation}) => {
         return (
             <SafeAreaView>
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Title>Alert</Dialog.Title>
+                        <Dialog.Title>{t("translation\:login\.labels\.logout\.titleText")}</Dialog.Title>
                         <Dialog.Content>
-                            <Text variant="bodyMedium">This is simple dialog</Text>
+                            <Text variant="bodyMedium">{t("translation\:login\.labels\.logout\.dialogText")}</Text>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button onPress={hideDialog}>Done</Button>
+                            <Button type={"default"} onPress={handleLogout}>{t("translation\:general\.labels\.confirm")}</Button>
                         </Dialog.Actions>
                     </Dialog>
                 </Portal>
                 {isLoading ?
-                    <Text>cargando</Text>
+                    <View style={styles.loadingContainer}>
+                        <Text style={styles.loadingText}>{t("translation\:general\.labels\.loading")}...</Text>
+                    </View>
                     :
-                    <CinemaList navigateTo={(screen, options)=>{navigation.getParent().navigate(screen, options)}}
+                    <CinemaList navigateTo={(screen, options) => {
+                        navigation.getParent().navigate(screen, options)
+                    }}
                                 data={cinemaList}/>
                 }
             </SafeAreaView>
@@ -124,24 +118,24 @@ export const OwnerLanding = ({navigation}) => {
             initialRouteName={'content'}
             drawerContent={(props) =>
                 <OptionPanel {...props}
-                    openLogOutDialog={()=>showDialog()}
-                    navigateTo={(screen)=>{
-
-                        navigation.navigate(screen)
-                    }}
+                             openLogOutDialog={() => showDialog()}
+                             navigateTo={(screen) => {
+                                 navigation.navigate(screen)
+                             }}
+                             toTop={()=>navigation.getParent().popToTop()}
                 />
             }
-            screenOptions={{drawerPosition:"right"}}
+            screenOptions={{drawerPosition: "right"}}
         >
             <Drawer.Screen
                 name={'content'}
                 component={Content}
-                options={{header:({navigation})=>header(navigation)}}
+                options={{header: ({navigation}) => header(navigation)}}
             />
             <Drawer.Screen
                 name={'changePwd'}
                 component={ChangePwd}
-                options={{header:({navigation})=>header(navigation)}}
+                options={{header: ({navigation}) => header(navigation)}}
             />
             <Drawer.Screen
                 name={'CinemaDetails'}
@@ -154,8 +148,8 @@ export const OwnerLanding = ({navigation}) => {
 const header = (navigation) => {
     return (
         <View style={styles.header}>
-            <HeaderLogo />
-            <Avatar.Icon icon={"account-outline"} size={45} onTouchStart={()=> navigation.openDrawer()} />
+            <HeaderLogo/>
+            <Avatar.Icon icon={"account-outline"} size={45} onTouchStart={() => navigation.openDrawer()}/>
         </View>
     )
 }
@@ -165,8 +159,18 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
+        padding: 5
+    },
+    loadingContainer:{
+        display:"flex",
+        justifyContent:"flex-end",
         alignItems:"center",
-        padding:5
+        minHeight:350
+    },
+    loadingText:{
+        color:COLORS.secondary,
+        fontSize:24,
     }
 })
 

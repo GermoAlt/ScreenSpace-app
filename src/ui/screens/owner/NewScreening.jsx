@@ -11,8 +11,10 @@ import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 
-export const NewScreening = ({navigation}) => {
+export const NewScreening = ({navigation, route}) => {
     const {t} = useTranslation()
+
+    const {data} = route.params
 
     const [movie, setMovie] = useState({})
     const [date, setDate] = useState(new Date())
@@ -23,7 +25,7 @@ export const NewScreening = ({navigation}) => {
         <SafeAreaView style={styles.screen}>
             <View style={styles.container}>
 
-            <Text style={styles.title}>cinema.name</Text>
+            <Text style={styles.title}>{data.name}</Text>
             <Dropdown/>
             <MovieSelectionPanel movie={movie} setMovie={(e)=>setMovie(e)} navigateTo={(url)=>navigation.navigate(url)}/>
             <View style={styles.dateTimeContainer}>
