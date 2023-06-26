@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator()
 export const CinemaDetails = ({route, navigation}) => {
     const {data} = route.params
     const {t} = useTranslation()
-    const [screen, setScreen] = useState()
+    const [screen, setScreen] = useState(t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings"))
 
     useEffect(()=>{
         navigation.setOptions({
@@ -23,13 +23,17 @@ export const CinemaDetails = ({route, navigation}) => {
         })
     }, [])
 
-    useEffect(()=>{}, [screen])
+     const getRouteName = () =>{
+            if(screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")) {
+                return "NewScreening"
+            }
+            return "NewTheater"
+     }
 
     return (
         <SafeAreaView style={styles.container}>
             <CinemaInformationPanel cinemaData={data}/>
             <Tab.Navigator
-
                 initialRouteName={"CinemaDetailsScreenings"}
                 screenOptions={{
                     tabBarActiveTintColor: COLORS.primary,
@@ -42,14 +46,14 @@ export const CinemaDetails = ({route, navigation}) => {
             >
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
-                    {(props) => <ScreeningList {...props}/>}
+                    {(props) => <ScreeningList {...props} setScreen={(e)=>setScreen(e)}/>}
                 </Tab.Screen>
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}>
                     {(props) => <TheaterList {...props}/>}
                 </Tab.Screen>
             </Tab.Navigator>
-            <FAB action={()=>navigation.navigate("NewScreening")}/>
+            <FAB action={()=>navigation.navigate(getRouteName())}/>
         </SafeAreaView>
     )
 }
