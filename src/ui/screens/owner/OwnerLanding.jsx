@@ -68,8 +68,35 @@ export const OwnerLanding = ({navigation}) => {
     };
     const hideDialog = () => setVisible(false);
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        
+        try {
+            const res = await logoutOwnerUser()
+            await removeUserSession()
+            console.log('response', JSON.stringify(res.data))
+            if (res.status === 200){
+                navigation.push("Landing")
+            }else{
+                setErrMsg(t('translation:general.errors.default'));
+            }
+
+        } catch (error) {
+            console.log('error', JSON.stringify(error))
+            switch (error.response.data.status){
+                case 400:
+                case 401:
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                break;
+            }
+        }
+        
         hideDialog()
+
+        
         // logoutOwnerUser().then(
         //     (res)=>{},
         //     (err)=>{
@@ -82,7 +109,7 @@ export const OwnerLanding = ({navigation}) => {
         //         console.log("remove user session error", err)
         //     }
         // )
-        navigation.push("Landing")
+        //navigation.push("Landing")
     }
 
     const Content = ({navigation}) => {
