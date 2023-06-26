@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable prettier/prettier */
 import * as React from 'react';
-import {SafeAreaView, View, StyleSheet} from "react-native";
+import {useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import {Avatar, Dialog, Portal, Text} from "react-native-paper";
-import {useEffect, useState} from "react";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import {OptionPanel} from "../../components/owner/OptionPanel";
@@ -12,7 +12,8 @@ import {ChangePwd} from "./ChangePwd";
 import {Button} from "../../components/general/Button";
 import {CinemaList} from "../../components/owner/CinemaList";
 import {CinemaDetails} from "./CinemaDetails";
-import { getCinemas } from "../../../networking/api/CinemaController";
+import {getCinemas} from "../../../networking/api/CinemaController";
+import {useFocusEffect} from "@react-navigation/native";
 
 
 const Drawer = createDrawerNavigator();
@@ -63,8 +64,8 @@ export const OwnerLanding = ({navigation}) => {
                 setCinemaList(response.data)
             }else{
                 setErrMsg(t('translation:general.errors.default'));
-            }        
-            
+            }
+
         } catch (error) {
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status){
@@ -72,20 +73,22 @@ export const OwnerLanding = ({navigation}) => {
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
                 break;
-                case 500: 
+                case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
                 break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
                 break;
             }
-        }    
+        }
         setIsLoading(false)
     }
-    
-    useEffect(() => {
-        getCinemasList()
-    }, [])
+
+    useFocusEffect(
+        React.useCallback( ()=>{
+            getCinemasList()
+        }, [navigation.getParent().getParent()])
+    );
 
     const showDialog = () => {
         setVisible(true)
@@ -109,7 +112,7 @@ export const OwnerLanding = ({navigation}) => {
                 {isLoading ?
                     <Text>cargando</Text>
                     :
-                    <CinemaList navigateTo={(screen, options)=>navigation.getParent().navigate(screen, options)}
+                    <CinemaList navigateTo={(screen, options)=>{navigation.getParent().navigate(screen, options)}}
                                 data={cinemaList}/>
                 }
             </SafeAreaView>
@@ -122,7 +125,10 @@ export const OwnerLanding = ({navigation}) => {
             drawerContent={(props) =>
                 <OptionPanel {...props}
                     openLogOutDialog={()=>showDialog()}
-                    navigateTo={(screen)=>navigation.navigate(screen)}
+                    navigateTo={(screen)=>{
+
+                        navigation.navigate(screen)
+                    }}
                 />
             }
             screenOptions={{drawerPosition:"right"}}

@@ -10,6 +10,7 @@ export async function getCinemasByID(idCinema){
 
 export async function getCinemas() {
     const token = await getKey('accessToken')
+    if(!token) return
     return await api(token).get(prefix)
 }
 

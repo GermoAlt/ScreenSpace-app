@@ -14,10 +14,9 @@ export const OwnerNavigator = () => {
     const {t} = useTranslation()
     return (
         <Stack.Navigator>
-            <Stack.Screen
-                name={"OwnerLanding"}
-                component={OwnerLanding}
-                options={{headerShown: false}}
+            <Stack.Screen name={"OwnerLanding"}
+                          component={OwnerLanding}
+                          options={{headerShown: false}}
             />
             <Stack.Screen name={"NewCinema"}
                           component={NewCinema}

@@ -2,10 +2,12 @@ import {Drawer, Text} from "react-native-paper";
 import {useState} from "react";
 import { logoutOwnerUser } from '../../../networking/api/AuthController'
 import useEncryptedStorage from "../../../hooks/useEncryptedStorage";
+import {StackActions, useNavigation} from "@react-navigation/native";
 
 export const OptionPanel = (props) => {
     const [active, setActive] = useState('');
     const { removeUserSession } = useEncryptedStorage()
+    const navigation = useNavigation()
 
     const handleScreenChange = (screen) => {
         setActive(screen)
@@ -13,10 +15,15 @@ export const OptionPanel = (props) => {
     }
 
     const handleLogout = () => {
-        logoutOwnerUser()
-        removeUserSession()
-        props.navigateTo('LoginNavigator', {name: 'Login'})
-        //props.openLogOutDialog()        
+        logoutOwnerUser().then(r => {
+            removeUserSession().then()
+        })
+
+        navigation.dispatch(StackActions.popToTop());
+
+        //props.navigateTo('LoginNavigator', {name: 'Login'})
+
+        //props.openLogOutDialog()
     }
 
     return (

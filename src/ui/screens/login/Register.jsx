@@ -42,16 +42,16 @@ export default function Register({navigation}) {
           navigation.navigate('RegisterCode', { nextScreen: 'OwnerNavigator', email: values.email, password: values.password })
         }else{
          setErrMsg(t('translation:general.errors.default'));
-        }        
+        }
     } catch (error) {
-        console.log('error', error)
-        console.log('Error ', JSON.stringify(error))
+        // console.log('error', error)
+        // console.log('Error ', JSON.stringify(error))
         switch (error.response.status){
             case 400:
                 setErrMsg(t('translation:login.errors.register.emailExists')); // Bad Request - "message":User with email xxxxxx already exists
             break;
             case 401:
-            case 500: 
+            case 500:
               setErrMsg(t('translation:general.errors.default'));
             break;
             default:
@@ -75,7 +75,7 @@ export default function Register({navigation}) {
           {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
             <View style={styles.form}>
               {errMsg && (
-                <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+                <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
               )}
               <Text
                 alignment="center"

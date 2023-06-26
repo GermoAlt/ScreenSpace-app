@@ -42,9 +42,9 @@ export default function Login({navigation}) {
         const accessToken = response?.data.token
         const data = { userName: values.email, userPassword: values.password, accessToken }
         setAuth(data)
-        storeUserSession(data)
+        await storeUserSession(data)
         navigation.navigate('OwnerNavigator')
-        
+
     } catch (error) {
         console.log('error', error)
         switch (error.response.data.status){
@@ -52,7 +52,7 @@ export default function Login({navigation}) {
             case 401:
                 setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
             break;
-            case 500: 
+            case 500:
                 setErrMsg(t('translation:general.errors.default')); // Internal Server Error
             break;
             default:
@@ -76,7 +76,7 @@ export default function Login({navigation}) {
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
                 <View style={styles.form}>
                     {errMsg && (
-                        <ErrorMessage iconType="error">{errMsg}</ErrorMessage>    
+                        <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
                     )}
                     <TextInput
                         keyboardType="email-address"
@@ -110,13 +110,13 @@ export default function Login({navigation}) {
             )}
         </Formik>
         <View style={styles.footer}>
-            <Text 
+            <Text
                 alignment="center"
                 onPress={() => navigation.navigate('Register')}
                 size="xxsmall"
                 textColorMode={true}
             >{t('translation:login.labels.login.noAccountYet') + ' ' + t('translation:login.labels.login.registerAccount')}</Text>
-            <Text 
+            <Text
                 alignment="center"
                 onPress={() => navigation.navigate('RecoverPassword')}
                 size="xxsmall"
