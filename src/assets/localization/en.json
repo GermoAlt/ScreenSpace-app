@@ -86,9 +86,9 @@
           "selectMovie": "Select the movie to show"
         },
         "newTheater": {
-          "column": "Column",
+          "column": "Columns",
           "enabled": "Enabled",
-          "row": "Row",
+          "row": "Rows",
           "screen": "SCREEN",
           "theaterName": "Theater name"
         }

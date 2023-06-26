@@ -98,9 +98,9 @@
           "selectMovie": "Seleccioná la película a mostrar"
         },
         "newTheater": {
-          "column": "Columna",
+          "column": "Columnas",
           "enabled": "Sala habilitada",
-          "row": "Fila",
+          "row": "Filas",
           "screen": "PANTALLA",
           "theaterName": "Nombre de la sala"
         }
