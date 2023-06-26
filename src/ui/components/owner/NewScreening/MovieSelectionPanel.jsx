@@ -20,7 +20,6 @@ export const MovieSelectionPanel = (props) => {
 
     return (
         <Pressable onPress={() => props.navigateTo("MovieSearch", {cinema: props.cinema})} >
-            {console.log(movie)}
             {
 
                 Object.keys(movie).length === 0 ?

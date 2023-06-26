@@ -5,11 +5,12 @@ import {MovieSelectionPanel} from "../../components/owner/NewScreening/MovieSele
 import {CalendarPickerField} from "../../components/owner/NewScreening/CalendarPickerField";
 import {DatePickerField} from "../../components/owner/NewScreening/DatePickerField";
 import {AvailabilityPanel} from "../../components/owner/NewScreening/AvailabilityPanel";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Dropdown} from "../../components/general/Dropdown";
 import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
+import {getTheatersByCinema} from "../../../networking/api/TheaterController";
 
 export const NewScreening = ({navigation, route}) => {
     const {t} = useTranslation()
@@ -19,14 +20,24 @@ export const NewScreening = ({navigation, route}) => {
     const [selectedMovie, setSelectedMovie] = useState(movie || {})
     const [date, setDate] = useState(new Date())
     const [time, setTime] = useState(new Date())
+    const [theaters, setTheaters] = useState([{"id":0, "title":"-"}])
     if(movie && movie !== selectedMovie)setSelectedMovie(movie)
+
+    useEffect(()=>{
+        getTheatersByCinema(cinema.id).then(res=>
+            setTheaters([res.data.map((item, i)=>{
+                return {"id":item.id, "title":item.name, data:item}
+            })])
+        )
+    },[])
+    console.log(theaters)
 
     return (
         <SafeAreaView style={styles.screen}>
             <View style={styles.container}>
 
             <Text style={styles.title}>{cinema.name}</Text>
-            <Dropdown/>
+            <Dropdown list={theaters}/>
             <MovieSelectionPanel cinema={cinema} movie={selectedMovie} setMovie={(e)=>setSelectedMovie(e)} navigateTo={(url, options)=>navigation.navigate(url, options)}/>
             <View style={styles.dateTimeContainer}>
                 <CalendarPickerField date={date} setDate={(date)=>setDate(date)}/>

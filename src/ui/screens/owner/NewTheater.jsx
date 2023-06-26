@@ -3,20 +3,34 @@ import {Dropdown} from "../../components/general/Dropdown";
 import {TextInput} from "../../components/general/TextInput";
 import {useTranslation} from "react-i18next";
 import {Checkbox, Title} from "react-native-paper";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Text} from "../../components/general/Text";
 import {SeatLayout} from "../../components/general/SeatLayout";
 import {Button} from "../../components/general/Button";
+import {getCinemas} from "../../../networking/api/CinemaController";
 
 export const NewTheater = () => {
     const {t} = useTranslation()
     const [enabled, setEnabled] = useState(true)
     const [rows, setRows] = useState("")
     const [columns, setColumns] = useState("")
+    const [cinemas, setCinemas] = useState()
+    const [selectedCinema, setSelectedCinema] = useState()
+
+    useEffect(()=>{
+        getCinemas().then((res)=>{
+            setCinemas(
+                res.data.map((item, i)=> {
+                    return {id:item.id, title:item.name, data:item}
+                })
+            )
+        })
+    })
+
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Dropdown/>
+                <Dropdown list={cinemas} value={selectedCinema} setValue={(item)=>{setSelectedCinema(item)}}/>
                 <TextInput label={t('translation\:owner\.labels\.newTheater\.theaterName')} />
                 <TextInput label={t('translation\:owner\.labels\.newTheater\.price')} />
                 <View style={styles.row}>

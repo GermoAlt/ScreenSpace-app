@@ -8,11 +8,7 @@ import {TextInput} from "./TextInput";
 export const Dropdown = (props) => {
 
     //const {data} = props
-    const data = [
-        { id: '1', title: 'Alpha' },
-        { id: '2', title: 'Beta' },
-        { id: '3', title: 'Gamma' },
-    ]
+    const data = props.list
 
     return (
         <View>
@@ -21,6 +17,7 @@ export const Dropdown = (props) => {
                                   ChevronIconComponent={<IconButton icon={"chevron-down"}></IconButton>}
                                   textInputProps={{style:{color:COLORS.secondary}}}
                                   dataSet={data}
+                                  onSelectItem={(item)=>props.setValue(item)}
             />
         </View>
     )
