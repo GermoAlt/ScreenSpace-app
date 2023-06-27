@@ -10,7 +10,7 @@ import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList"
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
 import FAB from "../../components/general/FAB";
 import { getTheatersByCinema } from "../../../networking/api/TheaterController";
-//import { getScreenings } from '../../../networking/api/ScreeningController';
+import { getScreenings } from '../../../networking/api/ScreeningController';
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -60,11 +60,11 @@ export const CinemaDetails = ({route, navigation}) => {
         setIsLoading(false)
     }
 
-    const getScreenings = async () => {
+    const getOwnerScreenings = async () => {
         setIsLoading(true)
         try {
             const response = await getScreenings(data.id)
-            console.log('response', JSON.stringify(response.data))
+           // console.log('response Screenings', JSON.stringify(response.data))
             if (response.status === 200){
                 setScreenings(response.data)
             }else{
@@ -72,7 +72,7 @@ export const CinemaDetails = ({route, navigation}) => {
             }
 
         } catch (error) {
-            console.log('error', JSON.stringify(error))
+            console.log('error Screen', JSON.stringify(error))
             switch (error.response.data.status){
                 case 400:
                 case 401:
@@ -90,17 +90,24 @@ export const CinemaDetails = ({route, navigation}) => {
     }
 
     useEffect(() => {
-        getTheaters()
-        //setScreenings([])
-        //getScreenings()
+        const getData = async () => {
+            await getTheaters()
+            await getOwnerScreenings()
+        }
+        getData()
     }, [])
 
      const getRouteName = () =>{
+            console.log('screen', screen)
             if(screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")) {
                 return "NewScreening"
             }
             return "NewTheater"
      }
+
+     useEffect(()=>{
+        console.log('Curr Nav', navigation)
+     }, [navigation])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -118,7 +125,7 @@ export const CinemaDetails = ({route, navigation}) => {
             >
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
-                    {(props) => <ScreeningList {...props} setScreen={(e)=>setScreen(e)}/>}
+                    {(props) => <ScreeningList screenings={screenings} navigation={navigation} extended={props} setScreen={(e)=>setScreen(e)} />}
                 </Tab.Screen>
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}>

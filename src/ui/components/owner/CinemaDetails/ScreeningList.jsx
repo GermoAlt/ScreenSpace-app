@@ -1,11 +1,12 @@
-import {ScrollView, StyleSheet, View} from "react-native";
-import {useEffect, useState} from "react";
+import {ScrollView, StyleSheet} from "react-native";
+import {useEffect} from "react";
 import {ScreeningListItem} from "./ScreeningListItem";
 
 export const ScreeningList = (props) => {
-    const {navigation, setScreen} = props
+    const {setScreen} = props
+    const screenings = props.screenings
+    const {navigation} = props.extended
 
-    const [screenings, setScreenings] = useState([])
     useEffect(()=>{
         setScreen(navigation.getState().routes[navigation.getState().index].name)
     })
@@ -13,7 +14,7 @@ export const ScreeningList = (props) => {
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
-            {screenings.map((item, i) => <ScreeningListItem key={"screening" + i} data={item}/>)}
+            {screenings?.map((item, i) => <ScreeningListItem key={"screening" + i} data={item}/>)}
         </ScrollView>
     )
 }

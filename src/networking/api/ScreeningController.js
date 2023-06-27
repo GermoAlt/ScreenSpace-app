@@ -1,13 +1,18 @@
 import {getInstance as api, buildQueryParams} from "./ApiHandler";
+import { getKey } from "../helper";
 
 const prefix = "/screenings"
 
-function postScreening(screening){
-    return api().post(prefix, screening)
+export async function postScreening(body){
+    const token = await getKey('accessToken')
+    return await api(token).post(prefix, body)
 }
 
 export async function getScreenings(criteria) {
-    return await api().get(prefix + buildQueryParams(criteria))
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '?cinema='+criteria)
+    //console.log(buildQueryParams(criteria))
+    //return await api(token).get(prefix + buildQueryParams(criteria))
 }
 
 function getScreening(id) {

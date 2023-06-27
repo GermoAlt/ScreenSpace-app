@@ -1,9 +1,9 @@
+import React, {useEffect, useState} from "react";
 import {SafeAreaView, StyleSheet, View} from "react-native";
 import {Dropdown} from "../../components/general/Dropdown";
 import {TextInput} from "../../components/general/TextInput";
 import {useTranslation} from "react-i18next";
 import {Checkbox, Title} from "react-native-paper";
-import React, {useEffect, useState} from "react";
 import {Text} from "../../components/general/Text";
 import {SeatLayout} from "../../components/general/SeatLayout";
 import {Button} from "../../components/general/Button";

@@ -15,7 +15,7 @@ export const DateTimePickerField = (props) => {
                 <Icon name={props.mode === "date" ? "calendar-plus" : "clock-plus-outline"} style={styles.icon}></Icon>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>{props.mode === "date" ? props.data.toLocaleDateString("en-GB") : "Hora"}</Text>
+                <Text style={styles.text}>{props.mode === "date" ? props.data.toLocaleDateString("en-GB") : props.data.toLocaleTimeString("en-GB")}</Text>
             </View>
         </Pressable>
         <DatePicker

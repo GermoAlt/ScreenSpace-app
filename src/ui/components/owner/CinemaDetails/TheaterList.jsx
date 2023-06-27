@@ -1,8 +1,9 @@
 import {ScrollView, StyleSheet, View} from "react-native";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {TheaterListItem} from "./TheaterListItem";
 
 export const TheaterList = (props) => {
+    const {navigation, setScreen} = props
     const theaters = props.theaters
 
     return(

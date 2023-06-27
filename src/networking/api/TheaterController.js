@@ -6,8 +6,6 @@ const prefix = "/cinemas"
 
 export async function getTheatersByCinema(idCinema){
     const token = await getKey('accessToken')
-    console.log('T', token)
-    console.log('idCinema', idCinema)
     return await api(token).get(prefix + '/' + idCinema + '/theaters') 
 }
 
