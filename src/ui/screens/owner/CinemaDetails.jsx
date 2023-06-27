@@ -35,6 +35,7 @@ export const CinemaDetails = ({route, navigation}) => {
         setIsLoading(true)
         try {
             const response = await getTheatersByCinema(idCinema)
+           // console.log('resTheat', JSON.stringify(response.data))
             if (response.status === 200){
                 setTheaters(response.data)
             }else{

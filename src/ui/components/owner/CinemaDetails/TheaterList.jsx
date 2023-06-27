@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {TheaterListItem} from "./TheaterListItem";
 
 export const TheaterList = (props) => {
-    const { theaters } = props.theaters
+    const theaters = props.theaters
 
     return(
         <ScrollView contentContainerStyle={styles.container}>

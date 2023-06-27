@@ -7,7 +7,6 @@ import {TextInput} from "./TextInput";
 
 export const Dropdown = (props) => {
 
-    //const {data} = props
     const data = props.list
 
     return (

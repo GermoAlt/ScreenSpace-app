@@ -4,20 +4,27 @@ import {IconText} from "../../general/IconText";
 import {Text} from "react-native-paper";
 import {COLORS} from "../../../styles/Colors";
 
-export const TheaterListItem = () => {
+export const TheaterListItem = (props) => {
+    const { data } = props
+    const getTotalSeats = () => {
+        const seatsLayout = data.seatsLayout
+        return parseInt(seatsLayout.numColumns) * parseInt(seatsLayout.numRows)
+    }
+
     return <CardPanel>
         <View style={styles.row}>
-            <Text style={styles.name}>As</Text>
+            <Text style={styles.name}>{data.name}</Text>
             <View style={styles.row}>
-                <IconText icon={"currency-usd"}>d</IconText>
-                <IconText icon={"sofa-single"}>s</IconText>
+                <IconText icon={"currency-usd"}>{data.pricePerFunction}</IconText>
+                <IconText icon={"sofa-single"}>{getTotalSeats()}</IconText>
             </View>
 
         </View>
+        {/* 
         <View style={styles.row}>
             <IconText icon={"movie-roll"}>d</IconText>
-
         </View>
+        */}
     </CardPanel>
 
 }
