@@ -14,12 +14,12 @@ export const MovieDetailComponent = (props) => {
             <Image style={styles.image} source={{uri: movie.image}}/>        
             <View>
                 <TextRNP marginTop={5} variant='titleMedium' style={styles.movieGenre}>
-                    {movie.genre}
+                    {movie.genre.join(", ")}
                 </TextRNP>
             </View>
             <View style={styles.dualRow}>
                 <TextRNP variant='headlineMedium' style={styles.movieName}>
-                    {movie.name}
+                    {movie.title}
                 </TextRNP>
                 <View style={styles.dualRow} marginTop={8}>
                     <Text alignment="right" size="xsmall">
