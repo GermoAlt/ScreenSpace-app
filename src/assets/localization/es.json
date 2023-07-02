@@ -125,6 +125,24 @@
         "newScreening": "Nueva Funcion",
         "newTheater": "Nueva Sala"
       }
+    },
+    "user": {
+      "labels": {
+        "landing": {
+          "nearBy": "Cerca Tuyo",
+          "filters": "Filtros"
+        },
+        "movieActionItems": {
+          "comments": "Comentarios",
+          "rate": "Calificar",
+          "share": "Compartir"
+        }
+      },
+      "captions": {
+        "movieDetails": {
+          "reserve": "Reservar"
+        }
+      }
     }
   }
 }

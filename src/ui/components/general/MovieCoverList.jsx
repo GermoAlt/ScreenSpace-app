@@ -1,20 +1,18 @@
 import * as React from 'react';
-import {StyleSheet, Image, View, FlatList, ScrollView} from "react-native";
-import {useTranslation} from "react-i18next";
+import {StyleSheet, Image, FlatList, Pressable} from "react-native";
 import {COLORS} from "../../styles/Colors";
-import { Base64Image } from '../general/Base64Image';
-import { Text } from '../../components/general/Text';
 
 export const MovieCoverList = (props) => {
-    const {t} = useTranslation();
-    const { movies } = props
+    const { movies, selectMovie } = props
 
     return (
         <FlatList
             data={movies}
             horizontal
             renderItem={
-                ({item}) => <Image style={styles.image} source={{uri: item.image}}/> 
+                ({item}) => <Pressable onPress={()=> selectMovie(item)}>
+                    <Image style={styles.image} source={{uri: item.image}}/>
+                </Pressable> 
             }
             keyExtractor={item => item.id}
         />

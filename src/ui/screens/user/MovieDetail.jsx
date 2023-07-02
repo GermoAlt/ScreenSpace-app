@@ -1,33 +1,39 @@
 import * as React from 'react';
-import {SafeAreaView, StyleSheet, View, FlatList} from "react-native";
+import {SafeAreaView, StyleSheet, View } from "react-native";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
-import { Base64Image } from '../general/Base64Image';
 import { Text } from '../../components/general/Text';
-import { MovieCoverList } from '../general/MovieCoverList'; 
+import {Button} from "../../components/general/Button";
+import { MovieDetailComponent } from '../../components/user/MovieDetailComponent';
+import { HeaderLogo } from '../../components/general/HeaderLogo';
+import { MovieActionItensComponent } from '../../components/user/MovieActionItensComponent';
 
-export const CinemaOffers = (props) => {
+
+export const MovieDetail = ({route, navigation}) => {
     const {t} = useTranslation();
-    
-    const { name, distance, movies } = props.cinemas
+    const { movieData } = route.params
+    const { movie } = movieData.cinema
 
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
 
     return (
-        <View>
-            <View style={styles.dualRow}>
-                <Text alignment="left" marginTop={35} size="medium">
-                    {name}
-                </Text>
-                <Text alignment="right" marginTop={35} size="xxxsmall">
-                    {distance}
-                </Text>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                <HeaderLogo />
             </View>
-            <MovieCoverList movies={movies} />
-        </View>
+            <MovieDetailComponent movie={movie} />
+            <View >
+                <Button type={"cta"} onPress={()=>console.log('RESERVAR ACTION')}>
+                    {t("translation\:user\.captions\.movieDetails\.reserve")}
+                </Button>
+            </View>
+            <MovieActionItensComponent movie={movie} />
+
+        </SafeAreaView>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -45,16 +51,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 5
     },
+    scrollView: {
+        marginHorizontal: 20,
+    },
     dualRow: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "stretch",
         gap: 15
-    },
-    movieImages: {
-        display: "flex",
-        flexDirection: "row",
     },
     loadingContainer:{
         display:"flex",

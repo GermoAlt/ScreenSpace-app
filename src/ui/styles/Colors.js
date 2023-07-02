@@ -9,4 +9,5 @@ export const COLORS = {
   off_white: '#DCDCDC',
   onSurfaceVariant: '#FFFFFF',
   dark: '#282634',
+  off_grey: '#9CA3AF'
 };

@@ -2,10 +2,11 @@ import * as React from 'react';
 import {SafeAreaView, StyleSheet, View, FlatList, ScrollView} from "react-native";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
-import { CinemaOffers } from '../../components/user/CinemaOffers';
+import { CinemaOffersComponent } from '../../components/user/CinemaOffersComponent';
 import { Text } from '../../components/general/Text';
 import { mock_data } from '../../../assets/data/user_lading';
 import { HeaderLogo } from '../../components/general/HeaderLogo';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 export const UserLanding = ({navigation}) => {
@@ -23,16 +24,19 @@ export const UserLanding = ({navigation}) => {
             </View>
             <View style={styles.dualRow}>
                 <Text alignment="left" marginTop={35} size="medium">
-                    CERCA TUYO
+                    {t("translation\:user\.labels\.landing\.nearBy")}
                 </Text>
-                <Text alignment="right" marginTop={35} size="xxxsmall">
-                    Filtros
-                </Text>
+                <View style={styles.dualRow} marginTop={45}>
+                    <Icon name="filter" style={styles.icon} />
+                    <Text alignment="right" size="xxxsmall">
+                        {t("translation\:user\.labels\.landing\.filters")}
+                    </Text>
+                </View>
             </View>
             <FlatList
                 data={movieOffer}
                 renderItem={
-                    ({item}) => <CinemaOffers cinemas={item} />
+                    ({item}) => <CinemaOffersComponent cinemas={item} navigation={navigation} />
                 }
                 keyExtractor={item => item.id}
             />
@@ -64,7 +68,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "stretch",
-        gap: 15
+        gap: 15,
+    },
+    icon: {
+        fontSize:15,
+        color:COLORS.off_white,
     },
     loadingContainer:{
         display:"flex",
