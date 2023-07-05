@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SafeAreaView, StyleSheet, View, FlatList, ScrollView} from "react-native";
+import {SafeAreaView, StyleSheet, View, FlatList, ScrollView, Pressable} from "react-native";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 import { CinemaOffersComponent } from '../../components/user/CinemaOffersComponent';
@@ -17,6 +17,10 @@ export const UserLanding = ({navigation}) => {
     
     const [movieOffer, setMovieOffer] = React.useState(mock_data)
 
+    const showFilters = () => {
+        navigation.navigate('Filters')
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -27,10 +31,12 @@ export const UserLanding = ({navigation}) => {
                     {t("translation\:user\.labels\.landing\.nearBy")}
                 </Text>
                 <View style={styles.dualRow} marginTop={45}>
-                    <Icon name="filter" style={styles.icon} />
-                    <Text alignment="right" size="xxxsmall">
-                        {t("translation\:user\.labels\.landing\.filters")}
-                    </Text>
+                    <Pressable onPress={()=> showFilters()}>
+                        <Icon name="filter" style={styles.icon} />
+                        <Text alignment="right" size="xxxsmall">
+                            {t("translation\:user\.labels\.landing\.filters")}
+                        </Text>
+                    </Pressable>
                 </View>
             </View>
             <FlatList

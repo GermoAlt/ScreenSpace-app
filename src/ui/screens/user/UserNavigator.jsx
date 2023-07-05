@@ -4,6 +4,7 @@ import {COLORS} from "../../styles/Colors";
 import { ScreenHeader } from "../../components/owner/ScreenHeader";
 import { UserLanding } from "./UserLanding";
 import { MovieDetail } from "./MovieDetail";
+import { Filters } from "./Filters";
 
 const Stack = createNativeStackNavigator();
 export const UserNavigator = () => {
@@ -16,6 +17,10 @@ export const UserNavigator = () => {
             />
             <Stack.Screen name={"MovieDetail"}
                           component={MovieDetail}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"Filters"}
+                          component={Filters}
                           options={{headerShown: false}}
             />
         </Stack.Navigator>    
