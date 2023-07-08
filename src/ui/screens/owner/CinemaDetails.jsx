@@ -11,6 +11,8 @@ import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
 import FAB from "../../components/general/FAB";
 import { getTheatersByCinema } from "../../../networking/api/TheaterController";
 import { getScreenings } from '../../../networking/api/ScreeningController';
+import {getScreeningsByCinema} from "../../../networking/api/CinemaController";
+import {useFocusEffect} from "@react-navigation/native";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -62,15 +64,15 @@ export const CinemaDetails = ({route, navigation}) => {
 
     const getOwnerScreenings = async () => {
         setIsLoading(true)
+        console.log("data obj", data.id)
         try {
-            const response = await getScreenings(data.id)
-           // console.log('response Screenings', JSON.stringify(response.data))
-            if (response.status === 200){
+            getScreeningsByCinema(data.id).then((response)=>{
+                console.log("dasdasdasdadsadsdasd",response)
                 setScreenings(response.data)
-            }else{
+                }
+            ).catch(()=>{
                 setErrMsg(t('translation:general.errors.default'));
-            }
-
+            })
         } catch (error) {
             console.log('error Screen', JSON.stringify(error))
             switch (error.response.data.status){
@@ -89,17 +91,16 @@ export const CinemaDetails = ({route, navigation}) => {
         setIsLoading(false)
     }
 
-    useEffect(() => {
-        const getData = async () => {
-            await getTheaters()
-            await getOwnerScreenings()
-        }
-        getData()
-    }, [])
+    useFocusEffect(
+        React.useCallback(() => {
+            getTheaters()
+            getOwnerScreenings()
+        }, [])
+    )
 
      const getRouteName = () =>{
             console.log('screen', screen)
-            if(screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")) {
+            if(screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")) {
                 return "NewScreening"
             }
             return "NewTheater"
@@ -117,18 +118,24 @@ export const CinemaDetails = ({route, navigation}) => {
                 screenOptions={{
                     tabBarActiveTintColor: COLORS.primary,
                     tabBarInactiveTintColor: COLORS.off_white,
-                    tabBarStyle: { backgroundColor: COLORS.background, borderBottomColor:COLORS.off_white, borderBottomWidth:1},
+                    tabBarStyle: {
+                        backgroundColor: COLORS.background,
+                        borderBottomColor:COLORS.off_white,
+                        borderBottomWidth:1
+                    },
                     tabBarIndicatorContainerStyle:{marginBottom:-1.5},
                 }}
                 backBehavior={"none"}
 
             >
                 <Tab.Screen
-                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings")}>
-                    {(props) => <ScreeningList screenings={screenings} navigation={navigation} extended={props} setScreen={(e)=>setScreen(e)} />}
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")}>
+                    {(props) =>
+                        <ScreeningList screenings={screenings} navigation={navigation}
+                                       extended={props} setScreen={(e)=>setScreen(e)} />}
                 </Tab.Screen>
                 <Tab.Screen
-                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters")}>
+                    name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters\.title")}>
                     {() => <TheaterList theaters={theaters} navigation={navigation} />}
                 </Tab.Screen>
             </Tab.Navigator>

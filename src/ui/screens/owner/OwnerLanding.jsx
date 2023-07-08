@@ -70,7 +70,7 @@ export const OwnerLanding = ({navigation}) => {
     const hideDialog = () => setVisible(false);
 
     const handleLogout = async () => {
-        
+
         try {
             const res = await logoutOwnerUser()
             await clearStorage()
@@ -94,23 +94,7 @@ export const OwnerLanding = ({navigation}) => {
                 break;
             }
         }
-        
         hideDialog()
-
-        
-        // logoutOwnerUser().then(
-        //     (res)=>{},
-        //     (err)=>{
-        //         console.log("logout owner user error", err)
-        //     }
-        // )
-        // removeUserSession().then(
-        //     (res)=>{},
-        //     (err)=>{
-        //         console.log("remove user session error", err)
-        //     }
-        // )
-        //navigation.push("Landing")
     }
 
     const Content = ({navigation}) => {
@@ -123,7 +107,7 @@ export const OwnerLanding = ({navigation}) => {
                             <Text variant="bodyMedium">{t("translation\:login\.labels\.logout\.dialogText")}</Text>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button type={"default"} onPress={handleLogout}>{t("translation\:general\.labels\.confirm")}</Button>
+                            <Button type={"default"} onPress={()=>handleLogout()}>{t("translation\:general\.labels\.confirm")}</Button>
                         </Dialog.Actions>
                     </Dialog>
                 </Portal>

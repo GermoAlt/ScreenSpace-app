@@ -83,8 +83,14 @@
         },
         "cinemaDetails": {
           "tabs": {
-            "screenings": "Funciones",
-            "theaters": "Salas"
+            "screenings": {
+              "empty": "No hay funciones para este cine",
+              "title": "Funciones"
+            },
+            "theaters": {
+              "empty": "No hay salas para este cine",
+              "title": "Salas"
+            }
           }
         },
         "movieSearch": {
@@ -103,6 +109,20 @@
           "street": "Calle"
         },
         "newScreening": {
+          "availability": {
+            "info": {
+              "altTitle": "Horarios disponibles",
+              "desc": "Aca verás los horarios disponibles",
+              "title": "Seleccioná una sala y un día"
+            },
+            "success": {
+              "desc": "El horario elegido está disponible",
+              "title": "¡No hay conflictos de horario!"
+            },
+            "warn": {
+              "title": "¡Conflicto detectado!"
+            }
+          },
           "selectMovie": "Seleccioná la película a mostrar"
         },
         "newTheater": {
@@ -127,10 +147,15 @@
       }
     },
     "user": {
+      "captions": {
+        "movieDetails": {
+          "reserve": "Reservar"
+        }
+      },
       "labels": {
         "landing": {
-          "nearBy": "Cerca Tuyo",
-          "filters": "Filtros"
+          "filters": "Filtros",
+          "nearBy": "Cerca Tuyo"
         },
         "movieActionItems": {
           "comments": "Comentarios",

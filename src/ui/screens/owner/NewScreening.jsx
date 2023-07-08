@@ -11,10 +11,10 @@ import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 import {getTheatersByCinema} from "../../../networking/api/TheaterController";
-import { ErrorMessage } from '../../components/general/ErrorMessage';
-import { Formik } from 'formik';
+import {ErrorMessage} from '../../components/general/ErrorMessage';
+import {Formik} from 'formik';
 import * as yup from 'yup';
-import { postScreening } from "../../../networking/api/ScreeningController";
+import {postScreening} from "../../../networking/api/ScreeningController";
 
 
 export const NewScreening = ({navigation, route}) => {
@@ -29,73 +29,70 @@ export const NewScreening = ({navigation, route}) => {
     const [date, setDate] = useState(new Date())
     const [time, setTime] = useState(new Date())
     const [theaters, setTheaters] = useState([])
-    if(movie && movie !== selectedMovie)setSelectedMovie(movie)
 
+    if (movie && movie !== selectedMovie) setSelectedMovie(movie)
 
-     useEffect(()=>{
-        const getUserTheaters = async () => {
-            const response = await getTheatersByCinema(cinema.id)
-            
-            const curatedTheaters = response.data.map((item, i)=> {
-                return {id:item.id, title:item.name, data:item}
-            })
-            setTheaters(curatedTheaters)
-        }
-        getUserTheaters()
-
-    },[])
+    useEffect(() => {
+        getTheatersByCinema(cinema.id).then(response => {
+            setTheaters(
+                response.data.map((item, i) => {
+                    return {id: item.id, title: item.name, data: item}
+                })
+            )
+        })
+    }, [])
 
     const screenValidationSchema = yup.object().shape({
         name: yup
-        .string()
-        .required(t('translation:general.forms.errors.required')),
+            .string()
+            .required(t('translation:general.forms.errors.required')),
 
     })
 
     const saveNewScreening = async (values) => {
 
-        if (!time || !date || !selectedMovie) return 
+        if (!time || !date || !selectedMovie) return
 
         setLoading(true)
         setErrMsg('')
 
         const timeText = time.toISOString()
-        const dateText = date.toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit" })
-        const movieDate = (dateText.substring(0,10) + ' ' + timeText.substring(11,19))
+        const dateText = date.toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit"})
+        const movieDate = (dateText.substring(0, 10) + ' ' + timeText.substring(11, 19))
 
         const body = {
             theaterId: values.theaterId.data.id,
             movieId: selectedMovie.id,
             date: movieDate
         }
-        
+
         try {
             const res = await postScreening(body)
             console.log('RES Theat', JSON.stringify(res))
-            if (res.status === 200){
+            if (res.status === 200) {
                 navigation.navigate('CinemaDetails', {data: cinema})
-            }else{
+            } else {
                 setErrMsg(t('translation:general.errors.default'));
             }
-            
+
 
         } catch (error) {
             console.log('error', error)
-            switch (error.response.data.status){
+            switch (error.response.data.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                break;
+                    break;
                 case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                break;
+                    break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
-                break;
+                    break;
             }
         }
         setLoading(false)
-        
+
     }
 
     console.log('theaters', theaters)
@@ -103,71 +100,71 @@ export const NewScreening = ({navigation, route}) => {
     return (
         <SafeAreaView style={styles.screen}>
             <Formik
-                initialValues={{ theaterId:{} }}
+                initialValues={{theaterId: {}}}
                 onSubmit={values => saveNewScreening(values)}
             >
-            {({ handleSubmit, setFieldValue, values }) => (
-                <>
-                <View style={styles.container}>
-
-                <Text style={styles.title}>{cinema.name}</Text>
-                <Dropdown list={theaters}
-                    value={values.theaterId}
-                    setValue={(value) => setFieldValue("theaterId", value)} 
-                />
-                <MovieSelectionPanel cinema={cinema} movie={selectedMovie} setMovie={(e)=>setSelectedMovie(e)} navigateTo={(url, options)=>navigation.navigate(url, options)}/>
-                <View style={styles.dateTimeContainer}>
-                    <CalendarPickerField date={date} 
-                    setDate={(date)=>setDate(date)}
-                    />
-                    <DatePickerField time={time}
-                    setTime={(time)=>setTime(time)}
-                    />
-                </View>
-                {/*
-                <AvailabilityPanel date={date} time={timer}/>
-                */}
-                </View>
-                <View style={styles.buttonContainer}>
-                    <Button onPress={handleSubmit} icon={"check-circle-outline"}>{t("translation\:general\.labels\.confirm")}</Button>
-                </View>
-                </>
-            )}
+                {({handleSubmit, setFieldValue, values}) => (
+                    <>
+                        <View style={styles.container}>
+                            <Text style={styles.title}>{cinema.name}</Text>
+                            <Dropdown list={theaters}
+                                      value={values.theaterId}
+                                      setValue={(value) => setFieldValue("theaterId", value)}
+                            />
+                            <MovieSelectionPanel cinema={cinema} movie={selectedMovie}
+                                                 setMovie={(e) => setSelectedMovie(e)}
+                                                 navigateTo={(url, options) => navigation.navigate(url, options)}/>
+                            <View style={styles.dateTimeContainer}>
+                                <CalendarPickerField date={date}
+                                                     setDate={(date) => setDate(date)}
+                                />
+                                <DatePickerField time={time}
+                                                 setTime={(time) => setTime(time)}
+                                />
+                            </View>
+                            <AvailabilityPanel theater={values.theaterId} date={date} movie={selectedMovie}/>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <Button onPress={handleSubmit}
+                                    icon={"check-circle-outline"}>{t("translation\:general\.labels\.confirm")}</Button>
+                        </View>
+                    </>
+                )}
             </Formik>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    screen:{
-        display:"flex",
-        justifyContent:"space-between",
-        flex:1
+    screen: {
+        display: "flex",
+        justifyContent: "space-between",
+        flex: 1
     },
-    container:{
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"space-evenly",
-        minHeight:"80%",
-        paddingHorizontal:30,
-        gap:25
+    container: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-evenly",
+        minHeight: "80%",
+        paddingHorizontal: 30,
+        gap: 25
     },
-    dateTimeContainer:{
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"center",
-        alignItems:"center",
-        gap:15,
+    dateTimeContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 15,
     },
     buttonContainer: {
-        display:"flex",
-        alignItems:"center",
-        justifyContent:"center",
-        marginBottom:50
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 50
     },
-    title:{
-        color:COLORS.secondary,
-        fontSize:30,
+    title: {
+        color: COLORS.secondary,
+        fontSize: 30,
 
     },
     errorText: {

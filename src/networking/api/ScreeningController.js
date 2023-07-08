@@ -8,26 +8,37 @@ export async function postScreening(body){
     return await api(token).post(prefix, body)
 }
 
-export async function getScreenings(criteria) {
-    const token = await getKey('accessToken')
-    return await api(token).get(prefix + '?cinema='+criteria)
+export function getScreenings(criteria) {
+    return getKey('accessToken').then(token=>{
+        return api(token).get(prefix + '?cinema='+criteria)
+    })
+
     //console.log(buildQueryParams(criteria))
     //return await api(token).get(prefix + buildQueryParams(criteria))
 }
 
-export async function getScreening(screeningId) {
-    const token = await getKey('accessToken')
-    return await api(token).get(prefix + '/' + screeningId)
+
+
+export function getScreening(id) {
+    return getKey('accessToken').then(token=>{
+        return api(token).get(prefix + '/' + id)
+    })
 }
 
-function updateScreening(id, screening) {
-    return api().put(prefix + '/' + id, screening)
+export function updateScreening(id, screening) {
+    return getKey('accessToken').then(token=>{
+        return api(token).put(prefix + '/' + id, screening)
+    })
 }
 
-function deleteScreening(id) {
-    return api().delete(prefix + '/' + id)
+export function deleteScreening(id) {
+    return getKey('accessToken').then(token=>{
+        return api(token).delete(prefix + '/' + id)
+    })
 }
 
-function getAvailability(criteria) {
-    return api().get(prefix + '/availability' + buildQueryParams(criteria))
+export function getAvailability(criteria) {
+    return getKey('accessToken').then(token=>{
+        return api(token).get(prefix + '/availability' + buildQueryParams(criteria))
+    })
 }

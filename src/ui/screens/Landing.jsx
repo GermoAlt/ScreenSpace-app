@@ -15,7 +15,7 @@ export const Landing = ({navigation}) => {
 
     
 
-    const usarAutenticacion = false  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
+    const usarAutenticacion = true  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
     // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
     const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NDkwZWI5MDA2NmM0NDVjNjNkM2Q1M2Usbmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20sZmFsc2UiLCJJU19PV05FUl9DTEFJTSI6ZmFsc2UsIkVNQUlMX0NMQUlNIjoibmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20iLCJleHAiOjE2ODg5MjczNjZ9.qsDovffT1cNCrtd7QP5-PbubVLupuII_axg45EDcL_VCOYyq16oMFNxldcZf6iS5_kG9rcFZNyafkHT-JrrjMA'
     const setDummyCredentials = async () => {

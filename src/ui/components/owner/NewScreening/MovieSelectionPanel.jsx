@@ -30,12 +30,14 @@ export const MovieSelectionPanel = (props) => {
                     :
                     <CardPanel style={styles.row}>
                         <View >
-                            <Base64Image data={movie}></Base64Image>
+                            <Base64Image data={movie} />
                         </View>
                         <View>
                             <Text style={styles.title}>{movie.title}</Text>
                             <IconText icon={"clock-outline"}>{movie.duration} min</IconText>
-                            {movie.genre.map((item, i) => (<Text>{}</Text>))}
+                            {movie.genre.map(
+                                (item, i) => (<Text key={item}>{item}</Text>)
+                            )}
                         </View>
                     </CardPanel>
             }
@@ -58,7 +60,8 @@ const styles = StyleSheet.create({
     },
     row:{
         display:"flex",
-        flexDirection:"row"
+        flexDirection:"row",
+        gap:15
     },
     title:{
         color:COLORS.primary,

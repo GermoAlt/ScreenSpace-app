@@ -47,15 +47,13 @@ export const NewTheater = (props) => {
     })
 
     useEffect(()=>{
-        const getUserCinemas = async () => {
-            const response = await getCinemas()
-            const curatedCinemas = response.data.map((item, i)=> {
-                return {id:item.id, title:item.name, data:item}
-            })
-            setCinemas(curatedCinemas)
-        }
-        getUserCinemas()
-
+        getCinemas().then(response => {
+            setCinemas(
+                response.data.map((item, i) => {
+                    return {id: item.id, title: item.name, data: item}
+                })
+            )
+        })
     },[])
 
     const saveNewTheater = async (values) => {
@@ -67,7 +65,7 @@ export const NewTheater = (props) => {
             numColumns: values.numColumns
         }
         const body = {
-            ...values, 
+            ...values,
             isTemporarilyClosed: !enabled, //Aca se da vuelta porque en FE Ponemos sala ACTIVA/HABILITADA y los BE Monkeys como sala INACTIVA
             seatsLayout,
             cinemaId: values.cinemaId.data.id
@@ -81,7 +79,7 @@ export const NewTheater = (props) => {
             }else{
                 setErrMsg(t('translation:general.errors.default'));
             }
-            
+
 
         } catch (error) {
             console.log('error', error)
@@ -114,11 +112,11 @@ export const NewTheater = (props) => {
                     {errMsg && (
                         <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
                     )}
-                        <Dropdown list={cinemas} 
+                        <Dropdown list={cinemas}
                             value={values.cinemaId}
-                            setValue={(value) => setFieldValue("cinemaId", value)} 
+                            setValue={(value) => setFieldValue("cinemaId", value)}
                         />
-                        
+
                         <TextInput
                         onChangeText={handleChange('name')}
                         onBlur={handleBlur('name')}
@@ -128,7 +126,7 @@ export const NewTheater = (props) => {
                             <Text style={styles.errorText}>{errors.name}</Text>
                         }
 
-                        <TextInput keyboardType="numeric" 
+                        <TextInput keyboardType="numeric"
                             onChangeText={handleChange('pricePerFunction')}
                             onBlur={handleBlur('pricePerFunction')}
                             value={values.pricePerFunction}
@@ -154,7 +152,7 @@ export const NewTheater = (props) => {
                                 />
                                 <Text size={"xsmall"} style={styles.numRows}>{t("translation\:owner\.labels\.newTheater\.row")}</Text>
                             </View>
-                            
+
                             <View style={[styles.row, styles.inputContainer]}>
                                 <TextInput
                                     maxLength={1}
@@ -174,7 +172,7 @@ export const NewTheater = (props) => {
                         {(errors.numColumns && touched.numColumns) &&
                                 <Text style={styles.errorText}>{errors.numColumns}</Text>
                             }
-                        </View>    
+                        </View>
                         <View>
                             <SeatLayout rows={values.numRows} columns={values.numColumns}/>
                         </View>
