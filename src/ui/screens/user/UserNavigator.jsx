@@ -5,6 +5,9 @@ import { ScreenHeader } from "../../components/owner/ScreenHeader";
 import { UserLanding } from "./UserLanding";
 import { MovieDetail } from "./MovieDetail";
 import { Filters } from "./Filters";
+import { MovieSelection } from "./MovieSelection";
+import { MovieReservation } from "./MovieReservation";
+import { SeatsSelection } from "./SeatsSelection";
 
 const Stack = createNativeStackNavigator();
 export const UserNavigator = () => {
@@ -21,6 +24,18 @@ export const UserNavigator = () => {
             />
             <Stack.Screen name={"Filters"}
                           component={Filters}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"MovieSelection"}
+                          component={MovieSelection}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"MovieReservation"}
+                          component={MovieReservation}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"SeatsSelection"}
+                          component={SeatsSelection}
                           options={{headerShown: false}}
             />
         </Stack.Navigator>    

@@ -3,11 +3,15 @@ import {StyleSheet, View} from "react-native";
 import {useTranslation} from "react-i18next";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {COLORS} from "../../styles/Colors";
+import { SeatWrapper } from "./SeatWrapper";
 
-export const SeatLayout = (props) => {
+export const SeatSelectionLayout = (props) => {
     const {t} = useTranslation()
-    const {rows, columns} = props
+    const {rows, columns, updateSelection} = props
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    if (isNaN(rows)) return
+
     return (
         <View style={styles.container}>
             <Title style={styles.title}>{t("translation\:owner\.labels\.newTheater\.screen")}</Title>
@@ -20,7 +24,7 @@ export const SeatLayout = (props) => {
                             {
                                 [...Array(Number(columns))].map(
                                     (e, i) =>
-                                        <IconButton icon={"sofa-single"} size={35} style={styles.icon} key={"icon-"+i+idx} />
+                                        <SeatWrapper i={i} idx={idx} letters={letters} handleSeatSelection={updateSelection}/>
                                 )
                             }
                         </View>

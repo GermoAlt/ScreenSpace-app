@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StyleSheet, View, Image} from "react-native";
 import {COLORS} from "../../styles/Colors";
 import {useTranslation} from "react-i18next";
-import { ActionItem } from '../general/ActionItem';
+import { ActionItemComponent } from '../general/ActionItemComponent';
 
 export const MovieActionItensComponent = (props) => {
     const {t} = useTranslation();
@@ -12,9 +12,9 @@ export const MovieActionItensComponent = (props) => {
 
     return (
         <View style={styles.container}>
-            <ActionItem icon="comment-multiple-outline" label={t("translation\:user\.labels\.movieActionItems\.comments")} />
-            <ActionItem icon="comment-edit-outline" label={t("translation\:user\.labels\.movieActionItems\.rate")} />
-            <ActionItem icon="share-variant-outline" label={t("translation\:user\.labels\.movieActionItems\.share")} />
+            <ActionItemComponent icon="comment-multiple-outline" label={t("translation\:user\.labels\.movieActionItems\.comments")} />
+            <ActionItemComponent icon="comment-edit-outline" label={t("translation\:user\.labels\.movieActionItems\.rate")} />
+            <ActionItemComponent icon="share-variant-outline" label={t("translation\:user\.labels\.movieActionItems\.share")} />
         </View>
     );
 }

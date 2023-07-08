@@ -136,11 +136,46 @@
           "comments": "Comentarios",
           "rate": "Calificar",
           "share": "Compartir"
+        },
+        "movieSelected": {
+          "genre": "Género",
+          "duration": "Duración",
+          "actors": "Actores",
+          "director": "Director"
+        },
+        "movieReservation": {
+          "noData": {
+            "label": "No hay datos para seleccionar"
+          },
+          "fistStep": {
+            "label": "¿Qué día te gustaría ir?",
+            "today": "HOY",
+            "tomorrow": "MAÑANA"
+          },
+          "secondStep": {
+            "label": "¿En qué sala?"
+          },
+          "thirdStep": {
+            "label": "¿Y en qué horario?"
+          },
+          "seatLegend": {
+            "seatSelection": "Seleccioná tus butacas:",
+            "vacant": "Disponible",
+            "reserved": "Reservado",
+            "selected": "Tu Selección"
+          }
         }
       },
       "captions": {
         "movieDetails": {
           "reserve": "Reservar"
+        },
+        "movieReservation": {
+          "confirmReservation": "Confirmar"
+        },
+        "seatsSelection": {
+          "back": "Atras",
+          "purchase": "Comprar"
         }
       }
     }

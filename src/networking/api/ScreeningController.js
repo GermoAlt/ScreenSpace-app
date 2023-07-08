@@ -15,8 +15,9 @@ export async function getScreenings(criteria) {
     //return await api(token).get(prefix + buildQueryParams(criteria))
 }
 
-function getScreening(id) {
-    return api().get(prefix + '/' + id)
+export async function getScreening(screeningId) {
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '/' + screeningId)
 }
 
 function updateScreening(id, screening) {

@@ -6,7 +6,7 @@ export const mock_filters =
                 title: 'Hoyts Abasto',
             },
             {
-                id: 1324, 
+                id: '649a0ce900221a05f561cce6', 
                 title: 'Cinemark Caballito',
             },
             {
@@ -50,20 +50,20 @@ export const mock_filters =
         ],
         distances: [
             {
-                id: 1,
-                title: 'Hasta 1km'
-            },
-            {
-                id: 2,
-                title: 'Entre 1 y 2 Kms'
-            },
-            {
-                id: 3,
-                title: 'Entre 3 y 4 Kms'
-            },
-            {
                 id: 4,
-                title: 'Más de 4 Kms'
+                title: 'Hasta 4 kms'
+            },
+            {
+                id: 8,
+                title: 'Hasta 8 kms'
+            },
+            {
+                id: 12,
+                title: 'Hasta 12 kms'
+            },
+            {
+                id: 16,
+                title: 'Hasta 16 kms'
             },
         ],
         genres: [

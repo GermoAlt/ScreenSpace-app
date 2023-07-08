@@ -2,23 +2,39 @@ import * as React from 'react';
 import {SafeAreaView, StyleSheet, View } from "react-native";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
+import {Dropdown} from "../../components/general/Dropdown";
 import { Text } from '../../components/general/Text';
-import {Button} from "../../components/general/Button";
-import { MovieDetailComponent } from '../../components/user/MovieDetailComponent';
+import { MovieSelectedDetailComponent } from '../../components/user/MovieSelectedDetailComponent';
 import { HeaderLogo } from '../../components/general/HeaderLogo';
-import { MovieActionItensComponent } from '../../components/user/MovieActionItensComponent';
+import { mock_filters } from "../../../assets/data/user_filters";
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
-
-export const MovieDetail = ({route, navigation}) => {
+export const MovieSelection = ({route, navigation}) => {
     const {t} = useTranslation();
-    const { movieData } = route.params
-    const { movie } = movieData.cinema
+    const movie = route.params.movieData
+    const { cinemas } = mock_filters
 
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
 
-    const handleReserveMovie = () => {
-        navigation.navigate('MovieSelection', {movieData: movie})
+
+    const handleCinemaChange = async (value) => {
+        if (!value) return
+        const cinema = value
+
+        setIsLoading(true)
+        setErrMsg('')
+
+        const reservationData = {
+            cinema,
+            movie
+        }
+        navigation.navigate('MovieReservation', {reservationData})
+        
+        
+        setIsLoading(false)
+        
     }
 
     return (
@@ -26,14 +42,20 @@ export const MovieDetail = ({route, navigation}) => {
             <View style={styles.header}>
                 <HeaderLogo />
             </View>
-            <MovieDetailComponent movie={movie} />
-            <View >
-                <Button type={"cta"} onPress={()=>handleReserveMovie()}>
-                    {t("translation\:user\.captions\.movieDetails\.reserve")}
-                </Button>
-            </View>
-            <MovieActionItensComponent movie={movie} />
-
+            <Formik
+                initialValues={{ cinema:{} }}
+            >
+                {({ setFieldValue, values }) => (
+                    <Dropdown list={cinemas}
+                        value={values.cinema}
+                        setValue={(value) => { 
+                            setFieldValue("cinema", value) 
+                            handleCinemaChange(value)
+                        }} 
+                    />
+                )}
+            </Formik>
+            <MovieSelectedDetailComponent movie={movie} />
         </SafeAreaView>
     );
 }

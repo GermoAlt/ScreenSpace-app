@@ -8,6 +8,7 @@ import {TextInput} from "./TextInput";
 export const Dropdown = (props) => {
 
     const data = props.list
+    const initialValue = props.initialValue ? props.initialValue : ''
 
     return (
         <View>
@@ -17,6 +18,7 @@ export const Dropdown = (props) => {
                                   textInputProps={{style:{color:COLORS.secondary}}}
                                   dataSet={data}
                                   onSelectItem={(item)=>props.setValue(item)}
+                                  initialValue={initialValue}
             />
         </View>
     )

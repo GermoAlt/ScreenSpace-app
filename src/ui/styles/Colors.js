@@ -9,5 +9,8 @@ export const COLORS = {
   off_white: '#DCDCDC',
   onSurfaceVariant: '#FFFFFF',
   dark: '#282634',
-  off_grey: '#9CA3AF'
+  off_grey: '#9CA3AF',
+  vacantSeat: '#FFFFFF',
+  reservedSeat: '#BB576F',
+  selectedSeat: '#DECD34',
 };
