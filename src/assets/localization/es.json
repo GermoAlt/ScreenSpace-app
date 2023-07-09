@@ -138,6 +138,8 @@
           "share": "Compartir"
         },
         "movieSelected": {
+          "movie": "Película",
+          "rating": "Calificación",
           "genre": "Género",
           "duration": "Duración",
           "actors": "Actores",
