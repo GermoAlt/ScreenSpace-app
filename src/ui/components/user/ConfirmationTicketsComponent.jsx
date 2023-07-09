@@ -1,40 +1,33 @@
 import * as React from 'react';
-import {StyleSheet, View, FlatList} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {COLORS} from "../../styles/Colors";
-import { Text as TextRNP, Chip } from 'react-native-paper';
+import { Text as TextRNP } from 'react-native-paper';
 import {useTranslation} from "react-i18next";
 
 export const ConfirmationTicketsComponent = (props) => {
     
-    const [chipSelected, setChipSelected] = React.useState({label: ''})
-    //const { label, values, handleOptionSelected} = props
-
-    const data =  {
-            label: 'Entrada Función',
-            value: '2 x $2780'
-        }
-    
-    const totalAmount = 5560
+    const { ticketQuantity, ticketPrice } = props
+    const totalAmount = ticketQuantity * ticketPrice
       
     const {t} = useTranslation();
     
     return (
         <View style={styles.container}>  
             <TextRNP variant='titleMedium' style={styles.label} >
-                {'Tus Entradas'}
+                {t("translation\:user\.labels\.movieConfirmation\.your_tickets")}
             </TextRNP>
             <View style={styles.lineSeparator}></View>
             <View style={styles.rowData}>
                 <TextRNP variant='titleMedium' style={styles.label} >
-                    {data.label}
+                    {t("translation\:user\.labels\.movieConfirmation\.screening_ticket")}
                 </TextRNP>
                 <TextRNP variant='titleMedium' style={styles.value} >
-                    {data.value}
+                    {ticketQuantity} x ${ticketPrice}
                 </TextRNP>
             </View>
             <View style={styles.rowData}>
                 <TextRNP variant='titleMedium' style={styles.label} >
-                    {'Total'}
+                    {t("translation\:user\.labels\.movieConfirmation\.total_amount")}
                 </TextRNP>
                 <TextRNP variant='titleMedium' style={styles.value} >
                     ${totalAmount}

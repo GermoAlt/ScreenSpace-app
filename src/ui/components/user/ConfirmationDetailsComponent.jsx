@@ -5,28 +5,41 @@ import { Text as TextRNP, Chip } from 'react-native-paper';
 import {useTranslation} from "react-i18next";
 
 export const ConfirmationDetailsComponent = (props) => {
-    
-    //const { label, values, handleOptionSelected} = props
+    const { details, seats } = props
     const {t} = useTranslation();
 
-    
+    const getDate = () => {
+        return details.screeningDate.toString().substr(0,5)
+    }
+    const getTime = () => {
+        return details.screeningDate.toString().substr(10,6)
+    }
+    const dateTime = getDate() + ' ' + getTime()
 
+    const parsedSeats = () => {
+        const stringSeats = []
+        seats.map((item) => {
+            stringSeats.push(Object.keys(item).map(key => `${item[key]}`).join(""))
+        })
+        return stringSeats.join(', ')
+    }
+    
     const data = [
         {
             label: t("translation\:user\.labels\.movieConfirmation\.movie"),
-            value: 'ASFIXIADOS'
+            value: details.movieTitle
         },
         {
             label: t("translation\:user\.labels\.movieConfirmation\.cinema"),
-            value: 'Hoyts Abasto'
+            value: details.cinemaName
         },
         {
             label: t("translation\:user\.labels\.movieConfirmation\.date_time"),
-            value: '02/05 17:40'
+            value: dateTime
         },
         {
             label: t("translation\:user\.labels\.movieConfirmation\.seats"),
-            value: 'C5,C4'
+            value: parsedSeats()
         }
     ]   
     

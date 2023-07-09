@@ -17,7 +17,7 @@ export const Landing = ({navigation}) => {
 
     const usarAutenticacion = false  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
     // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NDkwZWI5MDA2NmM0NDVjNjNkM2Q1M2Usbmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20sZmFsc2UiLCJJU19PV05FUl9DTEFJTSI6ZmFsc2UsIkVNQUlMX0NMQUlNIjoibmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20iLCJleHAiOjE2ODkwMDk2OTZ9.lI5CjYyhtpKrHARq3tXKTeMItAfGdzBuflfyvmX0zX2f4i3l3lrCJDhLuWej8o_N_GMfjGd410FaiOOcC6RxSw'
+    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NDkwZWI5MDA2NmM0NDVjNjNkM2Q1M2Usbmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20sZmFsc2UiLCJJU19PV05FUl9DTEFJTSI6ZmFsc2UsIkVNQUlMX0NMQUlNIjoibmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20iLCJleHAiOjE2ODkwMTk1OTJ9.H1ovxpLxoSodJkpCDq3NiH7R2yTyrJQg22skPytJjWyoV_O0hHDGD8V0Z231HYB6vOP7MskqvmdwKAniTsrcgA'
     const setDummyCredentials = async () => {
         const data = { userName: 'nicolas.martin.cano@gmail.com', userPassword: 'prueba', accessToken: token }
         setAuth(data)

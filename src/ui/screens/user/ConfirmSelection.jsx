@@ -7,57 +7,70 @@ import {Button} from "../../components/general/Button";
 import { Text as TextRNP } from 'react-native-paper';
 import { ConfirmationDetailsComponent } from '../../components/user/ConfirmationDetailsComponent';
 import { ConfirmationTicketsComponent } from '../../components/user/ConfirmationTicketsComponent';
+import { postReservation } from '../../../networking/api/ReservationController';
 
 export const ConfirmSelection = ({route, navigation}) => {
     const {t} = useTranslation();
     const { screeningId, seatsReserved, ticketQuantity, ticketPrice, details } = route.params.confirmationInfo
 
+    console.log('screeningId', screeningId)
+    console.log('seatsReserved', seatsReserved)
+    console.log('ticketQuantity', ticketQuantity)
+    console.log('ticketPrice', ticketPrice)
+    console.log('details', details)
+    
+
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
-
-    /*
-    React.useEffect(() => {
-        const fetchScreeningInfo = async () => {
-            setIsLoading(true)
-            try {
-                const response = await getScreening(reservationBody.screeningId)
-                if (response.status === 200) {
-                    parseScreeningData(response.data)
-                } else {
-                    setErrMsg(t('translation:general.errors.default'));
-                }
-    
-            } catch (error) {
-                console.log('error', JSON.stringify(error))
-                switch (error.response.data.status) {
-                    case 400:
-                    case 401:
-                        setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                        break;
-                    case 500:
-                        setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                        break;
-                    default:
-                        setErrMsg(t('translation:general.errors.default'));
-                        break;
-                }
-            }
-            setIsLoading(false)
-        }
-        
-        fetchScreeningInfo()
-    }, [])
-    */
 
     const handleGoBack = () =>{
         navigation.goBack()
     }
 
-    const handleConfirm = () =>{
+    const handleConfirm = async () =>{
         //TODO: NTH - Añadir pantalla/mensaje de GRACIAS POR COMPRAR
-        if (arrSeatsSelected.length === 0) return
+
+        const confirmReserveBody = {
+            screeningId: '649a4f2f00221a05f561ccfa',
+            seatsReserved: [
+              {
+                seatRow: "C",
+                seatColumn: "3"
+              },
+              {
+                seatRow: "C",
+                seatColumn: "4"
+              }
+            ]
+          }
         
-       
+        setIsLoading(true)
+        try {
+            const response = await postReservation(confirmReserveBody)
+            if (response.status === 200) {
+                console.log('RES', JSON.stringify(response))
+            } else {
+                setErrMsg(t('translation:general.errors.default'));
+            }
+
+        } catch (error) {
+            console.log('error', JSON.stringify(error))
+            switch (error.response.data.status) {
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                    break;
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                    break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                    break;
+            }
+        }
+        setIsLoading(false)
+
+        
     }
 
     return (
@@ -74,8 +87,8 @@ export const ConfirmSelection = ({route, navigation}) => {
                 <TextRNP variant='titleMedium' style={styles.indications} >
                     {t("translation\:user\.labels\.movieConfirmation\.indication_confirmation")}
                 </TextRNP>
-                <ConfirmationDetailsComponent />
-                <ConfirmationTicketsComponent />
+                <ConfirmationDetailsComponent details={details} seats={seatsReserved} />
+                <ConfirmationTicketsComponent ticketQuantity={ticketQuantity} ticketPrice={ticketPrice} />
                 <View style={styles.detailsTickets}>
                 </View>
                 <View style={styles.dualRow}>
