@@ -8,6 +8,7 @@ import { Filters } from "./Filters";
 import { MovieSelection } from "./MovieSelection";
 import { MovieReservation } from "./MovieReservation";
 import { SeatsSelection } from "./SeatsSelection";
+import { ConfirmSelection } from "./ConfirmSelection";
 
 const Stack = createNativeStackNavigator();
 export const UserNavigator = () => {
@@ -36,6 +37,10 @@ export const UserNavigator = () => {
             />
             <Stack.Screen name={"SeatsSelection"}
                           component={SeatsSelection}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"ConfirmSelection"}
+                          component={ConfirmSelection}
                           options={{headerShown: false}}
             />
         </Stack.Navigator>    

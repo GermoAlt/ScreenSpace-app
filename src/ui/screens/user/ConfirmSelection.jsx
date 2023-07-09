@@ -4,29 +4,18 @@ import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 import { HeaderLogo } from '../../components/general/HeaderLogo';
 import {Button} from "../../components/general/Button";
-import { ScreeningDetailsComponent } from '../../components/general/ScreeningDetailsComponent';
-import { SeatsLegendComponent } from '../../components/general/SeatsLegendComponent';
-import { getScreening } from '../../../networking/api/ScreeningController';
-import { SeatSelectionLayout } from '../../components/general/SeatSelectionLayout';
 import { Text as TextRNP } from 'react-native-paper';
+import { ConfirmationDetailsComponent } from '../../components/user/ConfirmationDetailsComponent';
+import { ConfirmationTicketsComponent } from '../../components/user/ConfirmationTicketsComponent';
 
-export const SeatsSelection = ({route, navigation}) => {
+export const ConfirmSelection = ({route, navigation}) => {
     const {t} = useTranslation();
-    const { movieSelected, cinema, reservationBody } = route.params.reservationInfo
-    
-    const [detailsData, setDetailsData] = React.useState({})
-    const [theaterDetails, setTheaterDetails] = React.useState({})
-    const arrSeatsSelected = []
-   // const [seatsLayout, setSeatsLayout] = React.useState({})
-   // const [reservedSeats, setReservedSeats] = React.useState([])
-
-  //  console.log('movieSelected', movieSelected)
-  //  console.log('cinemaSelected', cinemaSelected)
-    console.log('reservationBody', reservationBody)
+    const { screeningId, seatsReserved, ticketQuantity, ticketPrice, details } = route.params.confirmationInfo
 
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
 
+    /*
     React.useEffect(() => {
         const fetchScreeningInfo = async () => {
             setIsLoading(true)
@@ -58,63 +47,17 @@ export const SeatsSelection = ({route, navigation}) => {
         
         fetchScreeningInfo()
     }, [])
-
-
-    const parseScreeningData = (dataR) => {
-        const { id, theater, movie, seatsReserved, date } = dataR
-        
-        const details = {
-            movieTitle: movie.title,
-            movieDuration: movie.duration,
-            cinemaName: cinema.title,
-            screeningDate: date,
-        }
-        const theater_details = {
-            rows: theater.seatsLayout.numRows,
-            cols: theater.seatsLayout.numColumns,
-            pricePerFunction: theater.pricePerFunction
-        }
-        
-        setDetailsData(details)
-        setTheaterDetails(theater_details)
-    }
-
-    
+    */
 
     const handleGoBack = () =>{
         navigation.goBack()
     }
 
-    const updateSelection = (arrSeats) => {
-        if (arrSeats.seatSelected){
-            arrSeatsSelected.push(arrSeats.seatSelection)
-        }else{
-            arrSeatsSelected.splice(arrSeatsSelected.indexOf(arrSeats.seatSelection),1)
-        }        
-    }
-
-    const handlePurchase = () =>{
+    const handleConfirm = () =>{
+        //TODO: NTH - Añadir pantalla/mensaje de GRACIAS POR COMPRAR
         if (arrSeatsSelected.length === 0) return
-
-        //TODO: NTH - Añadir validacion de butaca vacia en el medio??
-        const parsedSelectesSeats = []
-        arrSeatsSelected.map((item) => {
-            const splitItem = item.split(',')
-            const row =  splitItem[0].split(':')[1]
-            const col =  splitItem[1].split(':')[1]
-            parsedSelectesSeats.push({seatRow: row, seatColumn: col})
-        })
-        const confirmationInfo = {
-            screeningId: reservationBody.screeningId,
-            seatsReserved: parsedSelectesSeats,
-            ticketQuantity: parsedSelectesSeats.length,
-            ticketPrice: theaterDetails.pricePerFunction,
-            details: detailsData
-        }
-
-        console.log('confirmationInfo', confirmationInfo)
-
-        navigation.navigate('ConfirmSelection', {confirmationInfo})
+        
+       
     }
 
     return (
@@ -124,12 +67,17 @@ export const SeatsSelection = ({route, navigation}) => {
             </View>
 
             <ScrollView style={styles.container}>
-                <ScreeningDetailsComponent details={detailsData} />
-                <SeatsLegendComponent />
-                <SeatSelectionLayout rows={theaterDetails.rows} columns={theaterDetails.cols} updateSelection={updateSelection} />
                 <TextRNP variant='titleMedium' style={styles.indications} >
-                    {t("translation\:user\.labels\.movieReservation\.indications")}
+                    {t("translation\:user\.labels\.movieConfirmation\.almost_there")}
                 </TextRNP>
+                <View style={styles.lineSeparator}></View>
+                <TextRNP variant='titleMedium' style={styles.indications} >
+                    {t("translation\:user\.labels\.movieConfirmation\.indication_confirmation")}
+                </TextRNP>
+                <ConfirmationDetailsComponent />
+                <ConfirmationTicketsComponent />
+                <View style={styles.detailsTickets}>
+                </View>
                 <View style={styles.dualRow}>
                     <View style={styles.button}>
                         <Button type={"secondary"} onPress={()=>handleGoBack()}>
@@ -137,7 +85,7 @@ export const SeatsSelection = ({route, navigation}) => {
                         </Button>
                     </View>
                     <View style={styles.button}>
-                        <Button type={"cta"} onPress={()=>handlePurchase()}>
+                        <Button type={"cta"} onPress={()=>handleConfirm()}>
                             {t("translation\:user\.captions\.seatsSelection\.purchase")}
                         </Button>
                     </View>
@@ -152,7 +100,7 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         flexDirection: "column",
-        paddingHorizontal: 10,
+        paddingHorizontal: 5,
         gap: 15,
     },
     header: {
@@ -167,6 +115,7 @@ const styles = StyleSheet.create({
     },
     indications: {
         marginTop: 5,
+        marginBottom: 5,
         textAlign: 'center',
         color: COLORS.off_white
     },
@@ -180,14 +129,8 @@ const styles = StyleSheet.create({
     button: {
         width: '50%'
     },  
-    loadingContainer:{
-        display:"flex",
-        justifyContent:"flex-end",
-        alignItems:"center",
-        minHeight:350
-    },
-    loadingText:{
-        color:COLORS.secondary,
-        fontSize:24,
-    }
+    lineSeparator: {
+        borderBottomWidth: 1,
+        borderColor: COLORS.primary
+    }, 
 })

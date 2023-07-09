@@ -147,11 +147,6 @@
       }
     },
     "user": {
-      "captions": {
-        "movieDetails": {
-          "reserve": "Reservar"
-        }
-      },
       "labels": {
         "landing": {
           "filters": "Filtros",
@@ -190,7 +185,19 @@
             "vacant": "Disponible",
             "reserved": "Reservado",
             "selected": "Tu Selección"
-          }
+          },
+          "indications": "Para seleccionar las butacas, toca los asientos disponibles que deseas reservar."
+        },
+        "movieConfirmation": {
+          "almost_there": "¡Ya casi estamos!",
+          "indication_confirmation": "A CONTINUACIÓN REVISÁ TU SELECCIÓN PARA CONFIRMAR TU RESERVA",
+          "movie": "Película",
+          "cinema": "Cine",
+          "date_time": "Fecha y Hora",
+          "seats": "Butaca(s)",
+          "your_tickets": "Tu(s) Emtrada(s)",
+          "screening_ticket": "Entrada Función",
+          "total_amount": "Total"
         }
       },
       "captions": {

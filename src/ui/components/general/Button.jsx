@@ -1,6 +1,7 @@
 import {Button as RNButton, useTheme} from "react-native-paper";
 import {useEffect, useState} from "react";
 import {StyleSheet} from "react-native";
+import { COLORS } from "../../styles/Colors";
 
 export const Button = (props) => {
     const theme = useTheme();
@@ -9,6 +10,14 @@ export const Button = (props) => {
         red:{
             buttonColor:theme.colors.primary,
             textColor:theme.colors.secondary,
+            borderTopLeftRadius: borderStylesRadius,
+            borderTopRightRadius: borderStylesRadius,
+            borderBottomLeftRadius: borderStylesRadius,
+            borderBottomRightRadius: borderStylesRadius,
+        },
+        secondary:{
+            buttonColor:COLORS.off_white,
+            textColor:COLORS.primary,
             borderTopLeftRadius: borderStylesRadius,
             borderTopRightRadius: borderStylesRadius,
             borderBottomLeftRadius: borderStylesRadius,
@@ -36,6 +45,10 @@ export const Button = (props) => {
         switch (type) {
             case 'default':
                 setButtonStyle(styles.red);
+                setDisabled(false);
+                break;
+            case 'secondary':
+                setButtonStyle(styles.secondary);
                 setDisabled(false);
                 break;
             case 'cta':
