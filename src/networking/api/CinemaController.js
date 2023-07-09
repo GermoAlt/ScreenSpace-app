@@ -37,3 +37,8 @@ export async function postCinemas(body) {
   }
   */
 }
+
+export async function getScreeningsByCinema(idCinema){
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '/' + idCinema + "/screenings")
+}

@@ -4,10 +4,11 @@ import {Text} from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {IconText} from "../../general/IconText";
 import {COLORS} from "../../../styles/Colors";
+import {SmallBase64Image} from "../../general/SmallBase64Image";
 
 export const ScreeningListItem = (props) => {
     const { data } = props
-    
+
     const getTotalSeats = () => {
         const seatsLayout = data.theater.seatsLayout
         return parseInt(seatsLayout.numColumns) * parseInt(seatsLayout.numRows)
@@ -19,13 +20,13 @@ export const ScreeningListItem = (props) => {
     }
 
     const getTime = () => {
-        return data.date.toString().substr(11,18)
+        return data.date.toString().slice(11,16)
     }
 
     return (
-        <CardPanel>
-            <View></View>
-            <View>
+        <CardPanel style={styles.container}>
+            <SmallBase64Image data={data.movie} />
+            <View style={styles.infoContainer}>
                 <View style={styles.row}>
                     <Text style={styles.topText}>{data.theater.name}</Text>
                     <View>
@@ -44,7 +45,18 @@ export const ScreeningListItem = (props) => {
 }
 
 const styles = StyleSheet.create({
-    image:{},
+    container:{
+        display:"flex",
+        flexDirection:"row",
+        gap:10
+    },
+    infoContainer:{
+        display:"flex",
+        flexDirection:"column",
+        justifyContent:"space-between",
+        alignItems:"stretch",
+        flex:1
+    },
     topText:{
         color:COLORS.primary,
         fontSize:20,
