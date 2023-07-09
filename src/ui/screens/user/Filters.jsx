@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import * as React from 'react';
 import {Dimensions, SafeAreaView, StyleSheet, View} from "react-native";
 import {IconButton, Text} from "react-native-paper";
 import {TextInput} from "../../components/general/TextInput";
@@ -12,15 +12,50 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { mock_filters } from "../../../assets/data/user_filters";
 import { HeaderLogo } from "../../components/general/HeaderLogo";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { getCinemas } from '../../../networking/api/CinemaController';
 
 export const Filters = ({navigation}) => {
     const {t} = useTranslation()
 
-    const { cinemas, movies, genres, distances, ratings } = mock_filters
-    const [errMsg, setErrMsg] = useState('');
-    const [loading, setLoading] = useState(false);
+    const { genres, distances, ratings, movies } = mock_filters
+    const [cinemas, setCinemas] = React.useState([]);
+    const [errMsg, setErrMsg] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
 
+    //TODO - Pasarlo a un Provider
+    React.useEffect(() => {
+        const fetchCinemas = async () => {
+            setIsLoading(true)
+            try {
+                const response = await getCinemas()
+                console.log('response', response)
+                const allCinemas = response.data.map((item) => { return { id: item.id, title: item.name }})
+                setCinemas(allCinemas)
 
+            } catch (error) {
+                console.log('error', JSON.stringify(error))
+                /*
+                switch (error.response.data.status) {
+                    case 400:
+                    case 401:
+                        setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                        break;
+                    case 500:
+                        setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                        break;
+                    default:
+                        setErrMsg(t('translation:general.errors.default'));
+                        break;
+                }
+                */
+            }
+            setIsLoading(false)
+        }
+        
+        fetchCinemas()
+    }, [])
+   
     /*
      useEffect(()=>{
         const getUserTheaters = async () => {
@@ -93,7 +128,10 @@ export const Filters = ({navigation}) => {
             {({ handleSubmit, setFieldValue, values }) => (
                 <>
                 <View style={styles.container}>
-                    <Text style={styles.title}>FILTROS</Text>
+                    <View style={styles.titleContainer}>
+                        <Icon name="filter" style={styles.icon} />
+                        <Text style={styles.title}>{t("translation\:user\.labels\.landing\.filters")}</Text>
+                    </View>    
                     <Dropdown list={cinemas}
                         value={values.cinema}
                         setValue={(value) => setFieldValue("cinema", value)} 
@@ -115,9 +153,17 @@ export const Filters = ({navigation}) => {
                         setValue={(value) => setFieldValue("rating", value)} 
                     />
                 </View>
-                <View style={styles.buttonContainer}>
-                    <Button onPress={handleSubmit} >Limpiar</Button>
-                    <Button onPress={handleSubmit} >Aplicar</Button>
+                <View style={styles.dualRow}>
+                    <View style={styles.button}>
+                        <Button type={"secondary"} onPress={()=>handleSubmit()}>
+                            {t("translation\:user\.captions\.filters\.clear")}
+                        </Button>
+                    </View>
+                    <View style={styles.button}>
+                        <Button type={"cta"} onPress={()=>handleSubmit()}>
+                            {t("translation\:user\.captions\.filters\.apply")}
+                        </Button>
+                    </View>
                 </View>
                 </>
             )}
@@ -137,10 +183,37 @@ const styles = StyleSheet.create({
     container:{
         display:"flex",
         flexDirection:"column",
-        paddingHorizontal:30,
+        paddingHorizontal:20,
         gap:10,  
     },
-   
+    titleContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 20,
+        gap: 8
+    },
+    icon: {
+        alignSelf: 'center',
+        fontSize:24,
+        color:COLORS.off_white,
+    },
+    title:{
+        color:COLORS.secondary,
+        fontSize:20,
+
+    },
+    dualRow: {
+        display: "flex",
+        flexDirection: "row",
+        marginTop: 50,
+        marginHorizontal: 25,
+        gap: 10,
+        justifyContent: "center",
+    },
+    button: {
+        width: '50%'
+    },  
+
     buttonContainer: {
         display:"flex",
         flexDirection:"row",
@@ -149,11 +222,7 @@ const styles = StyleSheet.create({
         marginTop: 70,
         marginBottom: 20
     },
-    title:{
-        color:COLORS.secondary,
-        fontSize:30,
-
-    },
+    
     errorText: {
         fontSize: 10,
         color: COLORS.primary,

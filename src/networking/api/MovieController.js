@@ -11,3 +11,13 @@ export const getMovieById = async (id) => {
     const token = await getKey('accessToken')
     return await api(token).get(prefix + "/" + id)
 }
+
+export const getMoviesFiltered = async () => {
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '/searchMovies' )
+}
+
+export const getAllGenres = async () => {
+    const token = await getKey('accessToken')
+    return await api(token).get(prefix + '/genres' )
+}

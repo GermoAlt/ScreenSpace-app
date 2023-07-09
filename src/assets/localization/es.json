@@ -201,6 +201,10 @@
         }
       },
       "captions": {
+        "filters": {
+          "clear": "Limpiar",
+          "apply": "Aplicar"
+        },
         "movieDetails": {
           "reserve": "Reservar"
         },
