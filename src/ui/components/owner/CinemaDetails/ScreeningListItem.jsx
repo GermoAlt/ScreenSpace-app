@@ -20,7 +20,7 @@ export const ScreeningListItem = (props) => {
     }
 
     const getTime = () => {
-        return data.date.toString().substr(11,18)
+        return data.date.toString().slice(11,16)
     }
 
     return (
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     infoContainer:{
         display:"flex",
         flexDirection:"column",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        alignItems:"stretch",
+        flex:1
     },
     topText:{
         color:COLORS.primary,
