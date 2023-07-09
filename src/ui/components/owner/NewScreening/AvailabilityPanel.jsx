@@ -34,35 +34,61 @@ export const AvailabilityPanel = (props) => {
     ]
 
     const [type, setTypeStyles] = useState(types[0])
-    console.log("theater prop", movie)
+    const [availableSlots, setAvailableSlots] = useState([])
 
     useEffect(() => {
         if (theater && date && Object.keys(movie).length !== 0) {
-            getAvailability({"theater": theater.id, "date": date, "movie": movie.id})
-            .then((res) => {
-                console.log(res)
+            getAvailability({
+                "theaterId": theater.id,
+                "date": "" + date.toLocaleDateString("en-GB", {
+                    "day": "2-digit",
+                    "month": "2-digit",
+                    "year": "numeric"
+                }),
+                "movieId": movie.id
             })
-            .catch((err)=>{
-                console.error(err)
-            })
+                .then((res) => {
+                    console.log(res.data)
+                    setAvailableSlots(res.data)
+                })
+                .catch((err) => {
+                    console.error(err)
+                })
         }
-    })
+    }, [theater, date, movie])
 
 
     return <View style={[styles.container, type.styles.container]}>
         <View>
             <Icon name={type.icon} style={type.styles.icon}/>
         </View>
-        <View>
-            <Text style={styles.title}>{type.title}</Text>
-            <Text>{type.description}</Text>
-        </View>
+        {availableSlots.length === 0 ?
+            <View>
+                <Text style={styles.title}>{type.title}</Text>
+                <Text>{type.description}</Text>
+            </View>
+            :
+            <View>
+                <Text
+                    style={styles.title}>{t("translation\:owner\.labels\.newScreening\.availability\.info\.altTitle")}</Text>
+                {availableSlots.map(
+                    (item) => {
+                        return (
+                            <View style={styles.row}>
+                                <Icon name={"circle-medium"} size={20}/>
+                                <Text key={"e"}>{item.start} - {item.end}</Text>
+                            </View>
+                        )
+                    }
+                )}
+            </View>
+        }
     </View>
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 100,
+        minHeight: 100,
         borderRadius: 8,
         display: "flex",
         flexDirection: "row",
@@ -73,6 +99,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 15,
         fontWeight: "bold"
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5
     }
 })
 

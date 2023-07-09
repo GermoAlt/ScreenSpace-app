@@ -8,6 +8,7 @@ import {COLORS} from "../../../styles/Colors";
 import {useNavigation} from "@react-navigation/native";
 import {Base64Image} from "../../general/Base64Image";
 import {IconText} from "../../general/IconText";
+import {SmallBase64Image} from "../../general/SmallBase64Image";
 
 
 export const MovieSelectionPanel = (props) => {
@@ -19,7 +20,7 @@ export const MovieSelectionPanel = (props) => {
 
 
     return (
-        <Pressable onPress={() => props.navigateTo("MovieSearch", {cinema: props.cinema})} >
+        <Pressable style={styles.container} onPress={() => props.navigateTo("MovieSearch", {cinema: props.cinema})} >
             {
 
                 Object.keys(movie).length === 0 ?
@@ -28,16 +29,16 @@ export const MovieSelectionPanel = (props) => {
                         <Text style={styles.text}>{t("translation\:owner\.labels\.newScreening\.selectMovie")}</Text>
                     </CardPanel>
                     :
-                    <CardPanel style={styles.row}>
-                        <View >
-                            <Base64Image data={movie} />
-                        </View>
-                        <View>
+                    <CardPanel style={styles.card}>
+                        <SmallBase64Image data={movie} />
+                        <View style={styles.infoContainer}>
                             <Text style={styles.title}>{movie.title}</Text>
                             <IconText icon={"clock-outline"}>{movie.duration} min</IconText>
-                            {movie.genre.map(
-                                (item, i) => (<Text key={item}>{item}</Text>)
-                            )}
+                            <View>
+                                {movie.genre.map(
+                                    (item, i) => (<Text key={item} style={styles.genres}>{item}</Text>)
+                                )}
+                            </View>
                         </View>
                     </CardPanel>
             }
@@ -51,6 +52,13 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center",
     },
+    card:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center",
+        gap:15,
+    },
     disabled: {
 
     },
@@ -63,8 +71,19 @@ const styles = StyleSheet.create({
         flexDirection:"row",
         gap:15
     },
+    infoContainer:{
+        display:"flex",
+        justifyContent:"space-between",
+        flexDirection:"column",
+        flex:1,
+        gap:10
+    },
     title:{
         color:COLORS.primary,
-        fontSize:22
+        fontSize:22,
+        maxWidth:150
+    },
+    genres:{
+        color:COLORS.secondary
     }
 })
