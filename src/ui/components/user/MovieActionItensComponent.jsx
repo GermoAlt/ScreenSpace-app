@@ -9,6 +9,8 @@ import {Button} from "../general/Button";
 import {deleteTheater} from "../../../networking/api/TheaterController";
 import {useState} from "react";
 import {StarsRating} from "./StarsRating";
+import {postReview} from "../../../networking/api/ReviewController";
+import {useNavigation} from "@react-navigation/native";
 
 export const MovieActionItensComponent = (props) => {
     const {t} = useTranslation();
@@ -16,6 +18,7 @@ export const MovieActionItensComponent = (props) => {
     const [visibleDialog, setVisibleDialog] = useState(false)
     const [rating, setRating] = useState(0)
     const [ratingText, setRatingText] = useState("")
+    const {navigate} = useNavigation()
 
     //Para Calificar: star-box-outline ?? comment-edit-outline
     const onShare = async () => {
@@ -53,19 +56,32 @@ export const MovieActionItensComponent = (props) => {
                         </Text>
                     </Dialog.Title>
                     <Dialog.Content>
-                        <TextInput multiline></TextInput>
-                        <StarsRating rating={rating} setRating={(e)=>setRating(e)}></StarsRating>
+                        <View style={styles.reviewContainer}>
+                            <TextInput multiline value={ratingText} onChangeText={(text) => {setRatingText(text)}}/>
+                            <StarsRating rating={rating} setRating={(e)=>setRating(e)}></StarsRating>
+                        </View>
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
-                        <Button type={"default"} icon={"delete"} onPress={()=> {
-
+                        <Button type={"default"} icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button icon={"check-circle-outline"} onPress={()=> {
+                            console.log("rev", {
+                                rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
+                            })
+                            postReview(movie.id, {
+                                rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
+                            }).then((res) => {
+                                setVisibleDialog(false)
+                            }).catch((err)=>{
+                                console.log(err)
+                            })
                         }}>{t("translation\:general\.labels\.yes")}</Button>
                     </Dialog.Actions>
 
                 </Dialog>
             </Portal>
-            <ActionItemComponent icon="comment-multiple-outline" label={t("translation\:user\.labels\.movieActionItems\.comments")} />
+            <Pressable onPress={()=>navigate("MovieReviews", {movie:movie})}>
+                <ActionItemComponent icon="comment-multiple-outline" label={t("translation\:user\.labels\.movieActionItems\.comments")} />
+            </Pressable>
             <Pressable onPress={()=>setVisibleDialog(true)}>
                 <ActionItemComponent icon="comment-edit-outline" label={t("translation\:user\.labels\.movieActionItems\.rate")} />
             </Pressable>
@@ -85,4 +101,9 @@ const styles = StyleSheet.create({
         gap: 5,
         marginBottom: 5,
     },
+    reviewContainer:{
+        display: "flex",
+        flexDirection:"column",
+        gap:20
+    }
 })

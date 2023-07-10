@@ -21,7 +21,7 @@ export const UserLanding = ({navigation}) => {
     const [location, setLocation] = React.useState(false);
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
-    
+
     //const [movieOffer, setMovieOffer] = React.useState(mock_data)
     const [movieOffer, setMovieOffer] = React.useState([])
 
@@ -53,7 +53,7 @@ export const UserLanding = ({navigation}) => {
               {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
             );
 
-            
+
           }
         });
         //console.log(location);
@@ -113,8 +113,8 @@ export const UserLanding = ({navigation}) => {
         console.log('geoLoc', geoloc)
 
         const body = {
-            latitute: geoloc.coords.latitude, //LatituDe misspelled by BE Monkey :)
-            longitude: geoloc.coords.longitude,
+            latitute: -34.57170, //LatituDe misspelled by BE Monkey :)
+            longitude: -58.44227,
             maxDistance: '15' // TODO - Migrate to Config File
         }
 
@@ -131,7 +131,7 @@ export const UserLanding = ({navigation}) => {
                 }
             })
             setMovieOffer(cinemaOffers)
-            
+
 
         } catch (error) {
             console.log('error', JSON.stringify(error))
@@ -150,7 +150,7 @@ export const UserLanding = ({navigation}) => {
         }
         setIsLoading(false)
 
-    }  
+    }
 
     return (
         <SafeAreaView style={styles.container}>
