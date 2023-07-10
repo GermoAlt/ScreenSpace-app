@@ -1,4 +1,5 @@
 {
   "name": "ScreenSpace",
-  "displayName": "ScreenSpace"
+  "displayName": "ScreenSpace",
+  "plugins": ["@react-native-google-signin/google-signin"]
 }
