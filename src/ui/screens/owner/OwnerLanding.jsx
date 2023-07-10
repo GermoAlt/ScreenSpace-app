@@ -95,12 +95,13 @@ export const OwnerLanding = ({navigation}) => {
             <SafeAreaView>
                 <Portal>
                     <Dialog visible={visible} onDismiss={hideDialog}>
-                        <Dialog.Title>{t("translation\:login\.labels\.logout\.titleText")}</Dialog.Title>
+                        <Dialog.Title style={styles.text}>{t("translation\:login\.labels\.logout\.titleText")}</Dialog.Title>
                         <Dialog.Content>
-                            <Text variant="bodyMedium">{t("translation\:login\.labels\.logout\.dialogText")}</Text>
+                            <Text variant="bodyMedium" style={styles.text}>{t("translation\:login\.labels\.logout\.dialogText")}</Text>
                         </Dialog.Content>
                         <Dialog.Actions>
-                            <Button type={"default"} onPress={()=>handleLogout()}>{t("translation\:general\.labels\.confirm")}</Button>
+                            <Button type={"cta"} icon={"close"} onPress={()=>setVisible(false)}>{t("translation\:general\.labels\.back")}</Button>
+                            <Button type={"default"} icon={"check-circle-outline"}  onPress={()=>handleLogout()}>{t("translation\:general\.labels\.confirm")}</Button>
                         </Dialog.Actions>
                     </Dialog>
                 </Portal>
@@ -181,6 +182,9 @@ const styles = StyleSheet.create({
     loadingText:{
         color:COLORS.secondary,
         fontSize:24,
+    },
+    text:{
+        color:COLORS.secondary
     }
 })
 
