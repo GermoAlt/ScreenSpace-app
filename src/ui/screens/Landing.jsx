@@ -69,9 +69,7 @@ export const Landing = ({navigation}) => {
     
     React.useEffect(() => {
         GoogleSignin.configure({
-            webClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com',
-            //webClientId: '133745401400-enfomql1df2e3qn102k1sgam1ug206rh.apps.googleusercontent.com',
-            offlineAccess: true,
+            androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
             forceCodeForRefreshToken: true,
         })
         isSignedIn()
@@ -83,6 +81,7 @@ export const Landing = ({navigation}) => {
             const userInfo = await GoogleSignin.signIn()
             console.log('due___', userInfo)
             setUser(userInfo)
+            navigation.navigate('UserNavigator', {name: 'UserLanding'})
         } catch (error) {
             console.log('Message___', error.message)
             if (error.code === statusCodes.SIGN_IN_CANCELLED){
