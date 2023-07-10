@@ -6,7 +6,6 @@ import {useEffect, useState} from "react";
 
 export const Dropdown = (props) => {
     const data = props.list
-    console.log("whoami",props.initialValue)
     const initialValue = props.initialValue ? props.initialValue : ''
 
 

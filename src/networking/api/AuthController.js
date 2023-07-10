@@ -25,6 +25,5 @@ export async function resetPassword(body) {
 }
 
 export function confirmResetPassword(body) {
-  console.log('body change', body)
   return api().post('/reset-password/confirm', body);
 }

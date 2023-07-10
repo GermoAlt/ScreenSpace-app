@@ -38,7 +38,6 @@ export function deleteScreening(id) {
 
 export function getAvailability(criteria) {
     return getKey('accessToken').then(token=>{
-        console.log('/availability' + buildQueryParams(criteria))
         return api(token).get(prefix + '/availability' + buildQueryParams(criteria))
     })
 }

@@ -13,7 +13,6 @@ export const ScreeningList = (props) => {
     const {navigation} = extended
 
     useEffect(()=>{
-        console.log("screenings obj", navigation.getState().routes[navigation.getState().index].name)
         setScreen(navigation.getState().routes[navigation.getState().index].name)
     })
 

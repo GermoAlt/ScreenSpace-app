@@ -36,8 +36,6 @@ export const AvailabilityPanel = (props) => {
     const [type, setTypeStyles] = useState(types[0])
     const [availableSlots, setAvailableSlots] = useState([])
 
-    console.log("tdata", theater)
-
     useEffect(() => {
         if (theater && date && Object.keys(movie).length !== 0) {
             getAvailability({
@@ -50,7 +48,6 @@ export const AvailabilityPanel = (props) => {
                 "movieId": movie.id
             })
                 .then((res) => {
-                    console.log(res.data)
                     setAvailableSlots(res.data)
                 })
                 .catch((err) => {

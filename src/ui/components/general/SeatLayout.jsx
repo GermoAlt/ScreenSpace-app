@@ -6,7 +6,6 @@ import {COLORS} from "../../styles/Colors";
 
 export const SeatLayout = (props) => {
     const {t} = useTranslation()
-    console.log("props", props)
     const {rows, columns} = props
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return (

@@ -92,7 +92,6 @@ export const CinemaDetails = ({route, navigation}) => {
     )
 
     const getRouteName = () => {
-        console.log('screen', screen)
         if (screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")) {
             return "NewScreening"
         }

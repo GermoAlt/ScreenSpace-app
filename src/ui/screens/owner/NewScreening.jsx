@@ -38,15 +38,11 @@ export const NewScreening = ({navigation, route}) => {
 
     if (movie && movie !== selectedMovie) setSelectedMovie(movie)
 
-    console.log("es", existingScreening)
-    console.log("esd", existingScreening.theater)
-
     const parseDateString = (date) => {
         //"date": "11/07/2023 15:33:00",
 
         let dateStr = date.slice(6, 10) + "-" + date.slice(3, 5) + "-" + date.slice(0, 2)
         let timeStr = date.slice(11, date.length)
-        console.log(dateStr + "T" + timeStr + "Z")
         return new Date(dateStr + "T" + timeStr + "Z")
     }
 

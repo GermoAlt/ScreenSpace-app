@@ -44,7 +44,6 @@ export const NewCinema = ({navigation, route}) => {
     Geocoder.init(API_KEY)
 
     useEffect(() => {
-        console.log("cinemaEx", existingCinema)
         if (existing) {
             navigation.setOptions({
                 headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editCinema')}/>,
@@ -58,8 +57,6 @@ export const NewCinema = ({navigation, route}) => {
     }, [])
 
     const submitCinemaData = (values) => {
-
-        console.log('values', values)
         setLoading(true)
         setErrMsg('')
 
@@ -326,7 +323,6 @@ export const NewCinema = ({navigation, route}) => {
                                             }} draggable onDragEnd={(e) => {
                                                 setFieldValue("latitude", e.nativeEvent.coordinate.latitude.toString().slice(0, 10))
                                                 setFieldValue("longitude", e.nativeEvent.coordinate.longitude.toString().slice(0, 10))
-                                                console.log(e)
                                             }}/>
                                         </MapView>
                                         <View style={styles.dualRow}>

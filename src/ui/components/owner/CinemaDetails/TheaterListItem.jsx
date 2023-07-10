@@ -14,8 +14,6 @@ export const TheaterListItem = (props) => {
         return parseInt(seatsLayout.numColumns) * parseInt(seatsLayout.numRows)
     }
 
-    console.log("theater", data)
-
     return (
         <Pressable onPress={()=>navigate("NewTheater", {
             cinema: cinema,

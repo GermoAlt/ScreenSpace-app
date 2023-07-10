@@ -20,8 +20,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const NewTheater = (props) => {
     const {existingTheater, cinema} = props.route.params
-    console.log('cinemaData', cinema)
-    console.log('existingTheater', existingTheater)
     const {t} = useTranslation()
     const navigation = useNavigation()
 
@@ -77,7 +75,6 @@ export const NewTheater = (props) => {
     }, [])
 
     const submitTheaterData = (values) => {
-        console.log('values', values)
         setLoading(true)
         setErrMsg('')
         const seatsLayout = {
@@ -101,7 +98,6 @@ export const NewTheater = (props) => {
     }
 
     const saveNewTheater = (body) => {
-        console.log("SAVE")
         postTheaterByCinema(body).then(() => {
             navigation.navigate('CinemaDetails', {data: cinema})
         }).catch((error) => {
@@ -120,7 +116,6 @@ export const NewTheater = (props) => {
         })
     }
     const editTheater = (body) => {
-        console.log("EDIT")
         updateTheater(existingTheater.id, body).then(() => {
             navigation.navigate('CinemaDetails', {data: cinema})
         }).catch((error) => {

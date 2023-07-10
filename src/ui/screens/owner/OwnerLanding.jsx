@@ -31,7 +31,6 @@ export const OwnerLanding = ({navigation}) => {
     const getCinemasList =  () => {
         setIsLoading(true)
         getCinemas().then((response)=>{
-            console.log(response.data)
             setCinemaList(response.data)
             setIsLoading(false)
         }).catch((error) =>{
@@ -67,7 +66,6 @@ export const OwnerLanding = ({navigation}) => {
         try {
             const res = await logoutOwnerUser()
             await clearStorage()
-            console.log('response', JSON.stringify(res.data))
             if (res.status === 200){
                 navigation.push("LoginNavigator")
             }else{
