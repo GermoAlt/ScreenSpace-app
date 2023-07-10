@@ -1,4 +1,4 @@
-import {SafeAreaView, ScrollView, View} from "react-native";
+import {SafeAreaView, ScrollView, StyleSheet, View} from "react-native";
 import {HeaderLogo} from "../../components/general/HeaderLogo";
 import {getReviewsByMovie} from "../../../networking/api/ReviewController";
 import {useEffect, useState} from "react";
@@ -20,7 +20,7 @@ export const MovieReviews = ({route, navigation}) => {
     return (
         <SafeAreaView>
             <HeaderLogo/>
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.container}>
                 {
                     reviews.length > 0 ?
                         reviews.map((item)=> { return <ReviewListItem review={item} key={item.id} />
@@ -37,3 +37,9 @@ export const MovieReviews = ({route, navigation}) => {
     )
 
 }
+
+const styles = StyleSheet.create({
+    container:{
+        paddingVertical:20
+    }
+})

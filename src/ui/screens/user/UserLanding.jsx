@@ -151,6 +151,7 @@ export const UserLanding = ({navigation}) => {
         setIsLoading(false)
 
     }
+    console.log("mv",movieOffer)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -170,13 +171,18 @@ export const UserLanding = ({navigation}) => {
                     </Pressable>
                 </View>
             </View>
-            <FlatList
-                data={movieOffer}
-                renderItem={
-                    ({item}) => <CinemaOffersComponent cinemas={item} navigation={navigation} />
-                }
-                keyExtractor={item => item.id}
-            />
+            {movieOffer.length > 0 ?
+                <ScrollView>
+                    {movieOffer.map((item) =>
+                         <CinemaOffersComponent key={item.id} cinemas={item} navigation={navigation}/>
+                    )}
+                </ScrollView>
+                :
+                <View>
+                    <Text>empty</Text>
+                </View>
+            }
+
         </SafeAreaView>
     );
 }
@@ -188,7 +194,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         gap: 15,
         marginBottom: 10,
-        minHeight: "80%"
+        flex:1
     },
     header: {
         display: "flex",
