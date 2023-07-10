@@ -1,15 +1,17 @@
 /* eslint-disable prettier/prettier */
 import * as React from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View, StyleSheet} from 'react-native';
+import {useTranslation} from "react-i18next";
+import { COLORS } from '../styles/Colors';
 import {Button} from '../components/general/Button';
-import {useTranslation} from 'react-i18next';
 import {useEffect, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
 import useEncryptedStorage from '../../hooks/useEncryptedStorage';
-import {CommonActions, useFocusEffect} from "@react-navigation/native";
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { loginClientUser } from "../../networking/api/AuthController";
+import { HeaderLogo } from '../components/general/HeaderLogo';
+import { Text as TextRNP, Chip } from 'react-native-paper';
 
 
 export const Landing = ({navigation}) => {
@@ -20,14 +22,16 @@ export const Landing = ({navigation}) => {
 
     const { setGoogelUserData }= useGoogleAuth()
 
-    const usarAutenticacion = false  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
+    const usarAutenticacion = true  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
     // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
+    /*
     const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NDkwZWI5MDA2NmM0NDVjNjNkM2Q1M2Usbmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20sZmFsc2UiLCJJU19PV05FUl9DTEFJTSI6ZmFsc2UsIkVNQUlMX0NMQUlNIjoibmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20iLCJleHAiOjE2ODkwOTcxMTl9.J-e0qko36ZTQnD4xzZJCjKj9yaD0cXOkhPLiR2sMjyS0aIQzzUQN8LuLrs0xeYsHHImdWQqt12G1UYybm3ir1A'
     const setDummyCredentials = async () => {
         const data = { userName: 'nicolas.martin.cano@gmail.com', userPassword: 'prueba', accessToken: token }
         setAuth(data)
         await storeUserSession(data)
     }
+    */
     //HASTA ACA
 
     React.useEffect(() => {
@@ -39,8 +43,6 @@ export const Landing = ({navigation}) => {
                     if(res) {
                         navigation.navigate('OwnerNavigator')
                         setAuth(JSON.parse(res))
-                    } else {
-                        navigation.navigate('LoginNavigator')
                     }
                 }
             )
@@ -168,38 +170,113 @@ export const Landing = ({navigation}) => {
     }
 
     return (
-        <SafeAreaView>
-            <Button
-                icon="movie-roll"
-                mode="contained"
-                marginLeft={100}
-                marginRight={100}
-                onPress={() => navigation.navigate('LoginNavigator')}>
-                Login Navigator
-            </Button>
-            <Button
-                icon="movie-roll"
-                mode="contained"
-                marginLeft={100}
-                marginRight={100}
-                onPress={() => navigation.navigate('OwnerNavigator')}>
-                {t('translation:landing.ownerNavigateButton')}
-            </Button>
-            <Button
-                icon="account-circle"
-                mode="contained"
-                marginLeft={100}
-                marginRight={100}
-                onPress={() => navigation.navigate('UserNavigator')}>
-                {t('translation:landing.userNavigateButton')}
-            </Button>
-            <GoogleSigninButton
-            size={GoogleSigninButton.Size.Wide}
-            color={GoogleSigninButton.Color.Dark}
-            onPress={signIn}
-            disabled={isSigninInProgress}
-            />
+        <SafeAreaView style={styles.container}>
+
+            <View style={styles.header}>
+                <HeaderLogo />
+            </View>
+            <View style={styles.googleLoginBtn}>
+                <GoogleSigninButton
+
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Dark}
+                onPress={signIn}
+                disabled={isSigninInProgress}
+                />
+            </View>
+
+            <View style={styles.ownerAccess} >
+                <Button
+                    icon="theater"
+                    mode="default"
+
+                    onPress={() => navigation.navigate('LoginNavigator')}>
+                    {t('translation:landing.ownerNavigateButton')}
+                </Button>
+            </View>
             
         </SafeAreaView>
     );
 }
+
+const styles = StyleSheet.create({
+    scrollView: {
+        marginHorizontal: 20,
+    },
+    container: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignContent: "center",
+        paddingHorizontal: 10,
+        gap: 25,
+        marginBottom: 10,
+        minHeight: "80%"
+    },
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 5
+    },
+    googleLoginBtn: {
+        alignSelf:"center"
+    },  
+    ownerAccess: {
+        alignSelf:"flex-end",
+        marginRight: 40,
+        marginTop: 150
+
+    },
+    dualRow: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "stretch",
+        gap: 15,
+    },
+    icon: {
+        fontSize:15,
+        color:COLORS.off_white,
+    },
+    loadingContainer:{
+        display:"flex",
+        justifyContent:"flex-end",
+        alignItems:"center",
+        minHeight:350
+    },
+    loadingText:{
+        color:COLORS.secondary,
+        fontSize:24,
+    }
+})
+
+/*
+
+<Button
+    icon="movie-roll"
+    mode="contained"
+    marginLeft={100}
+    marginRight={100}
+    onPress={() => navigation.navigate('LoginNavigator')}>
+    Login Navigator
+</Button>
+<Button
+    icon="movie-roll"
+    mode="contained"
+    marginLeft={100}
+    marginRight={100}
+    onPress={() => navigation.navigate('OwnerNavigator')}>
+    {t('translation:landing.ownerNavigateButton')}
+</Button>
+<Button
+    icon="account-circle"
+    mode="contained"
+    marginLeft={100}
+    marginRight={100}
+    onPress={() => navigation.navigate('UserNavigator')}>
+    {t('translation:landing.userNavigateButton')}
+</Button>
+
+*/

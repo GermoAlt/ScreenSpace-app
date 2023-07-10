@@ -32,7 +32,7 @@
       }
     },
     "landing": {
-      "ownerNavigateButton": "Ir a OwnerNavigate",
+      "ownerNavigateButton": "Ingreso Dueños",
       "userNavigateButton": "Ir a UserNavigate"
     },
     "login": {
