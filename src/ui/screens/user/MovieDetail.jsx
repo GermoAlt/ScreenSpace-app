@@ -23,17 +23,18 @@ export const MovieDetail = ({route, navigation}) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View>
             <View style={styles.header}>
                 <HeaderLogo />
             </View>
             <MovieDetailComponent movie={movie} />
-            <View >
+            </View>
+            <View style={styles.bottomRow}>
                 <Button type={"cta"} onPress={()=>handleReserveMovie()}>
                     {t("translation\:user\.captions\.movieDetails\.reserve")}
                 </Button>
+                <MovieActionItensComponent movie={movie} />
             </View>
-            <MovieActionItensComponent movie={movie} />
-
         </SafeAreaView>
     );
 }
@@ -76,5 +77,9 @@ const styles = StyleSheet.create({
     loadingText:{
         color:COLORS.secondary,
         fontSize:24,
+    },
+    bottomRow:{
+        display:"flex",
+        gap:30
     }
 })
