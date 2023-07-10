@@ -31,6 +31,7 @@ export const OwnerLanding = ({navigation}) => {
     const getCinemasList =  () => {
         setIsLoading(true)
         getCinemas().then((response)=>{
+            console.log(response.data)
             setCinemaList(response.data)
             setIsLoading(false)
         }).catch((error) =>{

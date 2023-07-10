@@ -1,15 +1,6 @@
 {
   "translation": {
     "general": {
-      "permissions": {
-        "geolocation": {
-          "title": "Permisos de Geolocalizacion",
-          "message": "¿Podemos acceder a tu ubicación",
-          "buttonNeutral": "Preguntar más tarde",
-          "buttonNegative": "Cancelar",
-          "buttonPositive": "OK"
-        }
-      },
       "errors": {
         "default": "Ocurrió un error"
       },
@@ -29,6 +20,15 @@
         "next": "Siguiente",
         "no": "No",
         "yes": "Sí"
+      },
+      "permissions": {
+        "geolocation": {
+          "buttonNegative": "Cancelar",
+          "buttonNeutral": "Preguntar más tarde",
+          "buttonPositive": "OK",
+          "message": "¿Podemos acceder a tu ubicación",
+          "title": "Permisos de Geolocalizacion"
+        }
       }
     },
     "landing": {
@@ -102,6 +102,9 @@
             }
           }
         },
+        "deleteCine": "Estás seguro de querer eliminar este cine?",
+        "deleteScreening": "Estás seguro de querer eliminar esta función?",
+        "deleteTheater": "Estás seguro de querer eliminar esta sala?",
         "movieSearch": {
           "searchField": "Búsqueda"
         },
@@ -149,6 +152,9 @@
       },
       "titles": {
         "cinemaDetails": "Mi Cine",
+        "deleteCinema": "Eliminar este cine?",
+        "deleteScreening": "Borrar esta funcion?",
+        "deleteTheater": "Eliminar esta sala?",
         "editCinema": "Editar Cine",
         "editScreening": "Editar Función",
         "editTheater": "Editar Sala",
@@ -160,6 +166,10 @@
     },
     "user": {
       "captions": {
+        "filters": {
+          "apply": "Aplicar",
+          "clear": "Limpiar"
+        },
         "movieDetails": {
           "reserve": "Reservar"
         },
@@ -217,33 +227,17 @@
         },
         "movieSelected": {
           "actors": "Actores",
+          "cinema": "Cine",
+          "date_time": "Fecha y Hora",
           "director": "Director",
           "duration": "Duración",
           "genre": "Género",
           "movie": "Película",
           "rating": "Calificación",
-          "cinema": "Cine",
-          "date_time": "Fecha y Hora",
-          "seats": "Butaca(s)",
-          "your_tickets": "Tu(s) Emtrada(s)",
           "screening_ticket": "Entrada Función",
-          "total_amount": "Total"
-        }
-      },
-      "captions": {
-        "filters": {
-          "clear": "Limpiar",
-          "apply": "Aplicar"
-        },
-        "movieDetails": {
-          "reserve": "Reservar"
-        },
-        "movieReservation": {
-          "confirmReservation": "Confirmar"
-        },
-        "seatsSelection": {
-          "back": "Atras",
-          "purchase": "Comprar"
+          "seats": "Butaca(s)",
+          "total_amount": "Total",
+          "your_tickets": "Tu(s) Emtrada(s)"
         }
       }
     }

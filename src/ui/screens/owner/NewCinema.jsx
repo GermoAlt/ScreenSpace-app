@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {KeyboardAvoidingView, LogBox, ScrollView, StyleSheet, View} from "react-native";
+import {KeyboardAvoidingView, LogBox, Pressable, ScrollView, StyleSheet, View} from "react-native";
 import Swiper from 'react-native-swiper'
 import {TextInput} from "../../components/general/TextInput";
 import {Text} from "../../components/general/Text";
@@ -10,13 +10,15 @@ import MapView, {Marker} from "react-native-maps";
 import {ErrorMessage} from '../../components/general/ErrorMessage';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {postCinemas, updateCinema} from '../../../networking/api/CinemaController';
+import {deleteCinema, postCinemas, updateCinema} from '../../../networking/api/CinemaController';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {useEffect, useState} from "react";
 import {useIsFocused} from "@react-navigation/native";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import Geocoder from 'react-native-geocoding'
 import {API_KEY} from "../../../assets/config/config";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {Dialog, IconButton, Portal} from "react-native-paper";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -28,6 +30,7 @@ export const NewCinema = ({navigation, route}) => {
     const {t} = useTranslation()
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
+    const [visibleDialog, setVisibleDialog] = React.useState(false);
     const existingCinema = route.params ? route.params.existingCinema : null
     const [existing, setExisting] = useState(
         existingCinema !== null && existingCinema !== undefined
@@ -44,7 +47,12 @@ export const NewCinema = ({navigation, route}) => {
         console.log("cinemaEx", existingCinema)
         if (existing) {
             navigation.setOptions({
-                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editCinema')}/>
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editCinema')}/>,
+                headerRight: () => (
+                    <Pressable onPress={()=>setVisibleDialog(true)}>
+                        <Icon name={"delete"} color={COLORS.secondary} size={30}/>
+                    </Pressable>
+                )
             })
         }
     }, [])
@@ -158,6 +166,21 @@ export const NewCinema = ({navigation, route}) => {
 
     return (
         <KeyboardAvoidingView style={{flex: 1}}>
+            <Portal>
+                <Dialog visible={visibleDialog}>
+                    <Dialog.Title><Text>{t("translation\:owner\.titles\.deleteCinema")}</Text></Dialog.Title>
+                    <Dialog.Content><Text>{t("translation\:owner\.titles\.deleteCinema")}</Text></Dialog.Content>
+                    <Dialog.Actions>
+                        <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button type={"default"} icon={"delete"} onPress={()=> {
+                            deleteCinema(existingCinema.id).then(r => {
+                                navigation.navigate('OwnerLanding')
+                            })
+                        }}>{t("translation\:general\.labels\.yes")}</Button>
+                    </Dialog.Actions>
+
+                </Dialog>
+            </Portal>
             <Formik
                 initialValues={{
                     name: existing ? existingCinema.name : '',

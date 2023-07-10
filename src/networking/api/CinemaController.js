@@ -48,3 +48,9 @@ export function updateCinema(id, body) {
         return api(token).put(prefix+"/"+id, body)
     })
 }
+
+export function deleteCinema(id) {
+    return getKey("accessToken").then((token)=>{
+        return api(token).delete(prefix+"/"+id)
+    })
+}
