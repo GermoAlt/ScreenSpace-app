@@ -149,6 +149,9 @@
       },
       "titles": {
         "cinemaDetails": "Mi Cine",
+        "editCinema": "Editar Cine",
+        "editScreening": "Editar Función",
+        "editTheater": "Editar Sala",
         "movieSearch": "Buscar Películas",
         "newCinema": "Nuevo Cine",
         "newScreening": "Nueva Funcion",
@@ -156,6 +159,18 @@
       }
     },
     "user": {
+      "captions": {
+        "movieDetails": {
+          "reserve": "Reservar"
+        },
+        "movieReservation": {
+          "confirmReservation": "Confirmar"
+        },
+        "seatsSelection": {
+          "back": "Atras",
+          "purchase": "Comprar"
+        }
+      },
       "labels": {
         "landing": {
           "filters": "Filtros",
@@ -166,41 +181,47 @@
           "rate": "Calificar",
           "share": "Compartir"
         },
-        "movieSelected": {
+        "movieConfirmation": {
+          "almost_there": "¡Ya casi estamos!",
+          "cinema": "Cine",
+          "date_time": "Fecha y Hora",
+          "indication_confirmation": "A CONTINUACIÓN REVISÁ TU SELECCIÓN PARA CONFIRMAR TU RESERVA",
           "movie": "Película",
-          "rating": "Calificación",
-          "genre": "Género",
-          "duration": "Duración",
-          "actors": "Actores",
-          "director": "Director"
+          "screening_ticket": "Entrada Función",
+          "seats": "Butaca(s)",
+          "total_amount": "Total",
+          "your_tickets": "Tu(s) Emtrada(s)"
         },
         "movieReservation": {
-          "noData": {
-            "label": "No hay datos para seleccionar"
-          },
           "fistStep": {
             "label": "¿Qué día te gustaría ir?",
             "today": "HOY",
             "tomorrow": "MAÑANA"
+          },
+          "indications": "Para seleccionar las butacas, toca los asientos disponibles que deseas reservar.",
+          "noData": {
+            "label": "No hay datos para seleccionar"
+          },
+          "seatLegend": {
+            "reserved": "Reservado",
+            "seatSelection": "Seleccioná tus butacas:",
+            "selected": "Tu Selección",
+            "vacant": "Disponible"
           },
           "secondStep": {
             "label": "¿En qué sala?"
           },
           "thirdStep": {
             "label": "¿Y en qué horario?"
-          },
-          "seatLegend": {
-            "seatSelection": "Seleccioná tus butacas:",
-            "vacant": "Disponible",
-            "reserved": "Reservado",
-            "selected": "Tu Selección"
-          },
-          "indications": "Para seleccionar las butacas, toca los asientos disponibles que deseas reservar."
+          }
         },
-        "movieConfirmation": {
-          "almost_there": "¡Ya casi estamos!",
-          "indication_confirmation": "A CONTINUACIÓN REVISÁ TU SELECCIÓN PARA CONFIRMAR TU RESERVA",
+        "movieSelected": {
+          "actors": "Actores",
+          "director": "Director",
+          "duration": "Duración",
+          "genre": "Género",
           "movie": "Película",
+          "rating": "Calificación",
           "cinema": "Cine",
           "date_time": "Fecha y Hora",
           "seats": "Butaca(s)",

@@ -1,4 +1,4 @@
-import {ScrollView, StyleSheet} from "react-native";
+import {Pressable, ScrollView, StyleSheet} from "react-native";
 import {useEffect} from "react";
 import {ScreeningListItem} from "./ScreeningListItem";
 import {CardPanel} from "../../general/CardPanel";
@@ -9,21 +9,19 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const ScreeningList = (props) => {
     const { t } = useTranslation()
-    const {setScreen} = props
-    const screenings = props.screenings
-    const {navigation} = props.extended
+    const {setScreen, screenings, extended, cinema} = props
+    const {navigation} = extended
 
     useEffect(()=>{
         console.log("screenings obj", navigation.getState().routes[navigation.getState().index].name)
         setScreen(navigation.getState().routes[navigation.getState().index].name)
     })
 
-console.log(props.screenings)
     return(
         <ScrollView contentContainerStyle={styles.container}>
             {screenings && screenings.length >0 ? screenings.map(
                 (item, i) =>
-                    <ScreeningListItem key={"screening" + i} data={item}/>
+                    <ScreeningListItem key={"screening" + i} data={item} cinema={cinema}/>
                 )
                 :
                 <CardPanel style={styles.card}>
@@ -37,7 +35,8 @@ console.log(props.screenings)
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical:30,
+        paddingTop:30,
+        paddingBottom:100,
         display:'flex',
         gap:20
     },

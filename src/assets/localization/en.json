@@ -140,6 +140,9 @@
       },
       "titles": {
         "cinemaDetails": "My Cinema",
+        "editCinema": "Edit Cinema",
+        "editScreening": "Edit Screening",
+        "editTheater": "Edit Theater",
         "movieSearch": "Search movies",
         "newCinema": "New Cinema",
         "newScreening": "New Screening",

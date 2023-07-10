@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Dimensions, SafeAreaView, StyleSheet, View} from "react-native";
+import {Dimensions, Pressable, SafeAreaView, StyleSheet, View} from "react-native";
 import {IconButton, Text} from "react-native-paper";
 import {TextInput} from "../../components/general/TextInput";
 import {MovieSelectionPanel} from "../../components/owner/NewScreening/MovieSelectionPanel";
@@ -14,31 +14,58 @@ import {getTheatersByCinema} from "../../../networking/api/TheaterController";
 import {ErrorMessage} from '../../components/general/ErrorMessage';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {postScreening} from "../../../networking/api/ScreeningController";
+import {postScreening, updateScreening} from "../../../networking/api/ScreeningController";
+import {ScreenHeader} from "../../components/owner/ScreenHeader";
+import * as React from "react";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 export const NewScreening = ({navigation, route}) => {
     const {t} = useTranslation()
 
-    const {cinema, movie} = route.params
+    const {cinema, movie, existingScreening} = route.params
     const [errMsg, setErrMsg] = useState('');
     const [loading, setLoading] = useState(false);
-
 
     const [selectedMovie, setSelectedMovie] = useState(movie || {})
     const [date, setDate] = useState(new Date())
     const [time, setTime] = useState(new Date())
     const [theaters, setTheaters] = useState([])
+    const [existing, setExisting] = useState(
+        existingScreening !== null && existingScreening !== undefined
+    )
 
     if (movie && movie !== selectedMovie) setSelectedMovie(movie)
 
+    console.log("es", existingScreening)
+    console.log("esd", existingScreening.theater)
+
+    const parseDateString = (date) => {
+        //"date": "11/07/2023 15:33:00",
+
+        let dateStr = date.slice(6, 10) + "-" + date.slice(3, 5) + "-" + date.slice(0, 2)
+        let timeStr = date.slice(11, date.length)
+        console.log(dateStr + "T" + timeStr + "Z")
+        return new Date(dateStr + "T" + timeStr + "Z")
+    }
+
     useEffect(() => {
+        if (existing) {
+            navigation.setOptions({
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editScreening')}/>
+            })
+            setSelectedMovie(existingScreening.movie)
+            setDate(parseDateString(existingScreening.date))
+            setTime(parseDateString(existingScreening.date))
+        }
         getTheatersByCinema(cinema.id).then(response => {
             setTheaters(
                 response.data.map((item, i) => {
-                    return {id: item.id, title: item.name, data: item}
+                    return {id: i, title: item.name, data: item}
                 })
             )
+        }).catch((err) => {
+            console.log(err)
         })
     }, [])
 
@@ -49,36 +76,37 @@ export const NewScreening = ({navigation, route}) => {
 
     })
 
-    const saveNewScreening = async (values) => {
-
+    const submitScreeningData = (values) => {
         if (!time || !date || !selectedMovie) return
 
         setLoading(true)
         setErrMsg('')
 
-        const timeText = time.toISOString()
-        const dateText = date.toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit"})
-        const movieDate = (dateText.substring(0, 10) + ' ' + timeText.substring(11, 19))
+        const timeText = time.toLocaleTimeString("en-GB")
+        const dateText = date.toLocaleString("en-GB", {
+            year: "numeric", month: "2-digit", day: "2-digit"
+        })
+        const movieDate = (dateText.substring(0, 10) + ' ' + timeText)
 
         const body = {
             theaterId: values.theaterId.data.id,
             movieId: selectedMovie.id,
             date: movieDate
         }
+        if (existing) {
+            editScreening(body)
+        } else {
+            saveNewScreening(body)
+        }
+        setLoading(false)
+    }
 
-        try {
-            const res = await postScreening(body)
-            console.log('RES Theat', JSON.stringify(res))
-            if (res.status === 200) {
-                navigation.navigate('CinemaDetails', {data: cinema})
-            } else {
-                setErrMsg(t('translation:general.errors.default'));
-            }
-
-
-        } catch (error) {
-            console.log('error', error)
-            switch (error.response.data.status) {
+    const editScreening = (body) => {
+        updateScreening(existingScreening.id, body).then((res) => {
+            navigation.navigate('CinemaDetails', {data: cinema})
+        }).catch((error) => {
+            console.log(error)
+            switch (error.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
@@ -90,30 +118,48 @@ export const NewScreening = ({navigation, route}) => {
                     setErrMsg(t('translation:general.errors.default'));
                     break;
             }
-        }
-        setLoading(false)
-
+        })
     }
 
-    console.log('theaters', theaters)
+    const saveNewScreening = (body) => {
+        postScreening(body).then((res) => {
+            navigation.navigate('CinemaDetails', {data: cinema})
+        }).catch((error) => {
+            console.log(error)
+            switch (error.status) {
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                    break;
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                    break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                    break;
+            }
+        })
+    }
 
     return (
         <SafeAreaView style={styles.screen}>
             <Formik
-                initialValues={{theaterId: {}}}
-                onSubmit={values => saveNewScreening(values)}
+                initialValues={{theaterId: existing ? existingScreening.theater : {}}}
+                onSubmit={values => submitScreeningData(values)}
             >
                 {({handleSubmit, setFieldValue, values}) => (
                     <>
                         <View style={styles.container}>
                             <Text style={styles.title}>{cinema.name}</Text>
                             <Dropdown list={theaters}
-                                      value={values.theaterId}
+                                      value={existing ? existingScreening.theater : values.theaterId}
                                       setValue={(value) => setFieldValue("theaterId", value)}
+                                      initialValue={existingScreening.theater}
                             />
                             <MovieSelectionPanel cinema={cinema} movie={selectedMovie}
                                                  setMovie={(e) => setSelectedMovie(e)}
-                                                 navigateTo={(url, options) => navigation.navigate(url, options)}/>
+                                                 navigateTo={(url, options) => navigation.navigate(url, options)}
+                            />
                             <View style={styles.dateTimeContainer}>
                                 <CalendarPickerField date={date}
                                                      setDate={(date) => setDate(date)}
@@ -122,11 +168,14 @@ export const NewScreening = ({navigation, route}) => {
                                                  setTime={(time) => setTime(time)}
                                 />
                             </View>
-                            <AvailabilityPanel theater={values.theaterId} date={date} movie={selectedMovie}/>
+                            <AvailabilityPanel theater={existing ? existingScreening.theater : values.theaterId}
+                                               date={date} movie={selectedMovie}/>
                         </View>
                         <View style={styles.buttonContainer}>
                             <Button onPress={handleSubmit}
-                                    icon={"check-circle-outline"}>{t("translation\:general\.labels\.confirm")}</Button>
+                                    icon={"check-circle-outline"}>
+                                {t("translation\:general\.labels\.confirm")}
+                            </Button>
                         </View>
                     </>
                 )}

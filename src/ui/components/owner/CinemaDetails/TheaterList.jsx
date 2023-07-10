@@ -9,13 +9,13 @@ import {useTranslation} from "react-i18next";
 
 export const TheaterList = (props) => {
     const {t} = useTranslation()
-    const {navigation, setScreen} = props
+    const {navigation, setScreen, cinema} = props
     const theaters = props.theaters
 
     return(
         <ScrollView contentContainerStyle={styles.container}>
             {theaters && theaters.length > 0 ?
-                theaters.map((item, i) => <TheaterListItem key={"theater-"+i} data={item}/>)
+                theaters.map((item, i) => <TheaterListItem key={"theater-"+i} data={item} cinema={cinema}/>)
                 :
                 <CardPanel style={styles.card}>
                     <Icon name={"theater"} color={COLORS.secondary} size={50} />
@@ -28,7 +28,8 @@ export const TheaterList = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical:30,
+        paddingTop:30,
+        paddingBottom:100,
         display:'flex',
         gap:20
     },
