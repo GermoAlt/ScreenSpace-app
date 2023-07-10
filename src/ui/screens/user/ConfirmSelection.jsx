@@ -13,15 +13,9 @@ export const ConfirmSelection = ({route, navigation}) => {
     const {t} = useTranslation();
     const { screeningId, seatsReserved, ticketQuantity, ticketPrice, details } = route.params.confirmationInfo
 
-    console.log('screeningId', screeningId)
-    console.log('seatsReserved', seatsReserved)
-    console.log('ticketQuantity', ticketQuantity)
-    console.log('ticketPrice', ticketPrice)
-    console.log('details', details)
-    
-
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
+    const [disablePurhcase, setDisablePurhcase] = React.useState(false)
 
     const handleGoBack = () =>{
         navigation.goBack()
@@ -29,7 +23,7 @@ export const ConfirmSelection = ({route, navigation}) => {
 
     const handleConfirm = async () =>{
         //TODO: NTH - Añadir pantalla/mensaje de GRACIAS POR COMPRAR
-
+        setDisablePurhcase(true)
         const confirmReserveBody = {
             screeningId: '649a4f2f00221a05f561ccfa',
             seatsReserved: [
@@ -98,7 +92,7 @@ export const ConfirmSelection = ({route, navigation}) => {
                         </Button>
                     </View>
                     <View style={styles.button}>
-                        <Button type={"cta"} onPress={()=>handleConfirm()}>
+                        <Button type={ disablePurhcase ? "disabled" : "cta"} onPress={()=>handleConfirm()}>
                             {t("translation\:user\.captions\.seatsSelection\.purchase")}
                         </Button>
                     </View>

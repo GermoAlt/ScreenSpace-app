@@ -113,8 +113,8 @@ export const UserLanding = ({navigation}) => {
         console.log('geoLoc', geoloc)
 
         const body = {
-            latitute: -34.57170, //LatituDe misspelled by BE Monkey :)
-            longitude: -58.44227,
+            latitute: geoloc.coords.latitude, //LatituDe misspelled by BE Monkey :)
+            longitude: geoloc.coords.longitude,
             maxDistance: '15' // TODO - Migrate to Config File
         }
 

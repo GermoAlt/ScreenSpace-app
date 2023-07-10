@@ -34,17 +34,18 @@ export const Landing = ({navigation}) => {
     //HASTA ACA
 
     React.useEffect(() => {
-        GoogleSignin.configure({
-            androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
-            forceCodeForRefreshToken: true,
-        })
-        isSignedIn()
-
+       // clearStorage()
         retrieveUserSession().then(
             (res) => {
                 if(res) {
                     navigation.navigate('OwnerNavigator')
                     setAuth(JSON.parse(res))
+                }else{
+                    GoogleSignin.configure({
+                        androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
+                        forceCodeForRefreshToken: true,
+                    })
+                    isSignedIn()
                 }
             }
         )
