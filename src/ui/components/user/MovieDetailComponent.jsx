@@ -3,32 +3,35 @@ import {StyleSheet, View, Image} from "react-native";
 import {COLORS} from "../../styles/Colors";
 import { Text } from '../general/Text';
 import { Text as TextRNP } from 'react-native-paper';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const MovieDetailComponent = (props) => {
-    
+
     const movie  = props.movie
     const movieDuration = movie.duration + ' minutos'
 
     return (
         <View style={styles.container}>
-            <Image style={styles.image} source={{uri: movie.image}}/>        
-            <View>
+            <Image style={styles.image} source={{uri: movie.image}}/>
+            <View style={styles.dualRow}>
                 <TextRNP marginTop={5} variant='titleMedium' style={styles.movieGenre}>
                     {movie.genre.join(", ")}
                 </TextRNP>
-            </View>
-            <View style={styles.dualRow}>
-                <TextRNP variant='headlineMedium' style={styles.movieName}>
-                    {movie.title}
-                </TextRNP>
                 <View style={styles.dualRow} marginTop={8}>
+                    <Icon name={"star"} color={"#deb40b"} size={25}></Icon>
                     <Text alignment="right" size="xsmall">
                         {movie.rating}
                     </Text>
                     <Text alignment="left" marginTop={6} size="xxxsmall">/5</Text>
                 </View>
             </View>
-            <TextRNP variant='labelLarge' style={styles.movieDuration}>
+            <View style={styles.dualRow}>
+                <TextRNP variant='headlineMedium' style={styles.movieName}>
+                    {movie.title}
+                </TextRNP>
+
+            </View>
+            <TextRNP style={styles.movieDuration}>
                 {movieDuration}
             </TextRNP>
             <TextRNP variant='labelLarge' style={styles.movieSynopsis}>
@@ -38,7 +41,7 @@ export const MovieDetailComponent = (props) => {
     );
 }
 
-// 
+//
 
 const styles = StyleSheet.create({
     container: {
@@ -69,10 +72,12 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderRadius: 5,
         borderColor: COLORS.off_grey,
+        textAlignVertical:"center"
     },
     movieSynopsis: {
         color: COLORS.off_white,
-        marginTop: 10
+        marginTop: 10,
+
     },
     dualRow: {
         display: "flex",
@@ -81,5 +86,5 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         gap: 15
     },
- 
+
 })

@@ -9,6 +9,7 @@ import { MovieSelection } from "./MovieSelection";
 import { MovieReservation } from "./MovieReservation";
 import { SeatsSelection } from "./SeatsSelection";
 import { ConfirmSelection } from "./ConfirmSelection";
+import {MovieReviews} from "./MovieReviews";
 
 const Stack = createNativeStackNavigator();
 export const UserNavigator = () => {
@@ -21,6 +22,10 @@ export const UserNavigator = () => {
             />
             <Stack.Screen name={"MovieDetail"}
                           component={MovieDetail}
+                          options={{headerShown: false}}
+            />
+            <Stack.Screen name={"MovieReviews"}
+                          component={MovieReviews}
                           options={{headerShown: false}}
             />
             <Stack.Screen name={"Filters"}
@@ -43,6 +48,6 @@ export const UserNavigator = () => {
                           component={ConfirmSelection}
                           options={{headerShown: false}}
             />
-        </Stack.Navigator>    
+        </Stack.Navigator>
     );
 };
