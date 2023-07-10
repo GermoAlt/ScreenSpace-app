@@ -3,16 +3,19 @@ import {StyleSheet, View, Share, Pressable} from "react-native";
 
 import {useTranslation} from "react-i18next";
 import { ActionItemComponent } from '../general/ActionItemComponent';
-import {Dialog, Portal} from "react-native-paper";
+import {Dialog, Portal, TextInput} from "react-native-paper";
 import {Text} from "../general/Text";
 import {Button} from "../general/Button";
 import {deleteTheater} from "../../../networking/api/TheaterController";
 import {useState} from "react";
+import {StarsRating} from "./StarsRating";
 
 export const MovieActionItensComponent = (props) => {
     const {t} = useTranslation();
     const movie  = props.movie
     const [visibleDialog, setVisibleDialog] = useState(false)
+    const [rating, setRating] = useState(0)
+    const [ratingText, setRatingText] = useState("")
 
     //Para Calificar: star-box-outline ?? comment-edit-outline
     const onShare = async () => {
@@ -44,8 +47,15 @@ export const MovieActionItensComponent = (props) => {
         <View style={styles.container}>
             <Portal>
                 <Dialog visible={visibleDialog}>
-                    <Dialog.Title><Text style={styles.text}>{t("translation\:owner\.titles\.deleteTheater")}</Text></Dialog.Title>
-                    <Dialog.Content><Text style={styles.text}>{t("translation\:owner\.labels\.deleteTheater")}</Text></Dialog.Content>
+                    <Dialog.Title>
+                        <Text style={styles.text}>
+                            {t("translation\:user\.labels\.newReview\.title") + " " + movie.title}
+                        </Text>
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <TextInput multiline></TextInput>
+                        <StarsRating rating={rating} setRating={(e)=>setRating(e)}></StarsRating>
+                    </Dialog.Content>
                     <Dialog.Actions>
                         <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
                         <Button type={"default"} icon={"delete"} onPress={()=> {

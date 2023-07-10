@@ -238,6 +238,9 @@
           "seats": "Seat(s)",
           "total_amount": "Total",
           "your_tickets": "Your seat(s)"
+        },
+        "newReview": {
+          "title": "Review"
         }
       }
     }

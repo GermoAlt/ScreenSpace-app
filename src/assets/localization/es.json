@@ -238,6 +238,9 @@
           "seats": "Butaca(s)",
           "total_amount": "Total",
           "your_tickets": "Tu(s) Entrada(s)"
+        },
+        "newReview": {
+          "title": "Califica a"
         }
       }
     }
