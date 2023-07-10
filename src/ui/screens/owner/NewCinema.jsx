@@ -6,14 +6,15 @@ import {Text} from "../../components/general/Text";
 import {COLORS} from "../../styles/Colors";
 import {useTranslation} from "react-i18next";
 import {Button} from "../../components/general/Button";
-import MapView from "react-native-maps";
+import MapView, {Marker} from "react-native-maps";
 import {ErrorMessage} from '../../components/general/ErrorMessage';
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {postCinemas} from '../../../networking/api/CinemaController';
+import {postCinemas, updateCinema} from '../../../networking/api/CinemaController';
 import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
 import {useEffect, useState} from "react";
 import {useIsFocused} from "@react-navigation/native";
+import {ScreenHeader} from "../../components/owner/ScreenHeader";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -21,13 +22,25 @@ LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
 ]);
 
-export const NewCinema = ({navigation}) => {
+export const NewCinema = ({navigation, route}) => {
     const {t} = useTranslation()
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
+    const {existingCinema} = route.params
+    const [existing, setExisting] = useState(
+        existingCinema !== null && existingCinema !== undefined
+    )
 
+    useEffect(()=>{
+        console.log("cinemaEx", existingCinema)
+        if(existing){
+            navigation.setOptions({
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editCinema')}/>
+            })
+        }
+    },[])
 
-    const saveNewCinema = async (values) => {
+    const submitCinemaData = (values) => {
 
         console.log('values', values)
         setLoading(true)
@@ -51,16 +64,19 @@ export const NewCinema = ({navigation}) => {
             pricePerFunction: 0
         }
 
-        try {
-            const response = await postCinemas(body)
-            console.log('response', JSON.stringify(response))
-            if (response.status === 201) {
-                navigation.navigate('OwnerLanding')
-            } else {
-                setErrMsg(t('translation:general.errors.default'));
-            }
+        if(existing){
+            editCinema(body)
+        } else {
+            saveNewCinema(body)
+        }
 
-        } catch (error) {
+        setLoading(false)
+    }
+
+    const editCinema =(body)=>{
+        updateCinema(existingCinema.id, body).then(()=> {
+            navigation.navigate('OwnerLanding')
+        }).catch((error) =>{
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status) {
                 case 400:
@@ -74,9 +90,27 @@ export const NewCinema = ({navigation}) => {
                     setErrMsg(t('translation:general.errors.default'));
                     break;
             }
-        }
-        setLoading(false)
+        })
+    }
 
+    const saveNewCinema = (body) => {
+        postCinemas(body).then(()=> {
+            navigation.navigate('OwnerLanding')
+        }).catch((error) =>{
+            console.log('error', JSON.stringify(error))
+            switch (error.response.data.status) {
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                    break;
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                    break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                    break;
+            }
+        })
     }
 
     const cinemaValidationSchema = yup.object().shape({
@@ -113,18 +147,24 @@ export const NewCinema = ({navigation}) => {
         <KeyboardAvoidingView style={{flex: 1}}>
             <Formik
                 initialValues={{
-                    name: '', companyName: '',
-                    street: '', number: '', neighborhood: '',
-                    city: '', province: '', country: '',
-                    latitude: '', longitude: '',
+                    name: existing ? existingCinema.name : '',
+                    companyName: existing ? existingCinema.companyName :'',
+                    street: existing ? existingCinema.address.street :'',
+                    number: existing ? existingCinema.address.number :'',
+                    neighborhood: existing ? existingCinema.address.neighborhood :'',
+                    city: existing ? existingCinema.address.city :'',
+                    province: existing ? existingCinema.address.province :'',
+                    country: existing ? existingCinema.address.country :'',
+                    latitude: existing ? existingCinema.geoLocation.latitude+"" :'',
+                    longitude: existing ? existingCinema.geoLocation.longitude+"" :'',
                 }}
-                onSubmit={values => saveNewCinema(values)}
+                onSubmit={values => submitCinemaData(values)}
                 validationSchema={cinemaValidationSchema}
             >
                 {({
                       handleChange, handleBlur,
                       handleSubmit, values, errors,
-                      touched, isValid
+                      touched, isValid, setFieldValue
                   }) => (
                     <>
                         <Tab.Navigator tabBar={() => {
@@ -215,16 +255,25 @@ export const NewCinema = ({navigation}) => {
                             <Tab.Screen name={"NewCinemaMap"} initialParams={{
                                 handleChange, handleBlur,
                                 handleSubmit, values, errors,
-                                touched, isValid
+                                touched, isValid, setFieldValue
                             }}>
                                 {() => {
                                     return <View style={styles.container}>
                                         <MapView initialRegion={{
-                                            latitude: 37.78825,
-                                            longitude: -122.4324,
+                                            latitude: -34.603722,
+                                            longitude: -58.381592,
                                             latitudeDelta: 0.0922,
                                             longitudeDelta: 0.0421,
-                                        }} style={styles.map}/>
+                                        }} style={styles.map}>
+                                            <Marker coordinate={{
+                                                latitude: parseFloat(values.latitude),
+                                                longitude: parseFloat(values.longitude)
+                                            }} draggable onDragEnd={(e)=>{
+                                                setFieldValue("latitude", e.nativeEvent.coordinate.latitude.toString().slice(0,10))
+                                                setFieldValue("longitude", e.nativeEvent.coordinate.longitude.toString().slice(0,10))
+                                                console.log(e)
+                                            }}/>
+                                        </MapView>
                                         <View style={styles.dualRow}>
                                             <TextInput style={styles.bottomInputs}
                                                        label={t("translation\:owner\.labels\.newCinema\.latitude")}

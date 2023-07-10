@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SafeAreaView, StyleSheet} from "react-native";
+import {Pressable, SafeAreaView, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import {COLORS} from "../../styles/Colors";
@@ -13,6 +13,7 @@ import {getTheatersByCinema} from "../../../networking/api/TheaterController";
 import {getScreenings} from '../../../networking/api/ScreeningController';
 import {getScreeningsByCinema} from "../../../networking/api/CinemaController";
 import {useFocusEffect} from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -29,7 +30,14 @@ export const CinemaDetails = ({route, navigation}) => {
     useEffect(() => {
         navigation.setOptions({
             headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.cinemaDetails')}/>,
-            headerStyle: {backgroundColor: COLORS.background}
+            headerStyle: {backgroundColor: COLORS.background},
+            headerRight: () => (
+                <Pressable onPress={()=>navigation.navigate("NewCinema",{
+                    existingCinema:data
+                })}>
+                    <Icon name={"pencil"} color={COLORS.secondary} size={30}/>
+                </Pressable>
+            )
         })
     }, [])
 
@@ -90,10 +98,6 @@ export const CinemaDetails = ({route, navigation}) => {
         }
         return "NewTheater"
     }
-
-    useEffect(() => {
-        console.log('Curr Nav', navigation)
-    }, [navigation])
 
     return (
         <SafeAreaView style={styles.container}>

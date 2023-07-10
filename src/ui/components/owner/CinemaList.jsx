@@ -7,7 +7,8 @@ import {NewCinemaPanelButton} from "./NewCinemaPanelButton";
 import {COLORS} from "../../styles/Colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {useEffect} from "react";
-import {useNavigation} from "@react-navigation/native";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import * as React from "react";
 
 export const CinemaList = (props) => {
     const {t} = useTranslation()
