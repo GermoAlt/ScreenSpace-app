@@ -7,6 +7,10 @@ export async function loginOwnerUser(body) {
   return await api().post(prefix, body);
 }
 
+export async function loginClientUser(body) {
+  return await api().post(prefix + '/oauth', body);
+}
+
 export function refreshAccessToken(body, token) {
   return api(token).put(prefix, body);
 }

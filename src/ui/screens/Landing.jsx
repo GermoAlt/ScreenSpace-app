@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import * as React from "react";
+import * as React from 'react';
 import {SafeAreaView} from 'react-native';
 import {Button} from '../components/general/Button';
 import {useTranslation} from 'react-i18next';
@@ -8,14 +8,17 @@ import useAuth from '../../hooks/useAuth';
 import useEncryptedStorage from '../../hooks/useEncryptedStorage';
 import {CommonActions, useFocusEffect} from "@react-navigation/native";
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import useGoogleAuth from "../../hooks/useGoogleAuth";
+import { loginClientUser } from "../../networking/api/AuthController";
 
 
 export const Landing = ({navigation}) => {
     const {t} = useTranslation();
     const {auth, setAuth} = useAuth()
     const {retrieveUserSession, clearStorage, storeUserSession} = useEncryptedStorage()
+    const [isSigninInProgress, setIsSigninInProgress] = React.useState(false)
 
-
+    const { setGoogelUserData }= useGoogleAuth()
 
     const usarAutenticacion = false  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
     // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
@@ -27,20 +30,7 @@ export const Landing = ({navigation}) => {
     }
     //HASTA ACA
 
-    // useFocusEffect(
-    //     React.useCallback(()=>{
-    //         navigation.dispatch(
-    //             CommonActions.reset({
-    //                 index: 0,
-    //                 routes: [
-    //                     { name: 'Landing' },
-    //                 ],
-    //             })
-    //         );
-    //     },[])
-    // )
-
-    useEffect(() => {
+    React.useEffect(() => {
 
         if (usarAutenticacion) {
             //clearStorage()
@@ -55,7 +45,11 @@ export const Landing = ({navigation}) => {
                 }
             )
         }else{
-            setDummyCredentials()
+            GoogleSignin.configure({
+                androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
+                forceCodeForRefreshToken: true,
+            })
+            isSignedIn()
         }
     }, [])
 
@@ -66,7 +60,42 @@ export const Landing = ({navigation}) => {
     }, [navigation])
 
     const [user, setUser] = React.useState({})
+
+    const getClientToken = async (userData) => {
+        //console.log('userData', userData)
+        const body = {
+            email: userData.user.email,
+            id: userData.user.id
+        }
+        
+
+        try {
+            const response = await loginClientUser(body)
+            const accessToken = response?.data.token
+            const data = { userName: body.email, userPassword: '', accessToken }
+            setAuth(data)
+            await storeUserSession(data)
+            console.log('accessToken', accessToken)
+            navigation.navigate('UserNavigator', {name: 'UserLanding'})
+        } catch (error) {
+            console.log('error', JSON.stringify(error))
+            switch (error.response.data.status) {
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                    break;
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                    break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                    break;
+            }
+        }
+
+    }
     
+    /*
     React.useEffect(() => {
         GoogleSignin.configure({
             androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
@@ -74,16 +103,20 @@ export const Landing = ({navigation}) => {
         })
         isSignedIn()
     }, [])
+    */
 
     const signIn = async () => {
+        setIsSigninInProgress(true)
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn()
             console.log('due___', userInfo)
             setUser(userInfo)
-            navigation.navigate('UserNavigator', {name: 'UserLanding'})
+            setGoogelUserData(userInfo)
+            getClientToken(userInfo)
+            
         } catch (error) {
-            console.log('Message___', error.message)
+            //console.log('Message___', error.message)
             if (error.code === statusCodes.SIGN_IN_CANCELLED){
                 console.log('User Cancellede the Login Flow')
             }else if (error.code === statusCodes.IN_PROGRESS){
@@ -94,6 +127,7 @@ export const Landing = ({navigation}) => {
                 console.log('Some other Error Happened')
             }
         }
+        setIsSigninInProgress(false)
     }
 
     const isSignedIn = async () => {
@@ -108,8 +142,10 @@ export const Landing = ({navigation}) => {
     const getCurrentUserInfo = async () => {
         try {
             const userInfo = await GoogleSignin.signInSilently()
-            console.log('edit___', userInfo)
+            //console.log('edit___', userInfo)
             setUser(userInfo)
+            setGoogelUserData(userInfo)
+            getClientToken(userInfo)
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_REQUIRED){
                 alert('User has not signed in yet')
@@ -161,7 +197,7 @@ export const Landing = ({navigation}) => {
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Dark}
             onPress={signIn}
-            //disabled={this.state.isSigninInProgress}
+            disabled={isSigninInProgress}
             />
             
         </SafeAreaView>

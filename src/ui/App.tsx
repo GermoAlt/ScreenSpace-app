@@ -14,6 +14,7 @@ import {AutocompleteDropdownContextProvider} from "react-native-autocomplete-dro
 import { AuthProvider } from '../context/AuthProvider';
 import { GeolocationProvider } from '../context/GeolocationProvider';
 import { CinemasProvider } from '../context/CinemasProvider';
+import { GoogleAuthProvider } from '../context/GoogleAuthProvider';
 
 enableLatestRenderer()
 
@@ -37,39 +38,41 @@ function App(): React.JSX.Element {
 
     return (
         <AuthProvider>
-            <GeolocationProvider>
-                <CinemasProvider>
-                    <AutocompleteDropdownContextProvider>
-                        <PaperProvider theme={MyTheme}>
-                            <NavigationContainer theme={MyTheme}>
-                                <Stack.Navigator initialRouteName={'Landing'}>
-                                    <Stack.Screen
-                                        name={'Landing'}
-                                        component={Landing}
-                                        options={{headerShown: false}}
-                                    />
-                                    <Stack.Screen
-                                        name={'LoginNavigator'}
-                                        component={LoginNavigator}
-                                        options={{headerShown: false}}
-                                    />
-                                    <Stack.Screen
-                                        name={"OwnerNavigator"}
-                                        component={OwnerNavigator}
-                                        options={{headerShown: false}}
-                                    />
-                                    <Stack.Screen
-                                        name={"UserNavigator"}
-                                        component={UserNavigator}
-                                        options={{headerShown: false}}
-                                    />
+            <GoogleAuthProvider>
+                <GeolocationProvider>
+                    <CinemasProvider>
+                        <AutocompleteDropdownContextProvider>
+                            <PaperProvider theme={MyTheme}>
+                                <NavigationContainer theme={MyTheme}>
+                                    <Stack.Navigator initialRouteName={'Landing'}>
+                                        <Stack.Screen
+                                            name={'Landing'}
+                                            component={Landing}
+                                            options={{headerShown: false}}
+                                        />
+                                        <Stack.Screen
+                                            name={'LoginNavigator'}
+                                            component={LoginNavigator}
+                                            options={{headerShown: false}}
+                                        />
+                                        <Stack.Screen
+                                            name={"OwnerNavigator"}
+                                            component={OwnerNavigator}
+                                            options={{headerShown: false}}
+                                        />
+                                        <Stack.Screen
+                                            name={"UserNavigator"}
+                                            component={UserNavigator}
+                                            options={{headerShown: false}}
+                                        />
 
-                                </Stack.Navigator>
-                            </NavigationContainer>
-                        </PaperProvider>
-                    </AutocompleteDropdownContextProvider>
-                </CinemasProvider>
-            </GeolocationProvider>
+                                    </Stack.Navigator>
+                                </NavigationContainer>
+                            </PaperProvider>
+                        </AutocompleteDropdownContextProvider>
+                    </CinemasProvider>
+                </GeolocationProvider>
+            </GoogleAuthProvider>
         </AuthProvider>
     );
 }
