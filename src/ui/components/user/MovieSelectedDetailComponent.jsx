@@ -35,8 +35,8 @@ export const MovieSelectedDetailComponent = (props) => {
                 
                 <LabelValueComponent label={t('translation:user.labels.movieSelected.genre')} value={movie.genre.join(" ")} />
                 <LabelValueComponent label={t('translation:user.labels.movieSelected.duration')} value={movieDuration} />
-                <LabelValueComponent label={t('translation:user.labels.movieSelected.actors')} value={movie.actors.join(", ")} />
-                <LabelValueComponent label={t('translation:user.labels.movieSelected.director')} value={movie.director} />
+                <LabelValueComponent label={t('translation:user.labels.movieSelected.actors')} value={movie.actors ? movie.actors.join(", ") : ''} />
+                <LabelValueComponent label={t('translation:user.labels.movieSelected.director')} value={movie.director ? movie.director : ''} />
                 </View>            
         </View>
     );

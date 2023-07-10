@@ -5,7 +5,7 @@ import { Text as TextRNP } from 'react-native-paper';
 export const LabelValueComponent = (props) => {
     
     const { label, value }  = props
-
+    if (value === '') return
     return (
         <View style={styles.container}>
             <TextRNP variant='titleLarge' style={styles.label} >

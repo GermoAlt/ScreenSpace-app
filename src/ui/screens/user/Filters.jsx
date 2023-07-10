@@ -1,22 +1,21 @@
 import * as React from 'react';
-import {Dimensions, SafeAreaView, StyleSheet, View} from "react-native";
-import {IconButton, Text} from "react-native-paper";
-import {TextInput} from "../../components/general/TextInput";
-import {CalendarPickerField} from "../../components/owner/NewScreening/CalendarPickerField";
+import {SafeAreaView, StyleSheet, View} from "react-native";
+import {Text} from "react-native-paper";
 import {Dropdown} from "../../components/general/Dropdown";
 import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 import { ErrorMessage } from '../../components/general/ErrorMessage';
 import { Formik } from 'formik';
-import * as yup from 'yup';
 import { mock_filters } from "../../../assets/data/user_filters";
 import { HeaderLogo } from "../../components/general/HeaderLogo";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getCinemas } from '../../../networking/api/CinemaController';
+import useGeolocation from '../../../hooks/useGeolocation';
 
 export const Filters = ({navigation}) => {
     const {t} = useTranslation()
+    const { geolocation } = useGeolocation()
 
     const { genres, distances, ratings, movies } = mock_filters
     const [cinemas, setCinemas] = React.useState([]);
@@ -25,17 +24,18 @@ export const Filters = ({navigation}) => {
 
     //TODO - Pasarlo a un Provider
     React.useEffect(() => {
+
+        console.log('geolocation', geolocation)
+
         const fetchCinemas = async () => {
             setIsLoading(true)
             try {
                 const response = await getCinemas()
-                console.log('response', response)
                 const allCinemas = response.data.map((item) => { return { id: item.id, title: item.name }})
                 setCinemas(allCinemas)
 
             } catch (error) {
                 console.log('error', JSON.stringify(error))
-                /*
                 switch (error.response.data.status) {
                     case 400:
                     case 401:
@@ -48,31 +48,18 @@ export const Filters = ({navigation}) => {
                         setErrMsg(t('translation:general.errors.default'));
                         break;
                 }
-                */
             }
             setIsLoading(false)
         }
         
         fetchCinemas()
+        
     }, [])
    
-    /*
-     useEffect(()=>{
-        const getUserTheaters = async () => {
-            const response = await getTheatersByCinema(cinema.id)
-            
-            const curatedTheaters = response.data.map((item, i)=> {
-                return {id:item.id, title:item.name, data:item}
-            })
-            setTheaters(curatedTheaters)
-        }
-        getUserTheaters()
 
-    },[])
-*/
     const handleSetFilters = async (values) => {
 
-        setLoading(true)
+        setIsLoading(true)
         setErrMsg('')
 
         console.log('VALUES', values)
@@ -112,7 +99,7 @@ export const Filters = ({navigation}) => {
             }
         }
         
-        setLoading(false)
+        setIsLoading(false)
         
     }
 

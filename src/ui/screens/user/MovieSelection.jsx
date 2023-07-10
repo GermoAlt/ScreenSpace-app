@@ -7,17 +7,47 @@ import { Text } from '../../components/general/Text';
 import { MovieSelectedDetailComponent } from '../../components/user/MovieSelectedDetailComponent';
 import { HeaderLogo } from '../../components/general/HeaderLogo';
 import { mock_filters } from "../../../assets/data/user_filters";
+import { getCinemas } from '../../../networking/api/CinemaController';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
 export const MovieSelection = ({route, navigation}) => {
     const {t} = useTranslation();
     const movie = route.params.movieData
-    const { cinemas } = mock_filters
+    const [ cinemas, setCinemas ] = React.useState([])
+
+
 
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
 
+    React.useEffect(() => {
+        const fetchCinemas = async () => {
+            setIsLoading(true)
+            try {
+                const response = await getCinemas()
+                const allCinemas = response.data.map((item) => { return { id: item.id, title: item.name }})
+                setCinemas(allCinemas)
+
+            } catch (error) {
+                console.log('error', JSON.stringify(error))
+                switch (error.response.data.status) {
+                    case 400:
+                    case 401:
+                        setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                        break;
+                    case 500:
+                        setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                        break;
+                    default:
+                        setErrMsg(t('translation:general.errors.default'));
+                        break;
+                }
+            }
+            setIsLoading(false)
+        }
+        fetchCinemas()
+    }, [])
 
     const handleCinemaChange = async (value) => {
         if (!value) return

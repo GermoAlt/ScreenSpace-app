@@ -30,7 +30,7 @@ export const CinemaOffersComponent = (props) => {
                     {name}
                 </Text>
                 <Text alignment="right" marginTop={35} size="xxxsmall">
-                    {distance}
+                    {distance} km
                 </Text>
             </View>
             <MovieCoverList movies={movies} selectMovie={selectMovie} />

@@ -1,6 +1,15 @@
 {
   "translation": {
     "general": {
+      "permissions": {
+        "geolocation": {
+          "title": "Permisos de Geolocalizacion",
+          "message": "¿Podemos acceder a tu ubicación",
+          "buttonNeutral": "Preguntar más tarde",
+          "buttonNegative": "Cancelar",
+          "buttonPositive": "OK"
+        }
+      },
       "errors": {
         "default": "Ocurrió un error"
       },
