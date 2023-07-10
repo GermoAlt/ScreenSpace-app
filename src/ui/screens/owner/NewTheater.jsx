@@ -1,24 +1,25 @@
 import React, {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet, View} from "react-native";
+import {Pressable, SafeAreaView, StyleSheet, View} from "react-native";
 import {Dropdown} from "../../components/general/Dropdown";
 import {TextInput} from "../../components/general/TextInput";
 import {useTranslation} from "react-i18next";
-import {Checkbox, Title} from "react-native-paper";
+import {Checkbox, Dialog, Portal, Title} from "react-native-paper";
 import {Text} from "../../components/general/Text";
 import {SeatLayout} from "../../components/general/SeatLayout";
 import {Button} from "../../components/general/Button";
 import {getCinemas} from "../../../networking/api/CinemaController";
-import { ErrorMessage } from '../../components/general/ErrorMessage';
-import { Formik } from 'formik';
+import {ErrorMessage} from '../../components/general/ErrorMessage';
+import {Formik} from 'formik';
 import * as yup from 'yup';
 import {COLORS} from "../../styles/Colors";
-import { postTheaterByCinema } from "../../../networking/api/TheaterController";
+import {deleteTheater, postTheaterByCinema, updateTheater} from "../../../networking/api/TheaterController";
 import {useNavigation} from "@react-navigation/native";
+import {ScreenHeader} from "../../components/owner/ScreenHeader";
+import {deleteScreening} from "../../../networking/api/ScreeningController";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const NewTheater = (props) => {
-    const cinemaData = props.route.params.cinema
-    const defaultCinema = { id:cinemaData.id, title:cinemaData.name, data:cinemaData }
-    console.log('cinemaData', cinemaData)
+    const {existingTheater, cinema} = props.route.params
     const {t} = useTranslation()
     const navigation = useNavigation()
 
@@ -31,22 +32,39 @@ export const NewTheater = (props) => {
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
+    const [visibleDialog, setVisibleDialog] = React.useState(false);
+
+    const [existing, setExisting] = useState(
+        existingTheater !== null && existingTheater !== undefined
+    )
+
     const theaterValidationSchema = yup.object().shape({
         name: yup
-        .string()
-        .required(t('translation:general.forms.errors.required')),
+            .string()
+            .required(t('translation:general.forms.errors.required')),
         pricePerFunction: yup
-        .number()
-        .required(t('translation:general.forms.errors.required')),
+            .number()
+            .required(t('translation:general.forms.errors.required')),
         numRows: yup
-        .number()
-        .required(t('translation:general.forms.errors.required')),
+            .number()
+            .required(t('translation:general.forms.errors.required')),
         numColumns: yup
-        .number()
-        .required(t('translation:general.forms.errors.required')),
+            .number()
+            .required(t('translation:general.forms.errors.required')),
     })
 
-    useEffect(()=>{
+    useEffect(() => {
+        if (existing) {
+            navigation.setOptions({
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editTheater')}/>,
+                headerRight: () => (
+                    <Pressable onPress={()=>setVisibleDialog(true)}>
+                        <Icon name={"delete"} color={COLORS.secondary} size={30}/>
+                    </Pressable>
+                )
+            })
+            setEnabled(!existingTheater.isTemporarilyClosed)
+        }
         getCinemas().then(response => {
             setCinemas(
                 response.data.map((item, i) => {
@@ -54,10 +72,9 @@ export const NewTheater = (props) => {
                 })
             )
         })
-    },[])
+    }, [])
 
-    const saveNewTheater = async (values) => {
-        console.log('values', values)
+    const submitTheaterData = (values) => {
         setLoading(true)
         setErrMsg('')
         const seatsLayout = {
@@ -66,123 +83,168 @@ export const NewTheater = (props) => {
         }
         const body = {
             ...values,
-            isTemporarilyClosed: !enabled, //Aca se da vuelta porque en FE Ponemos sala ACTIVA/HABILITADA y los BE Monkeys como sala INACTIVA
+            isTemporarilyClosed: !enabled, //Aca se da vuelta porque en FE Ponemos sala ACTIVA/HABILITADA
+            // y los BE Monkeys como sala INACTIVA
             seatsLayout,
             cinemaId: values.cinemaId.data.id
         }
-        try {
-            console.log('body', body)
-            const res = await postTheaterByCinema(body)
-            console.log('RES Theat', JSON.stringify(res))
-            if (res.status === 200){
-                navigation.navigate('CinemaDetails', {data: cinemaData})
-            }else{
-                setErrMsg(t('translation:general.errors.default'));
-            }
+        if (existing) {
+            editTheater(body)
+        } else {
+            saveNewTheater(body)
+        }
 
+        setLoading(false)
+    }
 
-        } catch (error) {
-            console.log('error', error)
-            switch (error.response.data.status){
+    const saveNewTheater = (body) => {
+        postTheaterByCinema(body).then(() => {
+            navigation.navigate('CinemaDetails', {data: cinema})
+        }).catch((error) => {
+            switch (error.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                break;
+                    break;
                 case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                break;
+                    break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
-                break;
+                    break;
             }
-        }
-        setLoading(false)
+        })
+    }
+    const editTheater = (body) => {
+        updateTheater(existingTheater.id, body).then(() => {
+            navigation.navigate('CinemaDetails', {data: cinema})
+        }).catch((error) => {
+            console.log(error)
+            switch (error.status) {
+                case 400:
+                case 401:
+                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                    break;
+                case 500:
+                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                    break;
+                default:
+                    setErrMsg(t('translation:general.errors.default'));
+                    break;
+            }
+        })
     }
 
     return (
         <SafeAreaView style={styles.container}>
+            <Portal>
+                <Dialog visible={visibleDialog}>
+                    <Dialog.Title><Text style={styles.text}>{t("translation\:owner\.titles\.deleteTheater")}</Text></Dialog.Title>
+                    <Dialog.Content><Text style={styles.text}>{t("translation\:owner\.labels\.deleteTheater")}</Text></Dialog.Content>
+                    <Dialog.Actions>
+                        <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button type={"default"} icon={"delete"} onPress={()=> {
+                            deleteTheater(existingTheater.id).then(r => {
+                                navigation.navigate('CinemaDetails', {data: cinema})
+                            })
+                        }}>{t("translation\:general\.labels\.yes")}</Button>
+                    </Dialog.Actions>
+
+                </Dialog>
+            </Portal>
             <Formik
-            initialValues={{ cinemaId:{}, name: '', pricePerFunction: '', numRows:'', numColumns:'' }}
-            onSubmit={values => saveNewTheater(values)}
-            validationSchema={theaterValidationSchema}
-        >
-            {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isValid }) => (
-                <>
-                    <View autoFocus>
-                    {errMsg && (
-                        <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
-                    )}
-                        <Dropdown list={cinemas}
-                            value={values.cinemaId}
-                            setValue={(value) => setFieldValue("cinemaId", value)}
-                        />
+                initialValues={{
+                    cinemaId: existing ? cinema : {},
+                    name: existing ? existingTheater.name : '',
+                    pricePerFunction: existing ? existingTheater.pricePerFunction + "" : '',
+                    numRows: existing ? existingTheater.seatsLayout.numRows + "" : '',
+                    numColumns: existing ? existingTheater.seatsLayout.numColumns + "" : ''
+                }}
+                onSubmit={values => submitTheaterData(values)}
+                validationSchema={theaterValidationSchema}
+            >
+                {({handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isValid}) => (
+                    <>
+                        <View autoFocus>
+                            {errMsg && (
+                                <ErrorMessage iconType="error">{errMsg}</ErrorMessage>
+                            )}
+                            <Dropdown list={cinemas}
+                                      value={values.cinemaId}
+                                      initialValue={values.cinemaId}
+                                      setValue={(value) => setFieldValue("cinemaId", value)}
+                            />
 
-                        <TextInput
-                        onChangeText={handleChange('name')}
-                        onBlur={handleBlur('name')}
-                        value={values.name}
-                        label={t('translation\:owner\.labels\.newTheater\.theaterName')} />
-                        {(errors.name && touched.name) &&
-                            <Text style={styles.errorText}>{errors.name}</Text>
-                        }
-
-                        <TextInput keyboardType="numeric"
-                            onChangeText={handleChange('pricePerFunction')}
-                            onBlur={handleBlur('pricePerFunction')}
-                            value={values.pricePerFunction}
-                            label={t('translation\:owner\.labels\.newTheater\.price')} />
-                        {(errors.pricePerFunction && touched.pricePerFunction) &&
-                            <Text style={styles.errorText}>{errors.pricePerFunction}</Text>
-                        }
-
-                        <View style={styles.row}>
-                        <Checkbox status={enabled ? 'checked' : 'unchecked'} onPress={()=>setEnabled(!enabled)}/>
-                            <Text size={"xxsmall"} style={styles.label}>{t("translation\:owner\.labels\.newTheater\.enabled")}</Text>
-                        </View>
-
-                        <View style={[styles.row, styles.rowColContainer]}>
-                            <View style={[styles.row, styles.inputContainer]}>
-                                <TextInput
-                                    maxLength={1}
-                                    textAlign="center"
-                                    keyboardType="numeric"
-                                    onChangeText={handleChange('numRows')}
-                                    onBlur={handleBlur('numRows')}
-                                    value={values.numRows}
-                                />
-                                <Text size={"xsmall"} style={styles.numRows}>{t("translation\:owner\.labels\.newTheater\.row")}</Text>
-                            </View>
-
-                            <View style={[styles.row, styles.inputContainer]}>
-                                <TextInput
-                                    maxLength={1}
-                                    textAlign="center"
-                                    keyboardType="numeric"
-                                    onChangeText={handleChange('numColumns')}
-                                    onBlur={handleBlur('numColumns')}
-                                    value={values.numColumns}
-                                />
-                                <Text size={"xsmall"} style={styles.row}>{t("translation\:owner\.labels\.newTheater\.column")}</Text>
-                            </View>
-                        </View>
-                        <View style={[styles.row, styles.inputContainer]}>
-                        {(errors.numRows && touched.numRows) &&
-                            <Text style={styles.errorText}>{errors.numRows}</Text>
-                        }
-                        {(errors.numColumns && touched.numColumns) &&
-                                <Text style={styles.errorText}>{errors.numColumns}</Text>
+                            <TextInput
+                                onChangeText={handleChange('name')}
+                                onBlur={handleBlur('name')}
+                                value={values.name}
+                                label={t('translation\:owner\.labels\.newTheater\.theaterName')}/>
+                            {(errors.name && touched.name) &&
+                                <Text style={styles.errorText}>{errors.name}</Text>
                             }
+
+                            <TextInput keyboardType="numeric"
+                                       onChangeText={handleChange('pricePerFunction')}
+                                       onBlur={handleBlur('pricePerFunction')}
+                                       value={values.pricePerFunction}
+                                       label={t('translation\:owner\.labels\.newTheater\.price')}/>
+                            {(errors.pricePerFunction && touched.pricePerFunction) &&
+                                <Text style={styles.errorText}>{errors.pricePerFunction}</Text>
+                            }
+
+                            <View style={styles.row}>
+                                <Checkbox status={enabled ? 'checked' : 'unchecked'}
+                                          onPress={() => setEnabled(!enabled)}/>
+                                <Text size={"xxsmall"}
+                                      style={styles.label}>{t("translation\:owner\.labels\.newTheater\.enabled")}</Text>
+                            </View>
+
+                            <View style={[styles.row, styles.rowColContainer]}>
+                                <View style={[styles.row, styles.inputContainer]}>
+                                    <TextInput
+                                        maxLength={1}
+                                        textAlign="center"
+                                        keyboardType="numeric"
+                                        onChangeText={handleChange('numRows')}
+                                        onBlur={handleBlur('numRows')}
+                                        value={values.numRows}
+                                    />
+                                    <Text size={"xsmall"}
+                                          style={styles.numRows}>{t("translation\:owner\.labels\.newTheater\.row")}</Text>
+                                </View>
+
+                                <View style={[styles.row, styles.inputContainer]}>
+                                    <TextInput
+                                        maxLength={1}
+                                        textAlign="center"
+                                        keyboardType="numeric"
+                                        onChangeText={handleChange('numColumns')}
+                                        onBlur={handleBlur('numColumns')}
+                                        value={values.numColumns}
+                                    />
+                                    <Text size={"xsmall"}
+                                          style={styles.row}>{t("translation\:owner\.labels\.newTheater\.column")}</Text>
+                                </View>
+                            </View>
+                            <View style={[styles.row, styles.inputContainer]}>
+                                {(errors.numRows && touched.numRows) &&
+                                    <Text style={styles.errorText}>{errors.numRows}</Text>
+                                }
+                                {(errors.numColumns && touched.numColumns) &&
+                                    <Text style={styles.errorText}>{errors.numColumns}</Text>
+                                }
+                            </View>
+                            <View>
+                                <SeatLayout rows={values.numRows} columns={values.numColumns}/>
+                            </View>
+
                         </View>
                         <View>
-                            <SeatLayout rows={values.numRows} columns={values.numColumns}/>
+                            <Button onPress={handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
                         </View>
-
-                    </View>
-                    <View>
-                        <Button onPress={handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
-                    </View>
-                </>
-            )}
+                    </>
+                )}
             </Formik>
         </SafeAreaView>
     )
@@ -191,26 +253,26 @@ export const NewTheater = (props) => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 30,
-        display:"flex",
-        justifyContent:"space-between",
-        minHeight:"80%"
+        display: "flex",
+        justifyContent: "space-between",
+        minHeight: "80%"
     },
-    row:{
-        display:'flex',
-        flexDirection:"row",
-        alignItems:"center",
-        marginVertical:5
+    row: {
+        display: 'flex',
+        flexDirection: "row",
+        alignItems: "center",
+        marginVertical: 5
     },
-    label:{
-        fontSize:50
+    label: {
+        fontSize: 50
     },
-    inputContainer:{
-        gap:10
+    inputContainer: {
+        gap: 10
     },
-    rowColContainer:{
-        gap:30,
-        justifyContent:"space-evenly",
-        marginVertical:10
+    rowColContainer: {
+        gap: 30,
+        justifyContent: "space-evenly",
+        marginVertical: 10
     },
     errorText: {
         fontSize: 10,

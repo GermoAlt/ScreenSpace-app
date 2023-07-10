@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {SafeAreaView, StyleSheet} from "react-native";
+import {Pressable, SafeAreaView, StyleSheet} from "react-native";
 import {useEffect, useState} from "react";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import {COLORS} from "../../styles/Colors";
@@ -9,10 +9,11 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import {ScreeningList} from "../../components/owner/CinemaDetails/ScreeningList";
 import {TheaterList} from "../../components/owner/CinemaDetails/TheaterList";
 import FAB from "../../components/general/FAB";
-import { getTheatersByCinema } from "../../../networking/api/TheaterController";
-import { getScreenings } from '../../../networking/api/ScreeningController';
+import {getTheatersByCinema} from "../../../networking/api/TheaterController";
+import {getScreenings} from '../../../networking/api/ScreeningController';
 import {getScreeningsByCinema} from "../../../networking/api/CinemaController";
 import {useFocusEffect} from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -26,68 +27,60 @@ export const CinemaDetails = ({route, navigation}) => {
     const [theaters, setTheaters] = useState([]);
     const [screenings, setScreenings] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         navigation.setOptions({
-            headerTitle:()=><ScreenHeader text={t('translation\:owner\.titles\.cinemaDetails')}/>,
-            headerStyle: {backgroundColor: COLORS.background}
+            headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.cinemaDetails')}/>,
+            headerStyle: {backgroundColor: COLORS.background},
+            headerRight: () => (
+                <Pressable onPress={()=>navigation.navigate("NewCinema",{
+                    existingCinema:data
+                })}>
+                    <Icon name={"pencil"} color={COLORS.secondary} size={30}/>
+                </Pressable>
+            )
         })
     }, [])
 
-    const getTheaters = async () => {
+    const getTheaters = () => {
         setIsLoading(true)
-        try {
-            const response = await getTheatersByCinema(idCinema)
-           // console.log('resTheat', JSON.stringify(response.data))
-            if (response.status === 200){
-                setTheaters(response.data)
-            }else{
-                setErrMsg(t('translation:general.errors.default'));
+        getTheatersByCinema(idCinema).then((response) => {
+            setTheaters(response.data)
+        }).catch((error) => {
+                switch (error.status) {
+                    case 400:
+                    case 401:
+                        setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
+                        break;
+                    case 500:
+                        setErrMsg(t('translation:general.errors.default')); // Internal Server Error
+                        break;
+                    default:
+                        setErrMsg(t('translation:general.errors.default'));
+                        break;
+                }
             }
-
-        } catch (error) {
-            console.log('error', JSON.stringify(error))
-            switch (error.response.data.status){
-                case 400:
-                case 401:
-                    setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                break;
-                case 500:
-                    setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                break;
-                default:
-                    setErrMsg(t('translation:general.errors.default'));
-                break;
-            }
-        }
+        )
         setIsLoading(false)
     }
 
-    const getOwnerScreenings = async () => {
+    const getOwnerScreenings = () => {
         setIsLoading(true)
-        console.log("data obj", data.id)
-        try {
-            getScreeningsByCinema(data.id).then((response)=>{
-                console.log("dasdasdasdadsadsdasd",response)
-                setScreenings(response.data)
-                }
-            ).catch(()=>{
-                setErrMsg(t('translation:general.errors.default'));
-            })
-        } catch (error) {
-            console.log('error Screen', JSON.stringify(error))
-            switch (error.response.data.status){
+        getScreeningsByCinema(data.id).then((response) => {
+            setScreenings(response.data)
+        }).catch((error) => {
+            switch (error.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
-                break;
+                    break;
                 case 500:
                     setErrMsg(t('translation:general.errors.default')); // Internal Server Error
-                break;
+                    break;
                 default:
                     setErrMsg(t('translation:general.errors.default'));
-                break;
+                    break;
             }
-        }
+        })
         setIsLoading(false)
     }
 
@@ -98,17 +91,12 @@ export const CinemaDetails = ({route, navigation}) => {
         }, [])
     )
 
-     const getRouteName = () =>{
-            console.log('screen', screen)
-            if(screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")) {
-                return "NewScreening"
-            }
-            return "NewTheater"
-     }
-
-     useEffect(()=>{
-        console.log('Curr Nav', navigation)
-     }, [navigation])
+    const getRouteName = () => {
+        if (screen === t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")) {
+            return "NewScreening"
+        }
+        return "NewTheater"
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -120,10 +108,10 @@ export const CinemaDetails = ({route, navigation}) => {
                     tabBarInactiveTintColor: COLORS.off_white,
                     tabBarStyle: {
                         backgroundColor: COLORS.background,
-                        borderBottomColor:COLORS.off_white,
-                        borderBottomWidth:1
+                        borderBottomColor: COLORS.off_white,
+                        borderBottomWidth: 1
                     },
-                    tabBarIndicatorContainerStyle:{marginBottom:-1.5},
+                    tabBarIndicatorContainerStyle: {marginBottom: -1.5},
                 }}
                 backBehavior={"none"}
 
@@ -131,24 +119,24 @@ export const CinemaDetails = ({route, navigation}) => {
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.screenings\.title")}>
                     {(props) =>
-                        <ScreeningList screenings={screenings} navigation={navigation}
-                                       extended={props} setScreen={(e)=>setScreen(e)} />}
+                        <ScreeningList screenings={screenings} navigation={navigation} cinema={data}
+                                       extended={props} setScreen={(e) => setScreen(e)}/>}
                 </Tab.Screen>
                 <Tab.Screen
                     name={t("translation\:owner\.labels\.cinemaDetails\.tabs\.theaters\.title")}>
-                    {() => <TheaterList theaters={theaters} navigation={navigation} />}
+                    {() => <TheaterList theaters={theaters} navigation={navigation} cinema={data}/>}
                 </Tab.Screen>
             </Tab.Navigator>
-            <FAB action={()=>navigation.navigate(getRouteName(), {cinema:data})}/>
+            <FAB action={() => navigation.navigate(getRouteName(), {cinema: data})}/>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        display:"flex",
-        flex:1
+    container: {
+        display: "flex",
+        flex: 1
     },
-    tabBar:{},
-    tabBarLabel:{}
+    tabBar: {},
+    tabBarLabel: {}
 })

@@ -15,7 +15,7 @@ export const SeatLayout = (props) => {
             {
                 [...Array(Number(rows))].map(
                     (e, idx) =>
-                        <View style={styles.row}>
+                        <View style={styles.row} key={"row"+idx}>
                             <Text key={idx} style={styles.text}>{letters[idx]}</Text>
                             {
                                 [...Array(Number(columns))].map(

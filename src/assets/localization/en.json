@@ -93,6 +93,9 @@
             }
           }
         },
+        "deleteCine": "Are you sure you want to delete this cinema?",
+        "deleteScreening": "Are you sure you want to delete this screening?",
+        "deleteTheater": "Are you sure you want to delete this theater?",
         "movieSearch": {
           "searchField": "Search"
         },
@@ -140,6 +143,12 @@
       },
       "titles": {
         "cinemaDetails": "My Cinema",
+        "deleteCinema": "Delete this cinema?",
+        "deleteScreening": "Delete this screening?",
+        "deleteTheater": "Delete this theater?",
+        "editCinema": "Edit Cinema",
+        "editScreening": "Edit Screening",
+        "editTheater": "Edit Theater",
         "movieSearch": "Search movies",
         "newCinema": "New Cinema",
         "newScreening": "New Screening",

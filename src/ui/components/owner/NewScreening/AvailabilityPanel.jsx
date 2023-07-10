@@ -48,7 +48,6 @@ export const AvailabilityPanel = (props) => {
                 "movieId": movie.id
             })
                 .then((res) => {
-                    console.log(res.data)
                     setAvailableSlots(res.data)
                 })
                 .catch((err) => {
@@ -74,9 +73,9 @@ export const AvailabilityPanel = (props) => {
                 {availableSlots.map(
                     (item) => {
                         return (
-                            <View style={styles.row}>
+                            <View style={styles.row} key={item.start + " " + item.end}>
                                 <Icon name={"circle-medium"} size={20}/>
-                                <Text key={"e"}>{item.start} - {item.end}</Text>
+                                <Text>{item.start} - {item.end}</Text>
                             </View>
                         )
                     }

@@ -42,3 +42,15 @@ export async function getScreeningsByCinema(idCinema){
     const token = await getKey('accessToken')
     return await api(token).get(prefix + '/' + idCinema + "/screenings")
 }
+
+export function updateCinema(id, body) {
+    return getKey("accessToken").then((token)=>{
+        return api(token).put(prefix+"/"+id, body)
+    })
+}
+
+export function deleteCinema(id) {
+    return getKey("accessToken").then((token)=>{
+        return api(token).delete(prefix+"/"+id)
+    })
+}

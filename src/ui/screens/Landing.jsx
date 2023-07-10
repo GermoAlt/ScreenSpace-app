@@ -15,7 +15,7 @@ export const Landing = ({navigation}) => {
     const {auth, setAuth} = useAuth()
     const {retrieveUserSession, clearStorage, storeUserSession} = useEncryptedStorage()
 
-    
+
 
     const usarAutenticacion = false  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
     // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
@@ -41,12 +41,11 @@ export const Landing = ({navigation}) => {
     // )
 
     useEffect(() => {
-        
+
         if (usarAutenticacion) {
             //clearStorage()
             retrieveUserSession().then(
                 (res) => {
-                    console.log('res', res)
                     if(res) {
                         navigation.navigate('OwnerNavigator')
                         setAuth(JSON.parse(res))
@@ -56,7 +55,7 @@ export const Landing = ({navigation}) => {
                 }
             )
         }else{
-            setDummyCredentials()            
+            setDummyCredentials()
         }
     }, [])
 
