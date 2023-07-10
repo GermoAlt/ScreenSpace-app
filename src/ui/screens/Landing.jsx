@@ -4,14 +4,12 @@ import {SafeAreaView, View, StyleSheet} from 'react-native';
 import {useTranslation} from "react-i18next";
 import { COLORS } from '../styles/Colors';
 import {Button} from '../components/general/Button';
-import {useEffect, useState} from 'react';
 import useAuth from '../../hooks/useAuth';
 import useEncryptedStorage from '../../hooks/useEncryptedStorage';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { loginClientUser } from "../../networking/api/AuthController";
 import { HeaderLogo } from '../components/general/HeaderLogo';
-import { Text as TextRNP, Chip } from 'react-native-paper';
 
 
 export const Landing = ({navigation}) => {
@@ -19,6 +17,7 @@ export const Landing = ({navigation}) => {
     const {auth, setAuth} = useAuth()
     const {retrieveUserSession, clearStorage, storeUserSession} = useEncryptedStorage()
     const [isSigninInProgress, setIsSigninInProgress] = React.useState(false)
+    const [user, setUser] = React.useState({})
 
     const { setGoogelUserData }= useGoogleAuth()
 
@@ -35,33 +34,30 @@ export const Landing = ({navigation}) => {
     //HASTA ACA
 
     React.useEffect(() => {
+        GoogleSignin.configure({
+            androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
+            forceCodeForRefreshToken: true,
+        })
+        isSignedIn()
 
-        if (usarAutenticacion) {
-            //clearStorage()
-            retrieveUserSession().then(
-                (res) => {
-                    if(res) {
-                        navigation.navigate('OwnerNavigator')
-                        setAuth(JSON.parse(res))
-                    }
+        retrieveUserSession().then(
+            (res) => {
+                if(res) {
+                    navigation.navigate('OwnerNavigator')
+                    setAuth(JSON.parse(res))
                 }
-            )
-        }else{
-            GoogleSignin.configure({
-                androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
-                forceCodeForRefreshToken: true,
-            })
-            isSignedIn()
-        }
+            }
+        )
+        
     }, [])
 
-    useEffect(()=>{
+    React.useEffect(()=>{
         navigation.addListener('beforeRemove', (e)=>{
             e.preventDefault()
         })
     }, [navigation])
 
-    const [user, setUser] = React.useState({})
+    
 
     const getClientToken = async (userData) => {
         //console.log('userData', userData)
@@ -97,22 +93,12 @@ export const Landing = ({navigation}) => {
 
     }
     
-    /*
-    React.useEffect(() => {
-        GoogleSignin.configure({
-            androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
-            forceCodeForRefreshToken: true,
-        })
-        isSignedIn()
-    }, [])
-    */
-
     const signIn = async () => {
         setIsSigninInProgress(true)
         try {
             await GoogleSignin.hasPlayServices()
             const userInfo = await GoogleSignin.signIn()
-            console.log('due___', userInfo)
+            //console.log('due___', userInfo)
             setUser(userInfo)
             setGoogelUserData(userInfo)
             getClientToken(userInfo)
@@ -120,13 +106,13 @@ export const Landing = ({navigation}) => {
         } catch (error) {
             //console.log('Message___', error.message)
             if (error.code === statusCodes.SIGN_IN_CANCELLED){
-                console.log('User Cancellede the Login Flow')
+                //console.log('User Cancellede the Login Flow')
             }else if (error.code === statusCodes.IN_PROGRESS){
-                console.log('Signin In')
+                //console.log('Signin In')
             }else if (error.code = statusCodes.PLAY_SERVICES_NOT_AVAILABLE){
                 console.log('Play Services Not Available')
             }else {
-                console.log('Some other Error Happened')
+                //console.log('Some other Error Happened')
             }
         }
         setIsSigninInProgress(false)

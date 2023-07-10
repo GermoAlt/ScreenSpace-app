@@ -1,4 +1,4 @@
-import StarRating from "react-native-star-rating";
+import StarRating from 'react-native-star-rating-widget';
 
 export const StarsRating = (props) => {
     const {rating, setRating, ...rest} = props
