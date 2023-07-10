@@ -15,6 +15,8 @@ import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs
 import {useEffect, useState} from "react";
 import {useIsFocused} from "@react-navigation/native";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
+import Geocoder from 'react-native-geocoding'
+import {API_KEY} from "../../../assets/config/config";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -30,15 +32,22 @@ export const NewCinema = ({navigation, route}) => {
     const [existing, setExisting] = useState(
         existingCinema !== null && existingCinema !== undefined
     )
+    const [region, setRegion] = useState({
+        latitude: -34.603722,
+        longitude: -58.381592,
+        latitudeDelta: 0.022,
+        longitudeDelta: 0.021,
+    })
+    Geocoder.init(API_KEY)
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("cinemaEx", existingCinema)
-        if(existing){
+        if (existing) {
             navigation.setOptions({
                 headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editCinema')}/>
             })
         }
-    },[])
+    }, [])
 
     const submitCinemaData = (values) => {
 
@@ -64,7 +73,7 @@ export const NewCinema = ({navigation, route}) => {
             pricePerFunction: 0
         }
 
-        if(existing){
+        if (existing) {
             editCinema(body)
         } else {
             saveNewCinema(body)
@@ -73,10 +82,10 @@ export const NewCinema = ({navigation, route}) => {
         setLoading(false)
     }
 
-    const editCinema =(body)=>{
-        updateCinema(existingCinema.id, body).then(()=> {
+    const editCinema = (body) => {
+        updateCinema(existingCinema.id, body).then(() => {
             navigation.navigate('OwnerLanding')
-        }).catch((error) =>{
+        }).catch((error) => {
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status) {
                 case 400:
@@ -94,9 +103,9 @@ export const NewCinema = ({navigation, route}) => {
     }
 
     const saveNewCinema = (body) => {
-        postCinemas(body).then(()=> {
+        postCinemas(body).then(() => {
             navigation.navigate('OwnerLanding')
-        }).catch((error) =>{
+        }).catch((error) => {
             console.log('error', JSON.stringify(error))
             switch (error.response.data.status) {
                 case 400:
@@ -143,20 +152,24 @@ export const NewCinema = ({navigation, route}) => {
             .required(t('translation:general.forms.errors.required')),
     })
 
+    const buildAddress = (values) => {
+        return values.street + " " + values.number + ", " + values.city + ", " + values.province + ", " + values.country
+    }
+
     return (
         <KeyboardAvoidingView style={{flex: 1}}>
             <Formik
                 initialValues={{
                     name: existing ? existingCinema.name : '',
-                    companyName: existing ? existingCinema.companyName :'',
-                    street: existing ? existingCinema.address.street :'',
-                    number: existing ? existingCinema.address.number :'',
-                    neighborhood: existing ? existingCinema.address.neighborhood :'',
-                    city: existing ? existingCinema.address.city :'',
-                    province: existing ? existingCinema.address.province :'',
-                    country: existing ? existingCinema.address.country :'',
-                    latitude: existing ? existingCinema.geoLocation.latitude+"" :'',
-                    longitude: existing ? existingCinema.geoLocation.longitude+"" :'',
+                    companyName: existing ? existingCinema.companyName : '',
+                    street: existing ? existingCinema.address.street : '',
+                    number: existing ? existingCinema.address.number : '',
+                    neighborhood: existing ? existingCinema.address.neighborhood : '',
+                    city: existing ? existingCinema.address.city : '',
+                    province: existing ? existingCinema.address.province : '',
+                    country: existing ? existingCinema.address.country : '',
+                    latitude: existing ? existingCinema.geoLocation.latitude + "" : '',
+                    longitude: existing ? existingCinema.geoLocation.longitude + "" : '',
                 }}
                 onSubmit={values => submitCinemaData(values)}
                 validationSchema={cinemaValidationSchema}
@@ -246,7 +259,28 @@ export const NewCinema = ({navigation, route}) => {
                                             }
                                         </ScrollView>
                                         <View style={styles.buttonRow}>
-                                            <Button onPress={() => navigation.navigate("NewCinemaMap")}>{t("translation\:general\.labels\.next")}</Button>
+                                            <Button onPress={() => {
+                                                Geocoder.from(buildAddress(values)).then((res) => {
+                                                        console.log("ASDASDASDADSAD", res.results[0].geometry.location)
+
+                                                        setFieldValue("latitude", res.results[0].geometry.location.lat.toString().slice(0, 10))
+                                                        setFieldValue("longitude", res.results[0].geometry.location.lng.toString().slice(0, 10))
+                                                    setRegion(
+                                                        {
+                                                            latitude: res.results[0].geometry.location.lat,
+                                                            longitude: res.results[0].geometry.location.lng,
+                                                            latitudeDelta: 0.022,
+                                                            longitudeDelta: 0.021,
+                                                        }
+                                                    )
+                                                    }
+                                                ).catch((err) => {
+                                                    console.log(err)
+                                                })
+                                                navigation.navigate("NewCinemaMap")
+                                            }}>
+                                                {t("translation\:general\.labels\.next")}
+                                            </Button>
                                         </View>
                                     </View>
                                 }}
@@ -260,17 +294,19 @@ export const NewCinema = ({navigation, route}) => {
                                 {() => {
                                     return <View style={styles.container}>
                                         <MapView initialRegion={{
-                                            latitude: -34.603722,
-                                            longitude: -58.381592,
-                                            latitudeDelta: 0.0922,
-                                            longitudeDelta: 0.0421,
-                                        }} style={styles.map}>
+                                            latitude: existing ? parseFloat(values.latitude) : -34.603722,
+                                            longitude: existing ? parseFloat(values.longitude) : -58.381592,
+                                            latitudeDelta: 0.022,
+                                            longitudeDelta: 0.021,
+                                        }}
+                                                 region={region}
+                                                 style={styles.map}>
                                             <Marker coordinate={{
                                                 latitude: parseFloat(values.latitude),
                                                 longitude: parseFloat(values.longitude)
-                                            }} draggable onDragEnd={(e)=>{
-                                                setFieldValue("latitude", e.nativeEvent.coordinate.latitude.toString().slice(0,10))
-                                                setFieldValue("longitude", e.nativeEvent.coordinate.longitude.toString().slice(0,10))
+                                            }} draggable onDragEnd={(e) => {
+                                                setFieldValue("latitude", e.nativeEvent.coordinate.latitude.toString().slice(0, 10))
+                                                setFieldValue("longitude", e.nativeEvent.coordinate.longitude.toString().slice(0, 10))
                                                 console.log(e)
                                             }}/>
                                         </MapView>
@@ -293,8 +329,10 @@ export const NewCinema = ({navigation, route}) => {
                                             }
                                         </View>
                                         <View style={styles.buttonRow}>
-                                            <Button type={"default"} onPress={() => navigation.navigate("NewCinemaForm")}>{t("translation\:general\.labels\.back")}</Button>
-                                            <Button onPress={handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
+                                            <Button type={"default"}
+                                                    onPress={() => navigation.navigate("NewCinemaForm")}>{t("translation\:general\.labels\.back")}</Button>
+                                            <Button
+                                                onPress={handleSubmit}>{t("translation\:general\.labels\.confirm")}</Button>
                                         </View>
                                     </View>
                                 }}

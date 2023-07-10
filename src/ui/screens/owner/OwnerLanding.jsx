@@ -28,21 +28,13 @@ export const OwnerLanding = ({navigation}) => {
     const [visible, setVisible] = useState(false);
     const [cinemaList, setCinemaList] = useState([])
     const { clearStorage } = useEncryptedStorage()
-    const getCinemasList = async () => {
+    const getCinemasList =  () => {
         setIsLoading(true)
-        try {
-            const response = await getCinemas()
-            console.log('response', JSON.stringify(response.data))
-            if (response.status === 200) {
-                setCinemaList(response.data)
-                setIsLoading(false)
-            } else {
-                setErrMsg(t('translation:general.errors.default'));
-            }
-
-        } catch (error) {
-            console.log('error', JSON.stringify(error))
-            switch (error.response.data.status) {
+        getCinemas().then((response)=>{
+            setCinemaList(response.data)
+            setIsLoading(false)
+        }).catch((error) =>{
+            switch (error.status) {
                 case 400:
                 case 401:
                     setErrMsg(t('translation:login.errors.login.wrongCredentials')); // Bad Request
@@ -54,7 +46,7 @@ export const OwnerLanding = ({navigation}) => {
                     setErrMsg(t('translation:general.errors.default'));
                     break;
             }
-        }
+        })
         setIsLoading(false)
     }
 
