@@ -8,10 +8,15 @@ import { Text as TextRNP } from 'react-native-paper';
 import { ConfirmationDetailsComponent } from '../../components/user/ConfirmationDetailsComponent';
 import { ConfirmationTicketsComponent } from '../../components/user/ConfirmationTicketsComponent';
 import { postReservation } from '../../../networking/api/ReservationController';
+import useGoogleAuth from '../../../hooks/useGoogleAuth';
 
 export const ConfirmSelection = ({route, navigation}) => {
     const {t} = useTranslation();
     const { screeningId, seatsReserved, ticketQuantity, ticketPrice, details } = route.params.confirmationInfo
+
+    const { googelUserData } = useGoogleAuth()
+    
+    const userName = googelUserData?.user.givenName
 
     const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false)
@@ -75,7 +80,7 @@ export const ConfirmSelection = ({route, navigation}) => {
 
             <ScrollView style={styles.container}>
                 <TextRNP variant='titleMedium' style={styles.indications} >
-                    {t("translation\:user\.labels\.movieConfirmation\.almost_there")}
+                   {userName} {t("translation\:user\.labels\.movieConfirmation\.almost_there")}
                 </TextRNP>
                 <View style={styles.lineSeparator}></View>
                 <TextRNP variant='titleMedium' style={styles.indications} >
