@@ -28,7 +28,7 @@ export const NewCinema = ({navigation, route}) => {
     const {t} = useTranslation()
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    const {existingCinema} = route.params
+    const existingCinema = route.params ? route.params.existingCinema : null
     const [existing, setExisting] = useState(
         existingCinema !== null && existingCinema !== undefined
     )
@@ -260,21 +260,17 @@ export const NewCinema = ({navigation, route}) => {
                                         </ScrollView>
                                         <View style={styles.buttonRow}>
                                             <Button onPress={() => {
-                                                Geocoder.from(buildAddress(values)).then((res) => {
-                                                        console.log("ASDASDASDADSAD", res.results[0].geometry.location)
-
+                                                Geocoder.from(buildAddress(values))
+                                                    .then((res) => {
                                                         setFieldValue("latitude", res.results[0].geometry.location.lat.toString().slice(0, 10))
                                                         setFieldValue("longitude", res.results[0].geometry.location.lng.toString().slice(0, 10))
-                                                    setRegion(
-                                                        {
+                                                        setRegion({
                                                             latitude: res.results[0].geometry.location.lat,
                                                             longitude: res.results[0].geometry.location.lng,
                                                             latitudeDelta: 0.022,
                                                             longitudeDelta: 0.021,
-                                                        }
-                                                    )
-                                                    }
-                                                ).catch((err) => {
+                                                        })
+                                                    }).catch((err) => {
                                                     console.log(err)
                                                 })
                                                 navigation.navigate("NewCinemaMap")
@@ -302,8 +298,8 @@ export const NewCinema = ({navigation, route}) => {
                                                  region={region}
                                                  style={styles.map}>
                                             <Marker coordinate={{
-                                                latitude: parseFloat(values.latitude),
-                                                longitude: parseFloat(values.longitude)
+                                                latitude: existing ? parseFloat(values.latitude) : -34.603722,
+                                                longitude: existing ? parseFloat(values.longitude) : -58.381592,
                                             }} draggable onDragEnd={(e) => {
                                                 setFieldValue("latitude", e.nativeEvent.coordinate.latitude.toString().slice(0, 10))
                                                 setFieldValue("longitude", e.nativeEvent.coordinate.longitude.toString().slice(0, 10))
