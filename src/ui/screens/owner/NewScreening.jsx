@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
-import {Dimensions, Pressable, SafeAreaView, StyleSheet, View} from "react-native";
-import {IconButton, Text} from "react-native-paper";
-import {TextInput} from "../../components/general/TextInput";
+import {SafeAreaView, StyleSheet, View} from "react-native";
+import {Text} from "react-native-paper";
 import {MovieSelectionPanel} from "../../components/owner/NewScreening/MovieSelectionPanel";
 import {CalendarPickerField} from "../../components/owner/NewScreening/CalendarPickerField";
 import {DatePickerField} from "../../components/owner/NewScreening/DatePickerField";
@@ -11,13 +10,11 @@ import {Button} from "../../components/general/Button";
 import {useTranslation} from "react-i18next";
 import {COLORS} from "../../styles/Colors";
 import {getTheatersByCinema} from "../../../networking/api/TheaterController";
-import {ErrorMessage} from '../../components/general/ErrorMessage';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {postScreening, updateScreening} from "../../../networking/api/ScreeningController";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import * as React from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 export const NewScreening = ({navigation, route}) => {

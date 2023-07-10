@@ -6,6 +6,7 @@ import {COLORS} from "../../styles/Colors";
 
 export const SeatLayout = (props) => {
     const {t} = useTranslation()
+    console.log("props", props)
     const {rows, columns} = props
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     return (
@@ -15,7 +16,7 @@ export const SeatLayout = (props) => {
             {
                 [...Array(Number(rows))].map(
                     (e, idx) =>
-                        <View style={styles.row}>
+                        <View style={styles.row} key={"row"+idx}>
                             <Text key={idx} style={styles.text}>{letters[idx]}</Text>
                             {
                                 [...Array(Number(columns))].map(
