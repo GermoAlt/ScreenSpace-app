@@ -1,4 +1,4 @@
-package com.screenspace;
+package com.screenspace.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

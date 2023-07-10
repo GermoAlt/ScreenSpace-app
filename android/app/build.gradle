@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.screenspace"
+    namespace "com.screenspace.app"
     defaultConfig {
-        applicationId "com.screenspace"
+        applicationId "com.screenspace.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
