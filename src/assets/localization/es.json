@@ -240,6 +240,8 @@
           "your_tickets": "Tu(s) Entrada(s)"
         },
         "newReview": {
+          "cancel": "Cancelar",
+          "confirm": "Calificar",
           "title": "Califica a"
         }
       }

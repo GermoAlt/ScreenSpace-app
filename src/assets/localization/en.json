@@ -240,6 +240,8 @@
           "your_tickets": "Your seat(s)"
         },
         "newReview": {
+          "cancel": "Cancel",
+          "confirm": "Review",
           "title": "Review"
         }
       }

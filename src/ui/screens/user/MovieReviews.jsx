@@ -8,7 +8,6 @@ import {Text} from "react-native-paper";
 export const MovieReviews = ({route, navigation}) => {
     const {movie} = route.params
     const [reviews, setReviews] = useState([])
-    console.log("mov",movie)
 
     useEffect(()=>{
         getReviewsByMovie(movie.id).then((res)=>{

@@ -57,12 +57,20 @@ export const MovieActionItensComponent = (props) => {
                     </Dialog.Title>
                     <Dialog.Content>
                         <View style={styles.reviewContainer}>
-                            <TextInput multiline value={ratingText} onChangeText={(text) => {setRatingText(text)}}/>
+                            <TextInput multiline
+                                       value={ratingText}
+                                       onChangeText={(text) => {setRatingText(text)}}
+                                       label={"Leave your review here"}
+                            />
                             <StarsRating rating={rating} setRating={(e)=>setRating(e)}></StarsRating>
                         </View>
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Button type={"default"} icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button type={"default"}
+                                icon={"cancel"}
+                                onPress={()=>setVisibleDialog(false)}>
+                            {t("translation\:user\.labels\.newReview\.cancel")}
+                        </Button>
                         <Button icon={"check-circle-outline"} onPress={()=> {
                             console.log("rev", {
                                 rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
@@ -74,7 +82,7 @@ export const MovieActionItensComponent = (props) => {
                             }).catch((err)=>{
                                 console.log(err)
                             })
-                        }}>{t("translation\:general\.labels\.yes")}</Button>
+                        }}>{t("translation\:user\.labels\.newReview\.confirm")}</Button>
                     </Dialog.Actions>
 
                 </Dialog>

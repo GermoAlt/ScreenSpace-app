@@ -5,7 +5,8 @@ export const StarsRating = (props) => {
     return <StarRating {...rest}
                maxStars={5}
                rating={rating}
-               selectedStar={(r)=> setRating(r)}
-               fullStarColor={"#deb40b"}
+               onChange={(r)=> setRating(r)}
+               color={"#deb40b"}
+               enableHalfStar={false}
     />
 }
