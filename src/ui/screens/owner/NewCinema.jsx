@@ -169,7 +169,7 @@ export const NewCinema = ({navigation, route}) => {
             <Portal>
                 <Dialog visible={visibleDialog}>
                     <Dialog.Title><Text>{t("translation\:owner\.titles\.deleteCinema")}</Text></Dialog.Title>
-                    <Dialog.Content><Text>{t("translation\:owner\.titles\.deleteCinema")}</Text></Dialog.Content>
+                    <Dialog.Content><Text>{t("translation\:owner\.labels\.deleteCinema")}</Text></Dialog.Content>
                     <Dialog.Actions>
                         <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
                         <Button type={"default"} icon={"delete"} onPress={()=> {

@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet, View} from "react-native";
-import {Text} from "react-native-paper";
+import {Pressable, SafeAreaView, StyleSheet, View} from "react-native";
+import {Dialog, Portal, Text} from "react-native-paper";
 import {MovieSelectionPanel} from "../../components/owner/NewScreening/MovieSelectionPanel";
 import {CalendarPickerField} from "../../components/owner/NewScreening/CalendarPickerField";
 import {DatePickerField} from "../../components/owner/NewScreening/DatePickerField";
@@ -12,9 +12,11 @@ import {COLORS} from "../../styles/Colors";
 import {getTheatersByCinema} from "../../../networking/api/TheaterController";
 import {Formik} from 'formik';
 import * as yup from 'yup';
-import {postScreening, updateScreening} from "../../../networking/api/ScreeningController";
+import {deleteScreening, postScreening, updateScreening} from "../../../networking/api/ScreeningController";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
 import * as React from "react";
+import {deleteCinema} from "../../../networking/api/CinemaController";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 export const NewScreening = ({navigation, route}) => {
@@ -23,6 +25,8 @@ export const NewScreening = ({navigation, route}) => {
     const {cinema, movie, existingScreening} = route.params
     const [errMsg, setErrMsg] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const [visibleDialog, setVisibleDialog] = React.useState(false);
 
     const [selectedMovie, setSelectedMovie] = useState(movie || {})
     const [date, setDate] = useState(new Date())
@@ -49,7 +53,12 @@ export const NewScreening = ({navigation, route}) => {
     useEffect(() => {
         if (existing) {
             navigation.setOptions({
-                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editScreening')}/>
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editScreening')}/>,
+                headerRight: () => (
+                    <Pressable onPress={()=>setVisibleDialog(true)}>
+                        <Icon name={"delete"} color={COLORS.secondary} size={30}/>
+                    </Pressable>
+                )
             })
             setSelectedMovie(existingScreening.movie)
             setDate(parseDateString(existingScreening.date))
@@ -140,6 +149,21 @@ export const NewScreening = ({navigation, route}) => {
 
     return (
         <SafeAreaView style={styles.screen}>
+            <Portal>
+                <Dialog visible={visibleDialog}>
+                    <Dialog.Title><Text style={styles.text}>{t("translation\:owner\.titles\.deleteScreening")}</Text></Dialog.Title>
+                    <Dialog.Content><Text style={styles.text}>{t("translation\:owner\.labels\.deleteScreening")}</Text></Dialog.Content>
+                    <Dialog.Actions>
+                        <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button type={"default"} icon={"delete"} onPress={()=> {
+                            deleteScreening(existingScreening.id).then(r => {
+                                navigation.navigate('CinemaDetails', {data: cinema})
+                            })
+                        }}>{t("translation\:general\.labels\.yes")}</Button>
+                    </Dialog.Actions>
+
+                </Dialog>
+            </Portal>
             <Formik
                 initialValues={{theaterId: existing ? existingScreening.theater : {}}}
                 onSubmit={values => submitScreeningData(values)}
@@ -217,4 +241,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: COLORS.primary,
     },
+    text:{
+        color:COLORS.secondary
+    }
 })

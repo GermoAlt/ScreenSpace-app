@@ -130,7 +130,12 @@ export const OwnerLanding = ({navigation}) => {
                              toTop={()=>navigation.getParent().popToTop()}
                 />
             }
-            screenOptions={{drawerPosition: "right"}}
+            screenOptions={{
+                drawerPosition: "right",
+                drawerStyle: {
+                    backgroundColor: COLORS.background
+                },
+        }}
         >
             <Drawer.Screen
                 name={'content'}
