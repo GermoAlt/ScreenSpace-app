@@ -102,7 +102,7 @@
             }
           }
         },
-        "deleteCine": "Are you sure you want to delete this cinema?",
+        "deleteCinema": "Are you sure you want to delete this cinema?",
         "deleteScreening": "Are you sure you want to delete this screening?",
         "deleteTheater": "Are you sure you want to delete this theater?",
         "movieSearch": {
@@ -184,7 +184,10 @@
       "labels": {
         "landing": {
           "filters": "Filters",
-          "nearBy": "Near you"
+          "loading": "Loading...",
+          "nearBy": "Near you",
+          "no_results": "No results for your search criteria",
+          "your_results": "Your results"
         },
         "movieActionItems": {
           "comments": "Comments",
