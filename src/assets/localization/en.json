@@ -20,6 +20,15 @@
         "next": "Next",
         "no": "No",
         "yes": "Yes"
+      },
+      "permissions": {
+        "geolocation": {
+          "buttonNegative": "Cancel",
+          "buttonNeutral": "Ask again later",
+          "buttonPositive": "OK",
+          "message": "May we access your location",
+          "title": "Location permissions"
+        }
       }
     },
     "landing": {
@@ -153,6 +162,83 @@
         "newCinema": "New Cinema",
         "newScreening": "New Screening",
         "newTheater": "New Theater"
+      }
+    },
+    "user": {
+      "captions": {
+        "filters": {
+          "apply": "Apply",
+          "clear": "Discard"
+        },
+        "movieDetails": {
+          "reserve": "Reserve"
+        },
+        "movieReservation": {
+          "confirmReservation": "Confirm"
+        },
+        "seatsSelection": {
+          "back": "Back",
+          "purchase": "Buy"
+        }
+      },
+      "labels": {
+        "landing": {
+          "filters": "Filters",
+          "nearBy": "Near you"
+        },
+        "movieActionItems": {
+          "comments": "Comments",
+          "rate": "Review",
+          "share": "Share"
+        },
+        "movieConfirmation": {
+          "almost_there": "Nearly there!",
+          "cinema": "Cinema",
+          "date_time": "Date and time",
+          "indication_confirmation": "REVIEW YOUR SELECTION TO CONFIRM YOUR RESERVATION",
+          "movie": "Movie",
+          "screening_ticket": "Ticket to Screening",
+          "seats": "Seat(s)",
+          "total_amount": "Total",
+          "your_tickets": "Your ticket(s)"
+        },
+        "movieReservation": {
+          "fistStep": {
+            "label": "When would you like to go?",
+            "today": "TODAY",
+            "tomorrow": "TOMORROW"
+          },
+          "indications": "To select your seats, tap on the available seats you wish to book.",
+          "noData": {
+            "label": "Nothing to show"
+          },
+          "seatLegend": {
+            "reserved": "Reserved",
+            "seatSelection": "Select your seats:",
+            "selected": "Your selection",
+            "vacant": "Available"
+          },
+          "secondStep": {
+            "label": "In what theater?"
+          },
+          "thirdStep": {
+            "label": "And at what time?"
+          }
+        },
+        "movieSelected": {
+          "actors": "Actors",
+          "cinema": "Cinema",
+          "date_time": "Date and time",
+          "director": "Director",
+          "duration": "Duration",
+          "genre": "Genre",
+          "movie": "Movie",
+          "rating": "Review",
+          "screening_ticket": "Ticket to Screening",
+          "seats": "Seat(s)",
+          "total_amount": "Total",
+          "your_tickets": "Your seat(s)"
+        }
       }
     }
   }
