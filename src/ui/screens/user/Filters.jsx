@@ -12,6 +12,7 @@ import { HeaderLogo } from "../../components/general/HeaderLogo";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { getCinemas } from '../../../networking/api/CinemaController';
 import useGeolocation from '../../../hooks/useGeolocation';
+import { getMoviesFiltered } from '../../../networking/api/MovieController';
 
 export const Filters = ({navigation}) => {
     const {t} = useTranslation()
@@ -24,8 +25,6 @@ export const Filters = ({navigation}) => {
 
     //TODO - Pasarlo a un Provider
     React.useEffect(() => {
-
-        console.log('geolocation', geolocation)
 
         const fetchCinemas = async () => {
             setIsLoading(true)
@@ -62,26 +61,37 @@ export const Filters = ({navigation}) => {
         setIsLoading(true)
         setErrMsg('')
 
-        console.log('VALUES', values)
+        //console.log('VALUES', values)
         
         try {
 
             const body = {
-                cinema: values.cinema.id,
-                distance: values.distance.id,
-                movie: values.movie.id,
-                genre: values.genre.id,
-                rating: values.rating.id,
+                cinema: values.cinema?.id || null,
+                maxDistance: values.distance?.id || 1000,
+                latitute: geolocation.coords.latitude, //LatituDe misspelled by BE Monkey :)
+                longitude: geolocation.coords.longitude,
+                movieTitle: values.movie?.title || null,
+                genre: values.genre?.id || null,
+                score: values.ratings?.id || null,
             }
-            /*
-            const res = await postScreening(body)
-            console.log('RES Theat', JSON.stringify(res))
-            if (res.status === 200){
-                navigation.navigate('CinemaDetails', {data: cinema})
+            console.log('body', body)
+            
+
+            const response = await getMoviesFiltered(body)
+            if (response.status === 200){
+                const cinemaOffers = response.data.map((item) => {
+                    return {
+                        id: item.cinema.id,
+                        name: item.cinema.name,
+                        distance: item.distance,
+                        movies: item.movies
+                    }
+                })
+    
+                navigation.navigate('FilteredOffers', {filteredData: cinemaOffers})
             }else{
                 setErrMsg(t('translation:general.errors.default'));
             }
-            */
 
         } catch (error) {
             console.log('error', error)
@@ -136,8 +146,8 @@ export const Filters = ({navigation}) => {
                         setValue={(value) => setFieldValue("genre", value)} 
                     />
                     <Dropdown list={ratings}
-                        value={values.rating}
-                        setValue={(value) => setFieldValue("rating", value)} 
+                        value={values.ratings}
+                        setValue={(value) => setFieldValue("ratings", value)} 
                     />
                 </View>
                 <View style={styles.dualRow}>

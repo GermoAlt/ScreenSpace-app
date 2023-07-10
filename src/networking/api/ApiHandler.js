@@ -24,6 +24,7 @@ export function buildQueryParams(criteria) {
     if(Object.entries(criteria).length !== 0) {
         qp += '?'
         for (const entry of Object.entries(criteria)) {
+            if (entry[1] === null) continue
             qp += entry[0] + "=" + entry[1] + "&"
         }
         qp = qp.slice(0, qp.length-1)

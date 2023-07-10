@@ -151,7 +151,6 @@ export const UserLanding = ({navigation}) => {
         setIsLoading(false)
 
     }
-    console.log("mv",movieOffer)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -179,7 +178,7 @@ export const UserLanding = ({navigation}) => {
                 </ScrollView>
                 :
                 <View>
-                    <Text>empty</Text>
+                    <Text >{t("translation\:user\.labels\.landing\.loading")}</Text>
                 </View>
             }
 

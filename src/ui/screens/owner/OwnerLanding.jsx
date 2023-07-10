@@ -64,16 +64,18 @@ export const OwnerLanding = ({navigation}) => {
     const handleLogout = async () => {
 
         try {
+            clearStorage()
             const res = await logoutOwnerUser()
-            await clearStorage()
             if (res.status === 200){
-                navigation.push("LoginNavigator")
+                navigation.push("Landing")
             }else{
                 setErrMsg(t('translation:general.errors.default'));
             }
 
         } catch (error) {
             console.log('error', JSON.stringify(error))
+            clearStorage()
+            navigation.push("Landing")
             switch (error.response.data.status){
                 case 400:
                 case 401:

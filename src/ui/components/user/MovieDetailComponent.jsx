@@ -20,7 +20,7 @@ export const MovieDetailComponent = (props) => {
                 <View style={styles.dualRow} marginTop={8}>
                     <Icon name={"star"} color={"#deb40b"} size={25}></Icon>
                     <Text alignment="right" size="xsmall">
-                        {movie.rating}
+                        {Math.round(movie.rating)}
                     </Text>
                     <Text alignment="left" marginTop={6} size="xxxsmall">/5</Text>
                 </View>

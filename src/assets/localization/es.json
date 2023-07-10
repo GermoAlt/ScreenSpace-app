@@ -184,7 +184,10 @@
       "labels": {
         "landing": {
           "filters": "Filtros",
-          "nearBy": "Cerca Tuyo"
+          "nearBy": "Cerca Tuyo",
+          "your_results": "Tus Resultados",
+          "loading": "Cargando...",
+          "no_results": "No hay ofertas para tu búsqueda..."
         },
         "movieActionItems": {
           "comments": "Comentarios",
