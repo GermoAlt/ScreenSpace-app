@@ -76,6 +76,7 @@ export const MovieActionItensComponent = (props) => {
                                 rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
                             }).then((res) => {
                                 setVisibleDialog(false)
+                                navigate("MovieReviews", {movie:movie})
                             }).catch((err)=>{
                                 console.log(err)
                             })
