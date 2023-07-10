@@ -171,7 +171,7 @@ export const NewScreening = ({navigation, route}) => {
                             <Dropdown list={theaters}
                                       value={existing ? existingScreening.theater : values.theaterId}
                                       setValue={(value) => setFieldValue("theaterId", value)}
-                                      initialValue={existingScreening.theater}
+                                      initialValue={existing ? existingScreening.theater: values.theaterId}
                             />
                             <MovieSelectionPanel cinema={cinema} movie={selectedMovie}
                                                  setMovie={(e) => setSelectedMovie(e)}
