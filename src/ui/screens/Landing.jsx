@@ -151,6 +151,7 @@ export const Landing = ({navigation}) => {
             await GoogleSignin.revokeAccess()
             await GoogleSignin.signOut()
             setUser({})
+            setGoogelUserData({})
         } catch (error) {
             console.error(error)
         }
