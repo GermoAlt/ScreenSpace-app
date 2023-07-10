@@ -46,7 +46,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         gap: 15,
         marginBottom: 10,
-        minHeight: "80%"
+        minHeight: "80%",
+        justifyContent:"space-between",
+        flex:1
     },
     header: {
         display: "flex",

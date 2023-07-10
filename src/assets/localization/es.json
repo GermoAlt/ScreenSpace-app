@@ -242,6 +242,7 @@
         "newReview": {
           "cancel": "Cancelar",
           "confirm": "Calificar",
+          "textField": "Agregá tus comentarios",
           "title": "Califica a"
         }
       }

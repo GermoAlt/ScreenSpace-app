@@ -242,6 +242,7 @@
         "newReview": {
           "cancel": "Cancel",
           "confirm": "Review",
+          "textField": "Add your review",
           "title": "Review"
         }
       }

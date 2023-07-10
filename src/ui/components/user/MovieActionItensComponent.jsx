@@ -60,7 +60,7 @@ export const MovieActionItensComponent = (props) => {
                             <TextInput multiline
                                        value={ratingText}
                                        onChangeText={(text) => {setRatingText(text)}}
-                                       label={"Leave your review here"}
+                                       label={t("translation\:user\.labels\.newReview\.textField")}
                             />
                             <StarsRating rating={rating} setRating={(e)=>setRating(e)}></StarsRating>
                         </View>
@@ -72,9 +72,6 @@ export const MovieActionItensComponent = (props) => {
                             {t("translation\:user\.labels\.newReview\.cancel")}
                         </Button>
                         <Button icon={"check-circle-outline"} onPress={()=> {
-                            console.log("rev", {
-                                rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
-                            })
                             postReview(movie.id, {
                                 rating:{rating:rating}, comment:{comment:ratingText}, movieId:movie.id
                             }).then((res) => {
@@ -113,5 +110,8 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection:"column",
         gap:20
+    },
+    text:{
+        fontSize:18
     }
 })
