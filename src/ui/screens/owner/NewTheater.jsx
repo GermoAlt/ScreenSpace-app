@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet, View} from "react-native";
+import {Pressable, SafeAreaView, StyleSheet, View} from "react-native";
 import {Dropdown} from "../../components/general/Dropdown";
 import {TextInput} from "../../components/general/TextInput";
 import {useTranslation} from "react-i18next";
-import {Checkbox, Title} from "react-native-paper";
+import {Checkbox, Dialog, Portal, Title} from "react-native-paper";
 import {Text} from "../../components/general/Text";
 import {SeatLayout} from "../../components/general/SeatLayout";
 import {Button} from "../../components/general/Button";
@@ -12,9 +12,11 @@ import {ErrorMessage} from '../../components/general/ErrorMessage';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import {COLORS} from "../../styles/Colors";
-import {postTheaterByCinema, updateTheater} from "../../../networking/api/TheaterController";
+import {deleteTheater, postTheaterByCinema, updateTheater} from "../../../networking/api/TheaterController";
 import {useNavigation} from "@react-navigation/native";
 import {ScreenHeader} from "../../components/owner/ScreenHeader";
+import {deleteScreening} from "../../../networking/api/ScreeningController";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export const NewTheater = (props) => {
     const {existingTheater, cinema} = props.route.params
@@ -31,6 +33,9 @@ export const NewTheater = (props) => {
 
     const [errMsg, setErrMsg] = React.useState('');
     const [loading, setLoading] = React.useState(false);
+
+    const [visibleDialog, setVisibleDialog] = React.useState(false);
+
     const [existing, setExisting] = useState(
         existingTheater !== null && existingTheater !== undefined
     )
@@ -53,7 +58,12 @@ export const NewTheater = (props) => {
     useEffect(() => {
         if (existing) {
             navigation.setOptions({
-                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editTheater')}/>
+                headerTitle: () => <ScreenHeader text={t('translation\:owner\.titles\.editTheater')}/>,
+                headerRight: () => (
+                    <Pressable onPress={()=>setVisibleDialog(true)}>
+                        <Icon name={"delete"} color={COLORS.secondary} size={30}/>
+                    </Pressable>
+                )
             })
             setEnabled(!existingTheater.isTemporarilyClosed)
         }
@@ -132,6 +142,21 @@ export const NewTheater = (props) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <Portal>
+                <Dialog visible={visibleDialog}>
+                    <Dialog.Title><Text style={styles.text}>{t("translation\:owner\.titles\.deleteTheater")}</Text></Dialog.Title>
+                    <Dialog.Content><Text style={styles.text}>{t("translation\:owner\.labels\.deleteTheater")}</Text></Dialog.Content>
+                    <Dialog.Actions>
+                        <Button icon={"cancel"} onPress={()=>setVisibleDialog(false)}>{t("translation\:general\.labels\.no")}</Button>
+                        <Button type={"default"} icon={"delete"} onPress={()=> {
+                            deleteTheater(existingTheater.id).then(r => {
+                                navigation.navigate('CinemaDetails', {data: cinema})
+                            })
+                        }}>{t("translation\:general\.labels\.yes")}</Button>
+                    </Dialog.Actions>
+
+                </Dialog>
+            </Portal>
             <Formik
                 initialValues={{
                     cinemaId: existing ? cinema : {},

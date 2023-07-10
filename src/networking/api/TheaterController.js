@@ -16,9 +16,14 @@ export async function postTheaterByCinema(body){
 }
 
 export function updateTheater(idTheater, body){
-    console.log("apicall id", idTheater)
-    console.log("apicall bod", body)
     return getKey('accessToken').then((token)=>{
         return api(token).put(prefix + "/theaters/" + idTheater, body)
     })
 }
+
+export function deleteTheater(idTheater){
+    return getKey('accessToken').then((token)=>{
+        return api(token).delete(prefix + "/theaters/" + idTheater)
+    })
+}
+
