@@ -29,20 +29,13 @@ export const ConfirmSelection = ({route, navigation}) => {
     const handleConfirm = async () =>{
         //TODO: NTH - Añadir pantalla/mensaje de GRACIAS POR COMPRAR
         setDisablePurhcase(true)
+
         const confirmReserveBody = {
-            screeningId: '649a4f2f00221a05f561ccfa',
-            seatsReserved: [
-              {
-                seatRow: "C",
-                seatColumn: "3"
-              },
-              {
-                seatRow: "C",
-                seatColumn: "4"
-              }
-            ]
+            screeningId: details.screeningId,
+            seatsReserved: details.seatsReserved
           }
         
+          console.log('confirmReserveBody', confirmReserveBody)
         setIsLoading(true)
         try {
             const response = await postReservation(confirmReserveBody)
