@@ -30,6 +30,35 @@ const useEncryptedStorage = () => {
         }
     }
 
+    const storeGoogleUserSession = async (auth) => {
+        try {
+            await EncryptedStorage.setItem(
+                "google_user_session",
+                JSON.stringify({
+                    token: auth.accessToken,
+                    userName: auth.userName,
+                    userPassword: auth.userPassword
+                })
+            );
+            await EncryptedStorage.setItem("accessToken", auth.accessToken);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const retrieveGoogleUserSession = async () => {
+        return await EncryptedStorage.getItem("google_user_session")
+    }
+
+    const removeGoogleUserSession = async () => {
+        try {
+            return await EncryptedStorage.removeItem("google_user_session");
+        } catch (error) {
+            console.log("removeUserSession error", error)
+            return false
+        }
+    }
+
     const getUserToken = async () => {
         try {
             const token = await EncryptedStorage.getItem("accessToken");
@@ -49,7 +78,7 @@ const useEncryptedStorage = () => {
         }
     }
 
-    return { storeUserSession, retrieveUserSession, removeUserSession, getUserToken, clearStorage }
+    return { storeUserSession, retrieveUserSession, removeUserSession, getUserToken, clearStorage, storeGoogleUserSession, retrieveGoogleUserSession, removeGoogleUserSession }
 }
 
 

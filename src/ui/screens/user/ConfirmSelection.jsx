@@ -31,11 +31,10 @@ export const ConfirmSelection = ({route, navigation}) => {
         setDisablePurhcase(true)
 
         const confirmReserveBody = {
-            screeningId: details.screeningId,
-            seatsReserved: details.seatsReserved
+            screeningId: screeningId,
+            seatsReserved: seatsReserved
           }
-        
-          console.log('confirmReserveBody', confirmReserveBody)
+          
         setIsLoading(true)
         try {
             const response = await postReservation(confirmReserveBody)

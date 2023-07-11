@@ -10,31 +10,19 @@ import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-goo
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 import { loginClientUser } from "../../networking/api/AuthController";
 import { HeaderLogo } from '../components/general/HeaderLogo';
-
+import { ANDROID_CLIENT_ID } from '../../assets/config/config';
 
 export const Landing = ({navigation}) => {
     const {t} = useTranslation();
-    const {auth, setAuth} = useAuth()
-    const {retrieveUserSession, clearStorage, storeUserSession} = useEncryptedStorage()
+    const {auth, setAuth, authClient, setAuthClient} = useAuth()
+    const {retrieveUserSession, clearStorage, storeUserSession, storeGoogleUserSession, retrieveGoogleUserSession, removeGoogleUserSession} = useEncryptedStorage()
     const [isSigninInProgress, setIsSigninInProgress] = React.useState(false)
     const [user, setUser] = React.useState({})
 
     const { setGoogelUserData }= useGoogleAuth()
 
-    const usarAutenticacion = true  // MANDALE FALSE PARA QUE MUESTRE LA LANDING
-    // SI LE MANDASTE FALSE, ESTE CODIGO DE ABAJO TIENE QUE ESTAR PARA QUE USE UN TOKEN
-    /*
-    const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2NDkwZWI5MDA2NmM0NDVjNjNkM2Q1M2Usbmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20sZmFsc2UiLCJJU19PV05FUl9DTEFJTSI6ZmFsc2UsIkVNQUlMX0NMQUlNIjoibmljb2xhcy5tYXJ0aW4uY2Fub0BnbWFpbC5jb20iLCJleHAiOjE2ODkwOTcxMTl9.J-e0qko36ZTQnD4xzZJCjKj9yaD0cXOkhPLiR2sMjyS0aIQzzUQN8LuLrs0xeYsHHImdWQqt12G1UYybm3ir1A'
-    const setDummyCredentials = async () => {
-        const data = { userName: 'nicolas.martin.cano@gmail.com', userPassword: 'prueba', accessToken: token }
-        setAuth(data)
-        await storeUserSession(data)
-    }
-    */
-    //HASTA ACA
-
     React.useEffect(() => {
-       // clearStorage()
+        
         retrieveUserSession().then(
             (res) => {
                 if(res) {
@@ -42,7 +30,7 @@ export const Landing = ({navigation}) => {
                     setAuth(JSON.parse(res))
                 }else{
                     GoogleSignin.configure({
-                        androidClientId: '133745401400-p070phcl0q8hglb64uakqn82t6i1cog8.apps.googleusercontent.com', //TODO - Migrate to config file
+                        androidClientId: ANDROID_CLIENT_ID,
                         forceCodeForRefreshToken: true,
                     })
                     isSignedIn()
@@ -72,8 +60,8 @@ export const Landing = ({navigation}) => {
             const response = await loginClientUser(body)
             const accessToken = response?.data.token
             const data = { userName: body.email, userPassword: '', accessToken }
-            setAuth(data)
-            await storeUserSession(data)
+            setAuthClient(data)
+            await storeGoogleUserSession(data)
             console.log('accessToken', accessToken)
             navigation.navigate('UserNavigator', {name: 'UserLanding'})
         } catch (error) {
@@ -152,6 +140,7 @@ export const Landing = ({navigation}) => {
             await GoogleSignin.signOut()
             setUser({})
             setGoogelUserData({})
+            clearStorage()
         } catch (error) {
             console.error(error)
         }
