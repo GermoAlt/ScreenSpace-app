@@ -83,8 +83,7 @@ export const NewTheater = (props) => {
         }
         const body = {
             ...values,
-            isTemporarilyClosed: !enabled, //Aca se da vuelta porque en FE Ponemos sala ACTIVA/HABILITADA
-            // y los BE Monkeys como sala INACTIVA
+            isTemporarilyClosed: !enabled,
             seatsLayout,
             cinemaId: values.cinemaId.data.id
         }
